@@ -1,7 +1,7 @@
 {
   "name": "Assistant Tournées",
   "short_name": "Assistant Tournées",
-  "start_url": "https://lefido.github.io/gestionnaire-de-tournees/",
+  "start_url": "https://lefido.github.io/assistant-tournees/",
   "display": "browser",
   "icons": [
     {
