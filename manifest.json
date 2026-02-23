@@ -1,0 +1,13 @@
+{
+  "name": "Assistant Tournées",
+  "short_name": "Assistant Tournées",
+  "start_url": "https://lefido.github.io/gestionnaire-de-tournees/",
+  "display": "browser",
+  "icons": [
+    {
+      "src": "assets/snipers.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
