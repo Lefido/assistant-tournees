@@ -65,7 +65,7 @@ html.light-theme body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* =====================================
@@ -157,6 +157,7 @@ html.light-theme body {
   box-sizing: border-box;
 
   overflow-x: hidden;
+  overflow-y: visible;
 
   min-height: calc(100vh - 100px);
 
@@ -634,6 +635,7 @@ html.light-theme td:last-child {
 .delete-btn {
   background: var(--danger);
   color: white;
+  width: 30px;
   border: none;
   padding: 6px 6px;
   border-radius: 8px;
@@ -644,6 +646,7 @@ html.light-theme td:last-child {
 .edit-btn {
   background: var(--bg-btn);
   color: white;
+  width: 30px;
   border: none;
   padding: 6px 6px;
   border-radius: 8px;
@@ -934,6 +937,8 @@ tr.editing td {
     width: 100%;
     max-width: 100%;
     margin-top: 10px;
+    overflow-y: visible;
+    height: auto;
 }
 
 .cards-section-title {
@@ -961,10 +966,10 @@ tr.editing td {
     align-items: center;
     gap: 8px;
     border-radius: 10px;
-    position: -webkit-sticky;
     position: sticky;
-    top: 0;
+    top: 80px;
     z-index: 10;
+    margin-top: 0;
 }
 
 .bras-summary::-webkit-details-marker {
@@ -998,7 +1003,7 @@ html.light-theme .bras-summary {
     background: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     gap: 8px;
