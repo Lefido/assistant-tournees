@@ -7,6 +7,7 @@
   --bg-panel: #ffffff;
   --bg-input: #ffffff;
   --bg-btn: #0077ff;
+  --bg-btn-clear : #444;
   --text-light: #333333;
   --text-white : #ffffff;
   --border: #cccccc;
@@ -24,6 +25,7 @@
   --bg-panel: #16213e;
   --bg-input: #16213e;
   --bg-btn: #0077ff;
+  --bg-btn-clear : #444;
   --text-light: #eaeaea;
   --text-white : #ffffff;
   --border: #0f3460;
@@ -323,9 +325,9 @@ html.night-theme .city-btn.active {
 .clear-search-btn {
   position: absolute;
   right: 12px;
-  background: var(--bg-dark);
+  background: var(--border);
   border: none;
-  color: var(--text-light);
+  color: var(--text);
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -1036,7 +1038,7 @@ tr.editing td {
   position: sticky;
   top: 0;
   z-index: 10;
-  margin: 2px;
+  margin: 5px 0;
 }
 
 .bras-summary::-webkit-details-marker {
@@ -1062,9 +1064,7 @@ html.night-theme .bras-summary {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin: 2px 2px 2px 2px;
+  margin: 5px 2px 2px 2px;
 }
 
 .address-card {
@@ -1150,7 +1150,7 @@ html.night-theme .no-data-msg {
 .clear-address-search-btn {
   position: absolute;
   right: 12px;
-  background: #444;
+  background: var(--bg-btn-clear);
   border: none;
   color: var(--text-light);
   border-radius: 50%;
