@@ -325,9 +325,9 @@ html.night-theme .city-btn.active {
 .clear-search-btn {
   position: absolute;
   right: 12px;
-  background: var(--border);
+  background: var(--danger);
   border: none;
-  color: var(--text);
+  color: var(--text-white);
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -1150,9 +1150,9 @@ html.night-theme .no-data-msg {
 .clear-address-search-btn {
   position: absolute;
   right: 12px;
-  background: var(--bg-btn-clear);
+  background: var(--danger);
   border: none;
-  color: var(--text-light);
+  color: var(--text-white);
   border-radius: 50%;
   width: 24px;
   height: 24px;
