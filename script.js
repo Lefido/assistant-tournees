@@ -632,11 +632,12 @@ class GestionnaireInterface {
             resultats.style.maxHeight = '';
             resultats.style.overflowY = '';
             const boutonEffacer = document.getElementById('clearSearchBtn');
-            boutonEffacer.style.position = '';
+boutonEffacer.style.position = '';
             boutonEffacer.style.top = '';
             boutonEffacer.style.right = '';
             boutonEffacer.style.zIndex = '';
-            boutonEffacer.style.display = 'none';
+            // Only hide the clear button if the input is empty
+            boutonEffacer.style.display = champRecherche.value ? 'flex' : 'none';
         });
 
         document.getElementById('liveSearchInput').addEventListener('input', (e) => {
@@ -649,11 +650,10 @@ class GestionnaireInterface {
                 e.preventDefault();
                 e.stopPropagation();
             };
-            clearBtn.onclick = () => {
+clearBtn.onclick = () => {
                 const input = document.getElementById('liveSearchInput');
                 if (input) {
                     input.value = '';
-                    input.focus();
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                 }
                 const resultsDiv = document.getElementById('liveSearchResults');
