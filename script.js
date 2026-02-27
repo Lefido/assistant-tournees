@@ -574,15 +574,17 @@ class GestionnaireInterface {
             });
         }
 
-        const toggleTheme = document.getElementById('themeToggle');
+const toggleTheme = document.getElementById('themeToggle');
         if (toggleTheme) {
             const themeSombre = localStorage.getItem('themeSombre') !== 'false';
+            // Slider left (unchecked) = light theme, slider right (checked) = dark theme
             toggleTheme.checked = themeSombre;
-            document.documentElement.classList.toggle('night-theme', !themeSombre);
+            document.documentElement.classList.toggle('night-theme', themeSombre);
 
             toggleTheme.addEventListener('change', () => {
                 const estSombre = toggleTheme.checked;
-                document.documentElement.classList.toggle('night-theme', !estSombre);
+                // Slider right (checked) = dark theme, slider left (unchecked) = light theme
+                document.documentElement.classList.toggle('night-theme', estSombre);
                 localStorage.setItem('themeSombre', estSombre);
             });
         }
