@@ -1076,7 +1076,7 @@ html.night-theme .bras-summary {
 }
 
 html.night-theme .address-card {
-  background: var(--bg-dark);
+  background: var(--bg-panel);
 }
 
 .card-field {
