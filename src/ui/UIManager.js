@@ -15,6 +15,11 @@ export default class UIManager {
         this.editingAddressIndex = -1; // -1 pour l'ajout, >= 0 pour la modification
     }
 
+    /**
+     * Initialise l'application
+     * Charge les données depuis le stockage local, rafraîchit l'interface,
+     * configure les écouteurs d'événements et positionne les éléments
+     */
     initializeApp() {
         this.dataManager.loadFromStorage();
         this.refreshUI();
@@ -28,6 +33,12 @@ export default class UIManager {
         this._initializeAddressManagement();
     }
 
+    /**
+     * Initialise les basculeurs (toggles) pour la caméra et le thème
+     * Configure les écouteurs d'événements pour les switches de caméra et thème,
+     * et restaure les paramètres enregistrés dans le localStorage
+     * @private
+     */
     _initializeToggles() {
         const cameraToggle = document.getElementById('cameraToggle');
         const cameraButton = document.getElementById('cameraBtn');
@@ -46,15 +57,21 @@ export default class UIManager {
         if (themeToggle) {
             const darkTheme = localStorage.getItem(STORAGE_KEYS.THEME) !== 'false';
             themeToggle.checked = darkTheme;
-            document.documentElement.classList.toggle('light-theme', !darkTheme);
+            document.documentElement.classList.toggle('night-theme', !darkTheme);
             themeToggle.addEventListener('change', () => {
                 const isDark = themeToggle.checked;
-                document.documentElement.classList.toggle('light-theme', !isDark);
+                document.documentElement.classList.toggle('night-theme', !isDark);
                 localStorage.setItem(STORAGE_KEYS.THEME, isDark);
             });
         }
     }
 
+    /**
+     * Initialise la recherche en temps réel
+     * Configure l'écouteur d'événements pour le champ de recherche
+     * et le bouton Clear
+     * @private
+     */
     _initializeSearch() {
         const searchInput = document.getElementById('liveSearchInput');
         if (searchInput) {
@@ -66,11 +83,17 @@ export default class UIManager {
         }
     }
 
+    /**
+     * Gère la recherche en temps réel lors de la saisie
+     * Filtre les adresses en fonction du terme de recherche tapé par l'utilisateur
+     * et affiche les résultats dans une liste déroulante
+     * @private
+     */
     _handleRealTimeSearch(searchValue) {
         const normalizedValue = searchValue.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const resultsDiv = document.getElementById('liveSearchResults');
         const clearBtn = document.getElementById('clearSearchBtn');
-        if(clearBtn) clearBtn.style.display = normalizedValue ? 'flex' : 'none';
+        if (clearBtn) clearBtn.style.display = normalizedValue ? 'flex' : 'none';
 
         if (normalizedValue.length < APP_CONSTANTS.MIN_SEARCH_LENGTH || !this.dataManager.selectedArm) {
             if (resultsDiv) {
@@ -92,7 +115,7 @@ export default class UIManager {
                 resultsDiv.style.display = 'block';
                 let html = '<table class="popup-table"><tbody>';
                 if (isAlternative) {
-                    html = '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>' + html;
+                    html = '<p style="color: var(--danger); font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>' + html;
                 }
                 html += filteredResults.map(r => `<tr><td>${r.Ville}</td><td>${r.Adresse}</td><td>${r.Numero}</td></tr>`).join('');
                 resultsDiv.innerHTML = html + '</tbody></table>';
@@ -102,6 +125,11 @@ export default class UIManager {
         }
     }
 
+    /**
+     * Efface le champ de recherche et masque les résultats
+     * Réinitialise la zone de recherche à son état initial
+     * @private
+     */
     _clearSearch() {
         const searchInput = document.getElementById('liveSearchInput');
         if (searchInput) searchInput.value = '';
@@ -128,7 +156,7 @@ export default class UIManager {
         });
         window.addEventListener('beforeinstallprompt', preventPWAInstall);
     }
-    
+
     _checkDataWarning() {
         const hasData = this.dataManager.hasData();
         const hasSelectedArm = !!this.dataManager.selectedArm;
@@ -151,7 +179,7 @@ export default class UIManager {
                 if (isEditing) {
                     tableRow.classList.add('editing');
                 }
-                
+
                 tableRow.innerHTML = `
                     <td contenteditable="${isEditing}">${row.BRAS}</td>
                     <td contenteditable="${isEditing}">${row.Ville}</td>
@@ -166,7 +194,7 @@ export default class UIManager {
                         </button>
                     </td>
                 `;
-                
+
                 // Correction : Utilisation de addEventListener
                 tableRow.querySelector('.edit-btn').addEventListener('click', () => this.toggleEditState(index));
                 tableRow.querySelector('.delete-btn').addEventListener('click', () => this.deleteAddress(index));
@@ -238,7 +266,7 @@ export default class UIManager {
             voiceZone.style.zIndex = '10';
         }
     }
-    
+
     _initializeAddressManagement() {
         const addressPopupOverlay = document.getElementById('addressPopupOverlay');
         const saveAddressBtn = document.getElementById('saveAddressBtn');
@@ -275,7 +303,7 @@ export default class UIManager {
                 this.dataManager.modifyAddress(this.editingAddressIndex, address);
                 showAlert('Adresse modifiée avec succès !');
             }
-            
+
             addressPopupOverlay.classList.add('hidden');
             this.refreshUI();
         };
@@ -298,14 +326,14 @@ export default class UIManager {
                     Numero: cells[3].textContent.trim().toUpperCase(),
                     TypeRecherche: this.dataManager.getAddressByIndex(index).TypeRecherche
                 };
-                
+
                 this.dataManager.modifyAddress(index, updatedAddress);
                 showAlert('Adresse mise à jour !');
             }
-            this.editingAddressIndex = -1; 
+            this.editingAddressIndex = -1;
         } else {
             if (this.editingAddressIndex !== -1) {
-                this.toggleEditState(this.editingAddressIndex); 
+                this.toggleEditState(this.editingAddressIndex);
             }
             this.editingAddressIndex = index;
         }
@@ -326,13 +354,13 @@ export default class UIManager {
         const userPanel = document.getElementById('userPanel');
         const isAdminHidden = adminPanel.classList.toggle('hidden');
         userPanel.classList.toggle('hidden', !isAdminHidden);
-        
+
         adminPanel.style.display = isAdminHidden ? 'none' : 'block';
         userPanel.style.display = isAdminHidden ? 'block' : 'none';
         button.textContent = isAdminHidden ? 'Paramètres' : 'Accueil';
-        
+
         if (!isAdminHidden) {
-           this._checkDataWarning();
+            this._checkDataWarning();
         }
     }
 }

@@ -119,25 +119,25 @@
         </section>
 
         <section id="adminPanel" class="hidden">
-          <h2 class="section-title">Réglages</h2>
+          
+          <div class="addresses-cards-container" id="addressesCardsContainer">
+            <h2 class="section-title">Réglages</h2>
           <div class="toggle-row">
-            <span class="toggle-text">Thème sombre</span>
+            <span class="toggle-text">Thème clair</span>
             <label class="toggle-label">
               <input type="checkbox" id="themeToggle" checked />
               <span class="toggle-slider"></span>
             </label>
           </div>
-          <div class="toggle-row">
+            <div class="toggle-row">
             <span class="toggle-text">Reconnaissance visuelle</span>
             <label class="toggle-label">
               <input type="checkbox" id="cameraToggle" />
               <span class="toggle-slider"></span>
             </label>
           </div>
-
-          <h2 class="section-title">Gestion des données</h2>
-
-          <div class="admin-actions">
+            <h2 class="section-title">Gestion des données</h2>
+            <div class="admin-actions">
             <label id="importExcelBtn" for="excelFile" class="file-btn"
               ><i class="fas fa-file-excel"></i>Importation Excel</label
             >
@@ -151,12 +151,8 @@
               <i class="fas fa-file-export"></i>Exportation Excel
             </button>
           </div>
-
-          <h2 id="importedFileTitle" class="section-title">Fichier d'exploitation</h2>
+            <h2 id="importedFileTitle" class="section-title">Fichier d'exploitation</h2>
           <div id="fileNameDisplay" class="file-name-display"></div>
-          
-          
-          <div class="addresses-cards-container" id="addressesCardsContainer">
             <h3 id="importedAddressesTitle" class="section-title">Liste des adresses</h3>
             <div class="admin-actions">
             <button id="addAddressBtn" class="file-btn">

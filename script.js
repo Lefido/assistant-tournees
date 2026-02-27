@@ -578,11 +578,11 @@ class GestionnaireInterface {
         if (toggleTheme) {
             const themeSombre = localStorage.getItem('themeSombre') !== 'false';
             toggleTheme.checked = themeSombre;
-            document.documentElement.classList.toggle('light-theme', !themeSombre);
+            document.documentElement.classList.toggle('night-theme', !themeSombre);
 
             toggleTheme.addEventListener('change', () => {
                 const estSombre = toggleTheme.checked;
-                document.documentElement.classList.toggle('light-theme', !estSombre);
+                document.documentElement.classList.toggle('night-theme', !estSombre);
                 localStorage.setItem('themeSombre', estSombre);
             });
         }
@@ -603,6 +603,8 @@ class GestionnaireInterface {
             resultats.style.width = champRecherche.offsetWidth + 'px';
             resultats.style.zIndex = '1000';
             resultats.style.background = 'var(--bg-panel)';
+            
+            
             resultats.style.borderRadius = '8px';
             resultats.style.maxHeight = '60vh';
             resultats.style.overflowY = 'auto';
