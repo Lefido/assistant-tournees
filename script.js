@@ -1349,11 +1349,12 @@ clearBtn.onclick = () => {
 
     // Les 16 couleurs les plus utilisées
     static COULEURS = [
-        '#FF5733', '#33FF57', '#3357FF', '#FF33F5',
-        '#33FFF5', '#F5FF33', '#FF8C33', '#8C33FF',
-        '#FF3333', '#33FF33', '#3333FF', '#FFFF33',
-        '#FF00FF', '#00FFFF', '#FFA500', '#800080'
+        '#000000', '#FFFFFF', '#808080', '#f37907',
+        '#FF0000', '#800000', '#FFFF00', '#808000',
+        '#00FF00', '#008000', '#00FFFF', '#007070',
+        '#0a0afd', '#010166', '#FF00FF', '#800080'
     ];
+
 
     afficherPopupPDF(bras, villesGroupes) {
         this.brasSelectionnePDF = bras;
