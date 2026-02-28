@@ -21,10 +21,19 @@ class GestionnaireDonnees {
         if (nomFichierSauvegarde) {
             this.nomFichier = nomFichierSauvegarde;
         }
+        // Charger le bras sélectionné depuis localStorage
+        const brasSauvegarde = localStorage.getItem('tourneeBrasSelectionne');
+        if (brasSauvegarde) {
+            this.brasSelectionne = brasSauvegarde;
+        }
     }
 
     sauvegarderDansStockage() {
         localStorage.setItem('tourneeData', JSON.stringify(this.donneesExcel));
+    }
+
+    sauvegarderBrasSelectionne() {
+        localStorage.setItem('tourneeBrasSelectionne', this.brasSelectionne);
     }
 
     async importerDepuisExcel(fichier) {
@@ -547,6 +556,7 @@ class GestionnaireInterface {
     initialiserApplication() {
         this.gestionnaireDonnees.chargerDepuisStockage();
         this.rafraichirInterface();
+        this.restaurerBrasSelectionne();
         this.verifierAvertissementDonnees();
         this.positionnerZoneVocale();
         window.addEventListener('resize', () => this.positionnerZoneVocale());
@@ -1055,6 +1065,7 @@ clearBtn.onclick = () => {
 
     selectionnerBras(bras, bouton) {
         this.gestionnaireDonnees.brasSelectionne = bras;
+        this.gestionnaireDonnees.sauvegarderBrasSelectionne();
         this.gestionnaireDonnees.villeSelectionnee = '';
 
         document.querySelectorAll('#brasBtnContainer .city-btn').forEach(b => b.classList.remove('active'));
@@ -1114,6 +1125,21 @@ clearBtn.onclick = () => {
         zoneVocale.style.left = '50%';
         zoneVocale.style.transform = 'translateX(-50%)';
         zoneVocale.style.zIndex = '10';
+    }
+
+    restaurerBrasSelectionne() {
+        const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+        if (!brasSelectionne) return;
+
+        // Trouver le bouton correspondant au bras sauvegardé
+        const boutonsBras = document.querySelectorAll('#brasBtnContainer .city-btn');
+        boutonsBras.forEach(bouton => {
+            if (bouton.textContent === brasSelectionne) {
+                bouton.classList.add('active');
+                // Déclencher la sélection du bras pour restaurer l'état de l'interface
+                this.selectionnerBras(brasSelectionne, bouton);
+            }
+        });
     }
 
     initialiserGestionAdresses() {
