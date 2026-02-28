@@ -1065,6 +1065,29 @@ html.night-theme .bras-summary {
   margin: 5px 2px 2px 2px;
 }
 
+/* City labels for separation */
+.bras-city-label {
+  grid-column: 1 / -1;
+  background : var(--bg-dark);
+  border: 1px solid var(--bg-btn);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0 2px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: var(--bg-btn);
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 38px;
+}
+
+html.night-theme .bras-city-label {
+  background: linear-gradient(135deg, rgba(0, 119, 255, 0.25) 0%, rgba(0, 119, 255, 0.1) 100%);
+  color: var(--accent-cyan);
+}
+
 .address-card {
   background: var(--bg-panel);
   border: 1px solid var(--border);

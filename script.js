@@ -952,32 +952,55 @@ clearBtn.onclick = () => {
                 const cardsGrid = document.createElement('div');
                 cardsGrid.className = 'address-cards-grid';
                 
+                // Grouper les adresses par ville et trier par ordre croissant
+                const villesGroupes = {};
                 brasGroupes[bras].forEach((item) => {
-                    const card = document.createElement('div');
-                    card.className = 'address-card';
-                    card.innerHTML = `
-                        <div class="card-field">
-                            <i class="fas fa-city"></i>
-                            <span>${item.Ville}</span>
-                        </div>
-                        <div class="card-field">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${item.Adresse}</span>
-                        </div>
-                        <div class="card-field">
-                            <i class="fas fa-hashtag"></i>
-                            <span>${item.Numero}</span>
-                        </div>
-                        <div class="card-actions">
-                            <button class="action-btn edit-btn" onclick="gestionnaireInterface.modifierAdresse(${item.index})" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="gestionnaireInterface.supprimerAdresse(${item.index})" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    cardsGrid.appendChild(card);
+                    const ville = item.Ville;
+                    if (!villesGroupes[ville]) {
+                        villesGroupes[ville] = [];
+                    }
+                    villesGroupes[ville].push(item);
+                });
+                
+                // Trier les villes par ordre alphabétique croissant
+                const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
+                
+                // Pour chaque ville (en ordre croissant), ajouter l'étiquette et les cartes
+                villesTriees.forEach((ville) => {
+                    // Ajouter l'étiquette de ville
+                    const cityLabel = document.createElement('div');
+                    cityLabel.className = 'bras-city-label';
+                    cityLabel.textContent = ville.charAt(0).toUpperCase() + ville.slice(1);
+                    cardsGrid.appendChild(cityLabel);
+                    
+                    // Ajouter les cartes pour cette ville
+                    villesGroupes[ville].forEach((item) => {
+                        const card = document.createElement('div');
+                        card.className = 'address-card';
+                        card.innerHTML = `
+                            <div class="card-field">
+                                <i class="fas fa-city"></i>
+                                <span>${item.Ville}</span>
+                            </div>
+                            <div class="card-field">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${item.Adresse}</span>
+                            </div>
+                            <div class="card-field">
+                                <i class="fas fa-hashtag"></i>
+                                <span>${item.Numero}</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn edit-btn" onclick="gestionnaireInterface.modifierAdresse(${item.index})" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="gestionnaireInterface.supprimerAdresse(${item.index})" title="Supprimer">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        cardsGrid.appendChild(card);
+                    });
                 });
                 
                 brasDetails.appendChild(cardsGrid);
