@@ -332,6 +332,24 @@
       </div>
     </div>
 
+    <!-- Color Picker Popup -->
+    <div
+      id="colorPickerOverlay"
+      class="color-picker-overlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-labelledby="colorPickerTitle"
+    >
+      <div class="color-picker-window">
+        <h3 id="colorPickerTitle" class="color-picker-title">Choisir une couleur</h3>
+        <div id="colorGrid" class="color-grid"></div>
+        <div class="color-picker-buttons">
+          <button id="colorPickerCancel" class="cancel-action-btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="script.js"></script>

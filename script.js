@@ -36,6 +36,29 @@ class GestionnaireDonnees {
         localStorage.setItem('tourneeBrasSelectionne', this.brasSelectionne);
     }
 
+    // Couleurs des villes pour PDF
+    chargerCouleursVilles() {
+        const couleurs = localStorage.getItem('tourneeCouleursVilles');
+        return couleurs ? JSON.parse(couleurs) : {};
+    }
+
+    sauvegarderCouleursVilles(couleurs) {
+        localStorage.setItem('tourneeCouleursVilles', JSON.stringify(couleurs));
+    }
+
+    obtenirCouleurVille(bras, ville) {
+        const couleurs = this.chargerCouleursVilles();
+        const key = `${bras}_${ville}`;
+        return couleurs[key] || '#0077ff';
+    }
+
+    definirCouleurVille(bras, ville, couleur) {
+        const couleurs = this.chargerCouleursVilles();
+        const key = `${bras}_${ville}`;
+        couleurs[key] = couleur;
+        this.sauvegarderCouleursVilles(couleurs);
+    }
+
     async importerDepuisExcel(fichier) {
         return new Promise((resolve, reject) => {
             const lecteur = new FileReader();
@@ -1324,28 +1347,90 @@ clearBtn.onclick = () => {
     brasSelectionnePDF = '';
     villesBrasPDF = {};
 
+    // Les 16 couleurs les plus utilisées
+    static COULEURS = [
+        '#FF5733', '#33FF57', '#3357FF', '#FF33F5',
+        '#33FFF5', '#F5FF33', '#FF8C33', '#8C33FF',
+        '#FF3333', '#33FF33', '#3333FF', '#FFFF33',
+        '#FF00FF', '#00FFFF', '#FFA500', '#800080'
+    ];
+
     afficherPopupPDF(bras, villesGroupes) {
         this.brasSelectionnePDF = bras;
-        this.villesBrasPDF = villesGroupes;
-        
-        const popup = document.getElementById('pdfPopupOverlay');
-        const title = document.getElementById('pdfPopupTitle');
-        const citiesList = document.getElementById('pdfCitiesList');
-        
-        if (popup && title && citiesList) {
-            title.textContent = `Sélection des villes - ${bras.toUpperCase()}`;
-            
-            const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
-            
-            let html = '';
-            villesTriees.forEach((ville) => {
-                const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
-                const nbAdresses = villesGroupes[ville].length;
-                html += `<div class="pdf-city-item"><span>${villeDisplay} (${nbAdresses})</span><input type="checkbox" id="city_${ville}" data-ville="${ville}" /></div>`;
+        this.villesGroupesPDF = villesGroupes;
+        const villesList = document.getElementById('pdfCitiesList');
+        villesList.innerHTML = '';
+
+        const brasLabel = document.querySelector('#pdfPopupTitle');
+        if (brasLabel) {
+            brasLabel.textContent = `Sélection des villes - ${bras.toUpperCase()}`;
+        }
+
+        Object.keys(villesGroupes).forEach(ville => {
+            const nbAdresses = villesGroupes[ville].length;
+            const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+            const couleur = this.gestionnaireDonnees.obtenirCouleurVille(bras, ville);
+
+            const item = document.createElement('div');
+            item.className = 'pdf-city-item';
+            item.innerHTML = `
+                <div class="pdf-city-color" style="background-color: ${couleur}" data-ville="${ville}"></div>
+                <label for="city_${ville}">${villeDisplay} (${nbAdresses})</label>
+                <input type="checkbox" id="city_${ville}" data-ville="${ville}" />
+            `;
+            villesList.appendChild(item);
+
+            // Ajouter l'événement clic sur la pastille de couleur
+            const colorElement = item.querySelector('.pdf-city-color');
+            colorElement.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.afficherColorPicker(bras, ville, couleur);
             });
-            
-            citiesList.innerHTML = html;
-            popup.classList.remove('hidden');
+        });
+
+        document.getElementById('pdfPopupOverlay').classList.remove('hidden');
+    }
+
+    afficherColorPicker(bras, ville, couleurActuelle) {
+        const overlay = document.getElementById('colorPickerOverlay');
+        const colorGrid = document.getElementById('colorGrid');
+        colorGrid.innerHTML = '';
+
+        this.colorPickerVilleCourante = { bras, ville };
+
+        GestionnaireInterface.COULEURS.forEach(couleur => {
+            const colorOption = document.createElement('div');
+            colorOption.className = 'color-option' + (couleur === couleurActuelle ? ' selected' : '');
+            colorOption.style.backgroundColor = couleur;
+            colorOption.addEventListener('click', () => {
+                this.selectionnerCouleur(couleur);
+            });
+            colorGrid.appendChild(colorOption);
+        });
+
+        overlay.classList.remove('hidden');
+
+        // Fermer le color picker
+        document.getElementById('colorPickerCancel').onclick = () => {
+            overlay.classList.add('hidden');
+        };
+    }
+
+    selectionnerCouleur(couleur) {
+        const { bras, ville } = this.colorPickerVilleCourante;
+        this.gestionnaireDonnees.definirCouleurVille(bras, ville, couleur);
+
+        // Mettre à jour la pastille dans la liste
+        const colorElement = document.querySelector(`.pdf-city-color[data-ville="${ville}"]`);
+        if (colorElement) {
+            colorElement.style.backgroundColor = couleur;
+        }
+
+        document.getElementById('colorPickerOverlay').classList.add('hidden');
+
+        // Rafraîchir le popup PDF pourrefléter les changements
+        if (this.brasSelectionnePDF && this.villesGroupesPDF) {
+            this.afficherPopupPDF(this.brasSelectionnePDF, this.villesGroupesPDF);
         }
     }
 
