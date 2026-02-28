@@ -1067,6 +1067,9 @@ html.night-theme .bras-summary {
 
 /* City labels for separation */
 .bras-city-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-column: 1 / -1;
   background : var(--bg-dark);
   border: 1px solid var(--bg-btn);
@@ -1079,6 +1082,7 @@ html.night-theme .bras-summary {
   color: var(--bg-btn);
   text-transform: capitalize;
   letter-spacing: 0.5px;
+  height: 10px;
   position: sticky;
   top: 38px;
 }
