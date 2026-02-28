@@ -1450,9 +1450,9 @@ clearBtn.onclick = () => {
         }
 
         const adressesFiltrees = [];
-        Object.keys(this.villesBrasPDF).forEach(ville => {
+        Object.keys(this.villesGroupesPDF).forEach(ville => {
             if (villesSelectionnees.includes(ville)) {
-                this.villesBrasPDF[ville].forEach(adresse => adressesFiltrees.push(adresse));
+                this.villesGroupesPDF[ville].forEach(adresse => adressesFiltrees.push(adresse));
             }
         });
 
