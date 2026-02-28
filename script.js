@@ -556,6 +556,7 @@ class GestionnaireInterface {
         this.initialiserReconnaissanceVocale();
         this.initialiserEcouteursGlobaux();
         this.initialiserGestionAdresses();
+        this.initialiserPopupPDF();
     }
 
     initialiserToggles() {
@@ -946,13 +947,13 @@ clearBtn.onclick = () => {
                 
                 const brasSummary = document.createElement('summary');
                 brasSummary.className = 'bras-summary';
-                brasSummary.textContent = bras.toUpperCase();
-                brasDetails.appendChild(brasSummary);
                 
-                const cardsGrid = document.createElement('div');
-                cardsGrid.className = 'address-cards-grid';
+                // Create span for the BRAS name
+                const brasNameSpan = document.createElement('span');
+                brasNameSpan.textContent = bras.toUpperCase();
+                brasSummary.appendChild(brasNameSpan);
                 
-                // Grouper les adresses par ville et trier par ordre croissant
+                // Grouper les adresses par ville pour ce BRAS
                 const villesGroupes = {};
                 brasGroupes[bras].forEach((item) => {
                     const ville = item.Ville;
@@ -961,6 +962,23 @@ clearBtn.onclick = () => {
                     }
                     villesGroupes[ville].push(item);
                 });
+                
+                // Create PDF button - use villesGroupes for this bras
+                const pdfBtn = document.createElement('button');
+                pdfBtn.className = 'bras-pdf-btn';
+                pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i>';
+                pdfBtn.title = 'Générer PDF';
+                pdfBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    gestionnaireInterface.afficherPopupPDF(bras, villesGroupes);
+                };
+                brasSummary.appendChild(pdfBtn);
+                
+                brasDetails.appendChild(brasSummary);
+                
+                const cardsGrid = document.createElement('div');
+                cardsGrid.className = 'address-cards-grid';
                 
                 // Trier les villes par ordre alphabétique croissant
                 const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
@@ -1273,6 +1291,103 @@ clearBtn.onclick = () => {
                 }
             }
             bouton.textContent = 'Paramètres';
+        }
+    }
+
+    // Variables pour le popup PDF
+    brasSelectionnePDF = '';
+    villesBrasPDF = {};
+
+    afficherPopupPDF(bras, villesGroupes) {
+        this.brasSelectionnePDF = bras;
+        this.villesBrasPDF = villesGroupes;
+        
+        const popup = document.getElementById('pdfPopupOverlay');
+        const title = document.getElementById('pdfPopupTitle');
+        const citiesList = document.getElementById('pdfCitiesList');
+        
+        if (popup && title && citiesList) {
+            title.textContent = `Sélection des villes - ${bras.toUpperCase()}`;
+            
+            const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
+            
+            let html = '';
+            villesTriees.forEach((ville) => {
+                const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+                const nbAdresses = villesGroupes[ville].length;
+                html += `<div class="pdf-city-item"><span>${villeDisplay} (${nbAdresses})</span><input type="checkbox" id="city_${ville}" data-ville="${ville}" /></div>`;
+            });
+            
+            citiesList.innerHTML = html;
+            popup.classList.remove('hidden');
+        }
+    }
+
+    fermerPopupPDF() {
+        const popup = document.getElementById('pdfPopupOverlay');
+        if (popup) popup.classList.add('hidden');
+    }
+
+    imprimerSelectionPDF() {
+        const checkboxes = document.querySelectorAll('#pdfCitiesList input[type="checkbox"]:checked');
+        const villesSelectionnees = Array.from(checkboxes).map(cb => cb.getAttribute('data-ville'));
+        
+        if (villesSelectionnees.length === 0) {
+            alert('Veuillez sélectionner au moins une ville.');
+            return;
+        }
+
+        const adressesFiltrees = [];
+        Object.keys(this.villesBrasPDF).forEach(ville => {
+            if (villesSelectionnees.includes(ville)) {
+                this.villesBrasPDF[ville].forEach(adresse => adressesFiltrees.push(adresse));
+            }
+        });
+
+        let contenuImpression = `<html><head><title>BRAS ${this.brasSelectionnePDF.toUpperCase()}</title><style>body{font-family:Arial,sans-serif;padding:20px}h1{color:#0077ff;text-align:center}.ville{font-weight:bold;color:#0077ff;font-size:1.2em;margin-top:20px}.adresse{margin:10px 0;padding:10px;border:1px solid #ccc}.numero{font-weight:bold}@media print{body{padding:0}}</style></head><body><h1>BRAS ${this.brasSelectionnePDF.toUpperCase()}</h1>`;
+
+        const villesGroupes = {};
+        adressesFiltrees.forEach(adresse => {
+            if (!villesGroupes[adresse.Ville]) villesGroupes[adresse.Ville] = [];
+            villesGroupes[adresse.Ville].push(adresse);
+        });
+
+        const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
+
+        villesTriees.forEach(ville => {
+            const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+            contenuImpression += `<div class="ville">${villeDisplay}</div>`;
+            villesGroupes[ville].forEach(adresse => {
+                const adresseDisplay = adresse.Adresse.charAt(0).toUpperCase() + adresse.Adresse.slice(1);
+                contenuImpression += `<div class="adresse"><span class="numero">${adresse.Numero}</span> - ${adresseDisplay}</div>`;
+            });
+        });
+
+        contenuImpression += '</body></html>';
+
+        const fenetreImpression = window.open('', '_blank');
+        if (fenetreImpression) {
+            fenetreImpression.document.write(contenuImpression);
+            fenetreImpression.document.close();
+            setTimeout(() => fenetreImpression.print(), 500);
+        } else {
+            alert('Impossible d\'ouvrir la fenêtre d\'impression.');
+        }
+
+        this.fermerPopupPDF();
+    }
+
+    initialiserPopupPDF() {
+        const pdfPopupClose = document.getElementById('pdfPopupClose');
+        const printPdfBtn = document.getElementById('printPdfBtn');
+        const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
+
+        if (pdfPopupClose) pdfPopupClose.onclick = () => this.fermerPopupPDF();
+        if (printPdfBtn) printPdfBtn.onclick = () => this.imprimerSelectionPDF();
+        if (pdfPopupOverlay) {
+            pdfPopupOverlay.addEventListener('click', (e) => {
+                if (e.target === pdfPopupOverlay) this.fermerPopupPDF();
+            });
         }
     }
 }

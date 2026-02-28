@@ -225,8 +225,7 @@ html.night-theme body {
 
 html.night-theme .city-btn {
   background: var(--bg-input);
-  /*color: #000000;*/
-  color: var(--text-light)
+  color: var(--text-light);
 }
 
 html.night-theme .city-btn.active {
@@ -994,7 +993,7 @@ tr.editing td {
 }
 
 /* =====================================
-   ADDRESS CARDS STYLES - STICKY CORRECTION
+   ADDRESS CARDS STYLES
    ===================================== */
 .addresses-cards-container {
   width: 100%;
@@ -1021,7 +1020,6 @@ tr.editing td {
 }
 
 .bras-summary {
-
   background: var(--bg-btn);
   color: var(--text-white);
   padding: 6px 10px;
@@ -1071,7 +1069,7 @@ html.night-theme .bras-summary {
   align-items: center;
   justify-content: center;
   grid-column: 1 / -1;
-  background : var(--bg-dark);
+  background: var(--bg-dark);
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
   padding: 8px 12px;
@@ -1088,7 +1086,7 @@ html.night-theme .bras-summary {
 }
 
 html.night-theme .bras-city-label {
-  background : var(--bg-dark);
+  background: var(--bg-dark);
   color: var(--accent-cyan);
 }
 
@@ -1194,10 +1192,10 @@ html.night-theme .no-data-msg {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 2px 2px;
+  padding: 8px 12px;
   border-radius: 5px;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -1207,28 +1205,12 @@ html.night-theme .no-data-msg {
   position: relative;
 }
 
-
+.bras-pdf-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
 
 .bras-pdf-btn i {
   pointer-events: none;
-}
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: var(--text-white);
-  border-radius: 4px;
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  z-index: 10;
-  transition: background 0.2s;
-}
-
-.bras-pdf-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
 }
 
 /* PDF Popup styles */

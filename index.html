@@ -305,6 +305,33 @@
       </div>
     </div>
 
+    <!-- Modal pour la sélection des villes et impression PDF -->
+    <div
+      id="pdfPopupOverlay"
+      class="popup-overlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-labelledby="pdfPopupTitle"
+    >
+      <div class="popup-window pdf-popup-window">
+        <h3 id="pdfPopupTitle" class="popup-title">Sélection des villes - BRAS</h3>
+        <div id="pdfCitiesList" class="pdf-cities-list"></div>
+        <div class="pdf-popup-buttons">
+          <button id="printPdfBtn" class="confirm-action-btn">
+            <i class="fas fa-print"></i> Imprimer
+          </button>
+          <button
+            id="pdfPopupClose"
+            class="cancel-action-btn"
+            aria-label="Fermer la fenêtre"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="script.js"></script>
