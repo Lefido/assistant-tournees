@@ -1485,11 +1485,25 @@ clearBtn.onclick = () => {
             const adressesFiltreesVille = adressesVille.filter(adresse => adresse.TypeRecherche !== '2');
             adressesFiltreesVille.sort((a, b) => a.Adresse.localeCompare(b.Adresse, 'fr', { sensitivity: 'base' }));
             let alterner = false;
+            let precedentCaractere = '';
             adressesFiltreesVille.forEach(adresse => {
                 const adresseDisplay = adresse.Adresse.toUpperCase();
                 const couleurLigne = alterner ? `background-color:${couleurVille}20;` : '';
                 alterner = !alterner;
-                contenuImpression += `<tr style="${couleurLigne}"><td class="adresse-cell">${adresseDisplay}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
+                
+                const premierCaractere = adresseDisplay.charAt(0);
+const changementCaractere = precedentCaractere === '' || precedentCaractere !== premierCaractere;
+                precedentCaractere = premierCaractere;
+                
+                let adresseHtml = '';
+                if (changementCaractere) {
+                    const resteAdresse = adresseDisplay.substring(1);
+                    adresseHtml = `<span style="color:red;font-size:68px;font-weight:bold;">${premierCaractere}</span><span style="color:black;font-size:48px;font-weight:bold;">${resteAdresse}</span>`;
+                } else {
+                    adresseHtml = `<span style="color:black;font-size:48px;font-weight:bold;">${adresseDisplay}</span>`;
+                }
+                
+                contenuImpression += `<tr style="${couleurLigne}"><td class="adresse-cell">${adresseHtml}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
             });
             contenuImpression += '</table>';
         });
