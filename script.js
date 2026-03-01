@@ -771,15 +771,22 @@ clearBtn.onclick = () => {
         // Normaliser la recherche
         const valeurNormalisee = this.gestionnaireDonnees.normaliserTexte(valeurRecherche.trim());
 
-        // Si la recherche est vide, restaurer toutes les cartes
+        // Si la recherche est vide, restaurer toutes les cartes et tous les labels
         if (!valeurNormalisee) {
             this.afficherToutesLesAdresses();
+            // Restaurer tous les labels de ville
+            document.querySelectorAll('.bras-city-label').forEach(label => {
+                label.style.display = '';
+            });
             return;
         }
 
         // Rechercher les addresses-cards qui correspondent au terme de recherche
         const cards = document.querySelectorAll('.address-card');
         const brasTrouve = new Set();
+
+        // Compter les cartes visibles par ville
+        const villesAvecResultats = new Set();
 
         cards.forEach(card => {
             const texteCarte = this.gestionnaireDonnees.normaliserTexte(card.textContent);
@@ -793,8 +800,33 @@ clearBtn.onclick = () => {
                 if (parent) {
                     brasTrouve.add(parent);
                 }
+                
+                // Identifier la ville de cette carte en regardant le label précédent
+                let precedingLabel = null;
+                let sibling = card.previousElementSibling;
+                while (sibling) {
+                    if (sibling.classList.contains('bras-city-label')) {
+                        precedingLabel = sibling;
+                        break;
+                    }
+                    sibling = sibling.previousElementSibling;
+                }
+                if (precedingLabel) {
+                    const villeNormalisee = this.gestionnaireDonnees.normaliserTexte(precedingLabel.textContent);
+                    villesAvecResultats.add(villeNormalisee);
+                }
             } else {
                 card.style.display = 'none';
+            }
+        });
+
+        // Masquer les labels des villes sans résultats
+        document.querySelectorAll('.bras-city-label').forEach(label => {
+            const villeNormalisee = this.gestionnaireDonnees.normaliserTexte(label.textContent);
+            if (villesAvecResultats.has(villeNormalisee)) {
+                label.style.display = '';
+            } else {
+                label.style.display = 'none';
             }
         });
 
