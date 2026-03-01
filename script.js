@@ -1479,13 +1479,17 @@ clearBtn.onclick = () => {
                 contenuImpression += '<div class="page-break"></div>';
             }
             const villeTitre = ville.toUpperCase();
-            contenuImpression += `<h1>${villeTitre}</h1><table>`;
+            const couleurVille = this.gestionnaireDonnees.obtenirCouleurVille(this.brasSelectionnePDF, ville);
+            contenuImpression += `<h1 style="background-color:${couleurVille};color:#fff;padding:15px;margin:0;">${villeTitre}</h1><table>`;
             const adressesVille = this.villesGroupesPDF[ville] || [];
             const adressesFiltreesVille = adressesVille.filter(adresse => adresse.TypeRecherche !== '2');
             adressesFiltreesVille.sort((a, b) => a.Adresse.localeCompare(b.Adresse, 'fr', { sensitivity: 'base' }));
+            let alterner = false;
             adressesFiltreesVille.forEach(adresse => {
                 const adresseDisplay = adresse.Adresse.toUpperCase();
-                contenuImpression += `<tr><td class="adresse-cell">${adresseDisplay}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
+                const couleurLigne = alterner ? `background-color:${couleurVille}20;` : '';
+                alterner = !alterner;
+                contenuImpression += `<tr style="${couleurLigne}"><td class="adresse-cell">${adresseDisplay}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
             });
             contenuImpression += '</table>';
         });
