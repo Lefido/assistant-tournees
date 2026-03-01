@@ -1520,11 +1520,13 @@ clearBtn.onclick = () => {
             let precedentCaractere = '';
             adressesFiltreesVille.forEach(adresse => {
                 const adresseDisplay = adresse.Adresse.toUpperCase();
-                const couleurLigne = alterner ? `background-color:${couleurVille}20;` : '';
+                const numero = String(adresse.Numero || '').toUpperCase();
+                const estSpecial = numero.startsWith('CS') || numero.startsWith('PICKUP') || numero.startsWith('PPDC');
+                const couleurLigne = estSpecial ? `background-color:${couleurVille}60;` : (alterner ? `background-color:${couleurVille}20;` : '');
                 alterner = !alterner;
                 
                 const premierCaractere = adresseDisplay.charAt(0);
-const changementCaractere = precedentCaractere === '' || precedentCaractere !== premierCaractere;
+                const changementCaractere = precedentCaractere === '' || precedentCaractere !== premierCaractere;
                 precedentCaractere = premierCaractere;
                 
                 let adresseHtml = '';
