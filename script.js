@@ -1452,7 +1452,11 @@ clearBtn.onclick = () => {
         const adressesFiltrees = [];
         Object.keys(this.villesGroupesPDF).forEach(ville => {
             if (villesSelectionnees.includes(ville)) {
-                this.villesGroupesPDF[ville].forEach(adresse => adressesFiltrees.push(adresse));
+                this.villesGroupesPDF[ville].forEach(adresse => {
+                    if (adresse.TypeRecherche !== '2') {
+                        adressesFiltrees.push(adresse);
+                    }
+                });
             }
         });
 
@@ -1477,8 +1481,9 @@ clearBtn.onclick = () => {
             const villeTitre = ville.toUpperCase();
             contenuImpression += `<h1>${villeTitre}</h1><table>`;
             const adressesVille = this.villesGroupesPDF[ville] || [];
-            adressesVille.sort((a, b) => a.Adresse.localeCompare(b.Adresse, 'fr', { sensitivity: 'base' }));
-            adressesVille.forEach(adresse => {
+            const adressesFiltreesVille = adressesVille.filter(adresse => adresse.TypeRecherche !== '2');
+            adressesFiltreesVille.sort((a, b) => a.Adresse.localeCompare(b.Adresse, 'fr', { sensitivity: 'base' }));
+            adressesFiltreesVille.forEach(adresse => {
                 const adresseDisplay = adresse.Adresse.toUpperCase();
                 contenuImpression += `<tr><td class="adresse-cell">${adresseDisplay}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
             });
