@@ -1456,23 +1456,33 @@ clearBtn.onclick = () => {
             }
         });
 
-        let contenuImpression = `<html><head><title>BRAS ${this.brasSelectionnePDF.toUpperCase()}</title><style>body{font-family:Arial,sans-serif;padding:20px}h1{color:#0077ff;text-align:center}.ville{font-weight:bold;color:#0077ff;font-size:1.2em;margin-top:20px}.adresse{margin:10px 0;padding:10px;border:1px solid #ccc}.numero{font-weight:bold}@media print{body{padding:0}}</style></head><body><h1>BRAS ${this.brasSelectionnePDF.toUpperCase()}</h1>`;
+        // Trier les villes par ordre alphabétique
+        const villesTriees = villesSelectionnees.sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
 
-        const villesGroupes = {};
-        adressesFiltrees.forEach(adresse => {
-            if (!villesGroupes[adresse.Ville]) villesGroupes[adresse.Ville] = [];
-            villesGroupes[adresse.Ville].push(adresse);
-        });
+        let contenuImpression = `<html><head><title>Impression Tournées</title><style>
+            body{font-family:Arial,sans-serif;padding:20px}
+            h1{color:#0077ff;text-align:center;font-size:60px;margin-bottom:30px}
+            .page-break{page-break-after:always}
+            table{width:100%;border-collapse:collapse}
+            td{padding:10px;border:1px solid #ccc}
+            .adresse-cell{text-align:left;font-size:48px}
+            .numero-cell{text-align:center;font-size:48px;font-weight:bold}
+            @media print{body{padding:0}.page-break{page-break-after:always}}
+        </style></head><body>`;
 
-        const villesTriees = Object.keys(villesGroupes).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
-
-        villesTriees.forEach(ville => {
-            const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
-            contenuImpression += `<div class="ville">${villeDisplay}</div>`;
-            villesGroupes[ville].forEach(adresse => {
-                const adresseDisplay = adresse.Adresse.charAt(0).toUpperCase() + adresse.Adresse.slice(1);
-                contenuImpression += `<div class="adresse"><span class="numero">${adresse.Numero}</span> - ${adresseDisplay}</div>`;
+        villesTriees.forEach((ville, index) => {
+            if (index > 0) {
+                contenuImpression += '<div class="page-break"></div>';
+            }
+            const villeTitre = ville.toUpperCase();
+            contenuImpression += `<h1>${villeTitre}</h1><table>`;
+            const adressesVille = this.villesGroupesPDF[ville] || [];
+            adressesVille.sort((a, b) => a.Adresse.localeCompare(b.Adresse, 'fr', { sensitivity: 'base' }));
+            adressesVille.forEach(adresse => {
+                const adresseDisplay = adresse.Adresse.toUpperCase();
+                contenuImpression += `<tr><td class="adresse-cell">${adresseDisplay}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
             });
+            contenuImpression += '</table>';
         });
 
         contenuImpression += '</body></html>';

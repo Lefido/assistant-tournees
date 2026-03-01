@@ -1335,7 +1335,7 @@ html.night-theme .pdf-city-item label {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 3px solid transparent;
+  border: 1px solid gray;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1345,7 +1345,9 @@ html.night-theme .pdf-city-item label {
 }
 
 .color-option.selected {
+ 
   border-color: var(--text-light);
+   border: 4px solid var(--text-light);
 }
 
 .color-picker-buttons {
