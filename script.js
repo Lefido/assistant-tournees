@@ -1218,7 +1218,10 @@ clearBtn.onclick = () => {
                     const input = document.getElementById(id);
                     if (input) {
                         input.oninput = (e) => {
+                            const start = e.target.selectionStart;
+                            const end = e.target.selectionEnd;
                             e.target.value = e.target.value.toUpperCase();
+                            e.target.setSelectionRange(start, end);
                         };
                     }
                 });
@@ -1235,8 +1238,8 @@ clearBtn.onclick = () => {
                 const numero = document.getElementById('addressNumero').value.trim().toUpperCase();
                 const typeRecherche = document.getElementById('addressType').value;
                 
-                if (!bras || !rue) {
-                    alert('Veuillez remplir au moins le BRAS et l\'adresse.');
+                if (!bras || !ville || !rue || !numero) {
+                    alert('Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).');
                     return;
                 }
                 
@@ -1252,10 +1255,18 @@ clearBtn.onclick = () => {
                 const addressSearchInput = document.getElementById('addressSearchInput');
                 const valeurRecherche = addressSearchInput ? addressSearchInput.value : '';
                 
+                // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+                const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+                
                 this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
                 addressPopupOverlay.classList.add('hidden');
                 this.rafraichirInterface();
                 this.verifierAvertissementDonnees();
+
+                // Restaurer le BRAS sélectionné après le rafraîchissement
+                if (brasSelectionne) {
+                    this.restaurerBrasSelectionne();
+                }
 
                 // Restaurer le filtre de recherche après le rafraîchissement
                 if (valeurRecherche) {
@@ -1307,7 +1318,10 @@ clearBtn.onclick = () => {
             const input = document.getElementById(id);
             if (input) {
                 input.oninput = (e) => {
+                    const start = e.target.selectionStart;
+                    const end = e.target.selectionEnd;
                     e.target.value = e.target.value.toUpperCase();
+                    e.target.setSelectionRange(start, end);
                 };
             }
         });
@@ -1317,7 +1331,6 @@ clearBtn.onclick = () => {
 
         // Override the save button to handle update
         const saveAddressBtn = document.getElementById('saveAddressBtn');
-        const originalOnClick = saveAddressBtn.onclick;
         
         saveAddressBtn.onclick = () => {
             const bras = document.getElementById('addressBras').value.trim().toUpperCase();
@@ -1326,8 +1339,8 @@ clearBtn.onclick = () => {
             const numero = document.getElementById('addressNumero').value.trim().toUpperCase();
             const typeRecherche = document.getElementById('addressType').value;
 
-            if (!bras || !rue) {
-                alert('Veuillez remplir au moins le BRAS et l\'adresse.');
+            if (!bras || !ville || !rue || !numero) {
+                alert('Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).');
                 return;
             }
 
@@ -1343,10 +1356,18 @@ clearBtn.onclick = () => {
             const addressSearchInput = document.getElementById('addressSearchInput');
             this._derniereValeurRecherche = addressSearchInput ? addressSearchInput.value : '';
 
+            // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+            const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+
             this.gestionnaireDonnees.modifierAdresse(index, adresseModifiee);
             addressPopupOverlay.classList.add('hidden');
             this.rafraichirInterface();
             this.verifierAvertissementDonnees();
+
+            // Restaurer le BRAS sélectionné après le rafraîchissement
+            if (brasSelectionne) {
+                this.restaurerBrasSelectionne();
+            }
 
             // Restaurer le filtre de recherche après le rafraîchissement
             if (this._derniereValeurRecherche) {
@@ -1364,9 +1385,19 @@ clearBtn.onclick = () => {
         if (confirm('Voulez-vous vraiment supprimer cette adresse ?')) {
             const addressSearchInput = document.getElementById('addressSearchInput');
             const valeurRecherche = addressSearchInput ? addressSearchInput.value : '';
+            
+            // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+            const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+            
             this.gestionnaireDonnees.supprimerAdresse(index);
             this.rafraichirInterface();
             this.verifierAvertissementDonnees();
+
+            // Restaurer le BRAS sélectionné après le rafraîchissement
+            if (brasSelectionne) {
+                this.restaurerBrasSelectionne();
+            }
+
             if (valeurRecherche) {
                 if (addressSearchInput) addressSearchInput.value = valeurRecherche;
                 this.gererRechercheAdresses(valeurRecherche);
