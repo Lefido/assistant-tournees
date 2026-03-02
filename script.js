@@ -855,6 +855,18 @@ class GestionnaireInterface {
       champRecherche.addEventListener("input", (e) => {
         this.gererRechercheAdresses(e.target.value);
       });
+
+      // Fermer le clavier mobile lors de la validation
+      champRecherche.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          champRecherche.blur();
+        }
+      });
+
+      // Pour le bouton "Rechercher" du clavier mobile
+      champRecherche.addEventListener("search", (e) => {
+        champRecherche.blur();
+      });
     }
 
     if (boutonEffacer) {
