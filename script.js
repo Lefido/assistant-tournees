@@ -1248,10 +1248,23 @@ clearBtn.onclick = () => {
                     TypeRecherche: typeRecherche
                 };
                 
+                // Sauvegarder la valeur de recherche avant le rafraîchissement
+                const addressSearchInput = document.getElementById('addressSearchInput');
+                const valeurRecherche = addressSearchInput ? addressSearchInput.value : '';
+                
                 this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
                 addressPopupOverlay.classList.add('hidden');
                 this.rafraichirInterface();
                 this.verifierAvertissementDonnees();
+
+                // Restaurer le filtre de recherche après le rafraîchissement
+                if (valeurRecherche) {
+                    if (addressSearchInput) {
+                        addressSearchInput.value = valeurRecherche;
+                    }
+                    this.gererRechercheAdresses(valeurRecherche);
+                }
+                
                 alert('Adresse ajoutée avec succès !');
             };
         }
@@ -1270,6 +1283,9 @@ clearBtn.onclick = () => {
             });
         }
     }
+
+    // Variable pour stocker la valeur de recherche lors du rafraîchissement
+    _derniereValeurRecherche = '';
 
     modifierAdresse(index) {
         const adresse = this.gestionnaireDonnees.obtenirAdresseParIndex(index);
@@ -1323,19 +1339,38 @@ clearBtn.onclick = () => {
                 TypeRecherche: typeRecherche
             };
 
+            // Sauvegarder la valeur de recherche avant le rafraîchissement
+            const addressSearchInput = document.getElementById('addressSearchInput');
+            this._derniereValeurRecherche = addressSearchInput ? addressSearchInput.value : '';
+
             this.gestionnaireDonnees.modifierAdresse(index, adresseModifiee);
             addressPopupOverlay.classList.add('hidden');
             this.rafraichirInterface();
             this.verifierAvertissementDonnees();
+
+            // Restaurer le filtre de recherche après le rafraîchissement
+            if (this._derniereValeurRecherche) {
+                if (addressSearchInput) {
+                    addressSearchInput.value = this._derniereValeurRecherche;
+                }
+                this.gererRechercheAdresses(this._derniereValeurRecherche);
+            }
+
             alert('Adresse modifiée avec succès !');
         };
     }
 
     supprimerAdresse(index) {
         if (confirm('Voulez-vous vraiment supprimer cette adresse ?')) {
+            const addressSearchInput = document.getElementById('addressSearchInput');
+            const valeurRecherche = addressSearchInput ? addressSearchInput.value : '';
             this.gestionnaireDonnees.supprimerAdresse(index);
             this.rafraichirInterface();
             this.verifierAvertissementDonnees();
+            if (valeurRecherche) {
+                if (addressSearchInput) addressSearchInput.value = valeurRecherche;
+                this.gererRechercheAdresses(valeurRecherche);
+            }
             alert('Adresse supprimée avec succès !');
         }
     }
