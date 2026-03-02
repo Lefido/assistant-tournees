@@ -1587,7 +1587,7 @@ clearBtn.onclick = () => {
             adressesFiltreesVille.forEach(adresse => {
                 const adresseDisplay = adresse.Adresse.toUpperCase();
                 const numero = String(adresse.Numero || '').toUpperCase();
-                const estSpecial = numero.startsWith('CS') || numero.startsWith('PICKUP') || numero.startsWith('PPDC');
+                const estSpecial = numero.startsWith('CS') || numero.startsWith('PICKUP') || numero.startsWith('PPDC') || numero.startsWith('REEX');
                 const couleurLigne = estSpecial ? `background-color:${couleurVille}60;` : (alterner ? `background-color:${couleurVille}20;` : '');
                 alterner = !alterner;
                 
