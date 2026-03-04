@@ -169,6 +169,8 @@ html.night-theme body {
    ===================================== */
 .main-content {
   flex: 1;
+  justify-content: center;
+  text-align: center;
   padding: 15px;
   padding-bottom: 40px;
   padding-top: 80px;
@@ -186,12 +188,17 @@ html.night-theme body {
 }
 
 .section-title {
-  width: 100%;
+  width: 90%;
   text-align: center;
   font-size: 1.1rem;
-  margin: 12px 0 12px;
+  padding: 6px;
+  margin: 0px auto 12px;
   color: var(--text-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
+  display: block;
+  /* border-bottom: 1px solid var(--border); */
+  /* box-shadow: -4px 8px 20px var(--border); */
+
 }
 
 /* BOUTONS BRAS / VILLES */
@@ -200,6 +207,7 @@ html.night-theme body {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
+  margin-top: 15px;
   margin-bottom: 15px;
   width: 100%;
 }
@@ -261,12 +269,86 @@ html.night-theme .city-btn.active {
   }
 }
 
-/* RECHERCHE */
-.search-section {
-  margin: 15px 0;
-  width: 100%;
-  scroll-margin-top: 0px;
-  padding-bottom: 0vh;
+/* =====================================
+   RECHERCHE - Styles groupés par ville (tous écrans)
+   ===================================== */
+.live-search-results {
+  max-height: 60vh;
+  width: 95%;
+  border: 2px solid var(--bg-btn);
+}
+
+/* Grouped results by city */
+.results-group {
+  margin-bottom: 0px;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.results-city-header {
+  background: var(--bg-btn);
+  color: var(--text-white);
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.results-city-header i {
+  font-size: 0.85rem;
+}
+
+.results-addresses {
+  padding: 4px 0;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+html.night-theme .result-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-item:hover {
+  background: rgba(0, 119, 255, 0.1);
+}
+
+.result-address {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: left;
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.result-number {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-cyan);
+  margin-left: 10px;
+  min-width: 40px;
+  text-align: center;
 }
 
 .search-section.focused {
@@ -336,19 +418,6 @@ html.night-theme .city-btn.active {
   align-items: center;
   justify-content: center;
   font-size: 12px;
-
-}
-
-.live-search-results {
-  width: 100%;
-  max-width: 450px;
-  background: var(--bg-panel);
-  border-radius: 0 0 10px 10px;
-  max-height: 250px;
-  overflow-y: auto;
-  border: 2px solid var(--bg-btn);
-  margin: 4px auto;
-  display: none;
 }
 
 /* ZONE VOCALE & STATUT */
@@ -576,13 +645,13 @@ html.night-theme .popup-window {
 .popup-table td {
   padding: 12px 8px;
   border-bottom: 1px solid #333;
-  text-align: left;
+  text-align: center;
   color: var(--text-light);
   font-size: 0.9rem;
 }
 
 .popup-table td:last-child {
-  text-align: right;
+  text-align: center;
   font-weight: 800;
   color: var(--accent-cyan);
   font-size: 1.2rem;
@@ -1112,6 +1181,7 @@ html.night-theme .address-card {
   gap: 8px;
   font-size: 0.85rem;
   color: var(--text-light);
+  text-align: left;
 }
 
 html.night-theme .card-field {
@@ -1121,13 +1191,14 @@ html.night-theme .card-field {
 .card-field i {
   color: var(--bg-btn);
   width: 18px;
-  text-align: center;
+  text-align: left;
 }
 
 .card-field span {
   text-transform: capitalize;
   flex: 1;
   word-break: break-word;
+  text-align: left;
 }
 
 .card-actions {

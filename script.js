@@ -194,7 +194,21 @@ class GestionnaireDonnees {
       return;
     }
 
-    const donneesExport = this.donneesExcel.map((ligne) => ({
+    // Trier les données par BRAS, Ville et Adresse (ordre croissant)
+    const donneesTriees = [...this.donneesExcel].sort((a, b) => {
+      // Trier par BRAS
+      const brasCompare = a.BRAS.localeCompare(b.BRAS, "fr", { sensitivity: "base" });
+      if (brasCompare !== 0) return brasCompare;
+      
+      // Trier par Ville
+      const villeCompare = a.Ville.localeCompare(b.Ville, "fr", { sensitivity: "base" });
+      if (villeCompare !== 0) return villeCompare;
+      
+      // Trier par Adresse
+      return a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" });
+    });
+
+    const donneesExport = donneesTriees.map((ligne) => ({
       BRAS: ligne.BRAS,
       Ville: ligne.Ville,
       Adresse: ligne.Adresse,
@@ -832,16 +846,50 @@ class GestionnaireInterface {
 
     if (resultatsFiltres.length > 0) {
       divResultats.style.display = "block";
-      let html = '<table class="popup-table"><tbody>';
-      if (estAlternatif) {
-        html =
-          '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>' +
-          html;
-      }
+      
+      // Format groupé par ville (pour tous les écrans)
+      const villesGroupes = {};
       resultatsFiltres.forEach((r) => {
-        html += `<tr><td>${r.Ville}</td><td>${r.Adresse}</td><td>${r.Numero}</td></tr>`;
+        if (!villesGroupes[r.Ville]) {
+          villesGroupes[r.Ville] = [];
+        }
+        villesGroupes[r.Ville].push(r);
       });
-      divResultats.innerHTML = html + "</tbody></table>";
+      
+      // Trier les villes par ordre alphabétique
+      const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
+        a.localeCompare(b, "fr", { sensitivity: "base" })
+      );
+      
+      let html = "";
+      
+      if (estAlternatif) {
+        html += '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>';
+      }
+      
+      villesTriees.forEach((ville) => {
+        const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+        html += `<div class="results-group">`;
+        html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
+        html += `<div class="results-addresses">`;
+        
+        // Trier les adresses par ordre alphabétique
+        const adressesTriees = villesGroupes[ville].sort((a, b) =>
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+        );
+        
+        adressesTriees.forEach((r) => {
+          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+          html += `<div class="result-item">`;
+          html += `<span class="result-address">${adresseDisplay}</span>`;
+          html += `<span class="result-number">${r.Numero}</span>`;
+          html += `</div>`;
+        });
+        
+        html += `</div></div>`;
+      });
+      
+      divResultats.innerHTML = html;
     } else {
       divResultats.style.display = "none";
     }
