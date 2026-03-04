@@ -106,7 +106,7 @@ class GestionnaireDonnees {
         r.BRAS === this.brasSelectionne &&
         (!this.villeSelectionnee || r.Ville === this.villeSelectionnee) &&
         (!typeRecherche || r.TypeRecherche === typeRecherche) &&
-        this.normaliserTexte(r.Adresse).includes(valeurNormalisee),
+        this.normaliserTexte(r.Adresse).startsWith(valeurNormalisee),
     );
   }
 
@@ -962,10 +962,21 @@ class GestionnaireInterface {
     const villesAvecResultats = new Set();
 
     cards.forEach((card) => {
-      const texteCarte = this.gestionnaireDonnees.normaliserTexte(
-        card.textContent,
-      );
-      if (texteCarte.includes(valeurNormalisee)) {
+      // Extraire les champs individuels de la carte
+      const villeElement = card.querySelector('.card-field:nth-child(1) span');
+      const adresseElement = card.querySelector('.card-field:nth-child(2) span');
+      const numeroElement = card.querySelector('.card-field:nth-child(3) span');
+      
+      const ville = villeElement ? this.gestionnaireDonnees.normaliserTexte(villeElement.textContent) : "";
+      const adresse = adresseElement ? this.gestionnaireDonnees.normaliserTexte(adresseElement.textContent) : "";
+      const numero = numeroElement ? this.gestionnaireDonnees.normaliserTexte(numeroElement.textContent) : "";
+      
+      // Vérifier si un des champs commence par le terme de recherche
+      const correspond = ville.startsWith(valeurNormalisee) || 
+                        adresse.startsWith(valeurNormalisee) || 
+                        numero.startsWith(valeurNormalisee);
+      
+      if (correspond) {
         card.style.display = "";
         // Trouver le parent bras-details
         let parent = card.parentElement;
