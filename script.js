@@ -1165,7 +1165,7 @@ class GestionnaireInterface {
     if (zoneVocale)
       zoneVocale.style.display = aDonnees && aSelectionne ? "flex" : "none";
     if (titreVille) {
-      if (aSelectionne) {
+      if (aDonnees && aSelectionne) {
         titreVille.classList.remove("hidden");
       } else {
         titreVille.classList.add("hidden");
@@ -1697,7 +1697,8 @@ class GestionnaireInterface {
       panneauAdmin.style.display = "none";
       panneauUtilisateur.classList.remove("hidden");
       panneauUtilisateur.style.display = "block";
-      if (!this.gestionnaireDonnees.brasSelectionne) {
+      const aDonnees = this.gestionnaireDonnees.aDesDonnees();
+      if (!this.gestionnaireDonnees.brasSelectionne || !aDonnees) {
         document.getElementById("titleVille").classList.add("hidden");
       } else {
         document.getElementById("titleVille").classList.remove("hidden");
@@ -2006,6 +2007,12 @@ window.addEventListener("DOMContentLoaded", () => {
 function gererImportExcel(e) {
   const fichier = e.target.files[0];
   if (!fichier) return;
+
+  // Réinitialiser le bras sélectionné lors d'un nouvel import
+  if (gestionnaireDonnees) {
+    gestionnaireDonnees.brasSelectionne = "";
+    localStorage.removeItem("tourneeBrasSelectionne");
+  }
 
   gestionnaireDonnees
     .importerDepuisExcel(fichier)
