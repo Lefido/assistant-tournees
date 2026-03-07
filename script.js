@@ -1681,7 +1681,7 @@ class GestionnaireInterface {
     }
   }
 
-  basculerMode(bouton) {
+basculerMode(bouton) {
     const panneauAdmin = document.getElementById("adminPanel");
     const panneauUtilisateur = document.getElementById("userPanel");
 
@@ -1691,7 +1691,7 @@ class GestionnaireInterface {
       panneauAdmin.style.display = "block";
       panneauUtilisateur.classList.add("hidden");
       panneauUtilisateur.style.display = "none";
-      bouton.textContent = "Accueil";
+      bouton.innerHTML = '<i class="fas fa-home"></i>';
     } else {
       panneauAdmin.classList.add("hidden");
       panneauAdmin.style.display = "none";
@@ -1713,7 +1713,7 @@ class GestionnaireInterface {
           this.positionnerZoneVocale();
         }
       }
-      bouton.textContent = "Paramètres";
+      bouton.innerHTML = '<i class="fas fa-cog"></i>';
     }
   }
 

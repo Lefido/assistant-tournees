@@ -802,6 +802,14 @@ html.night-theme td:last-child {
   line-height: 1;
 }
 
+.mode-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
 .file-btn,
 .mode-toggle {
   background: var(--bg-btn);
