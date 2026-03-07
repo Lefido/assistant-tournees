@@ -342,12 +342,44 @@ class GestionnaireReconnaissanceVocale {
     }
   }
 
-  afficherResultatsRecherche(resultats) {
-    let html = '<table class="popup-table"><tbody>';
+afficherResultatsRecherche(resultats) {
+    // Grouper les résultats par ville
+    const villesGroupes = {};
     resultats.forEach((r) => {
-      html += `<tr><td>${r.Ville}</td><td>${r.Adresse}</td><td>${r.Numero}</td></tr>`;
+      if (!villesGroupes[r.Ville]) {
+        villesGroupes[r.Ville] = [];
+      }
+      villesGroupes[r.Ville].push(r);
     });
-    html += "</tbody></table>";
+
+    // Trier les villes par ordre alphabétique
+    const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
+      a.localeCompare(b, "fr", { sensitivity: "base" })
+    );
+
+    let html = "";
+    
+    villesTriees.forEach((ville) => {
+      const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+      html += `<div class="results-group">`;
+      html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
+      html += `<div class="results-addresses">`;
+      
+      // Trier les adresses par ordre alphabétique
+      const adressesTriees = villesGroupes[ville].sort((a, b) =>
+        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+      );
+      
+      adressesTriees.forEach((r) => {
+        const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+        html += `<div class="result-item">`;
+        html += `<span class="result-address">${adresseDisplay}</span>`;
+        html += `<span class="result-number">${r.Numero}</span>`;
+        html += `</div>`;
+      });
+      
+      html += `</div></div>`;
+    });
 
     const contenuPopup = document.getElementById("popupContent");
     const titrePopup = document.getElementById("popupTitle");
@@ -624,7 +656,7 @@ class GestionnaireCamera {
     return { ville: ville, rue: rue, dernierMotRue: dernierMotRue };
   }
 
-  _rechercherDepuisOCR(adresseAnalysée) {
+_rechercherDepuisOCR(adresseAnalysée) {
     const termeRecherche =
       adresseAnalysée.dernierMotRue ||
       adresseAnalysée.rue ||
@@ -639,12 +671,45 @@ class GestionnaireCamera {
       this.gestionnaireDonnees.rechercherAdresses(termeRecherche);
 
     if (resultatsFiltres.length > 0) {
-      let html = '<table class="popup-table"><tbody>';
+      // Grouper les résultats par ville
+      const villesGroupes = {};
       resultatsFiltres.forEach((r) => {
-        html += `<tr><td>${r.Ville}</td><td>${r.Adresse}</td><td>${r.Numero}</td></tr>`;
+        if (!villesGroupes[r.Ville]) {
+          villesGroupes[r.Ville] = [];
+        }
+        villesGroupes[r.Ville].push(r);
       });
-      document.getElementById("popupContent").innerHTML =
-        html + "</tbody></table>";
+
+      // Trier les villes par ordre alphabétique
+      const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
+        a.localeCompare(b, "fr", { sensitivity: "base" })
+      );
+
+      let html = "";
+      
+      villesTriees.forEach((ville) => {
+        const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
+        html += `<div class="results-group">`;
+        html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
+        html += `<div class="results-addresses">`;
+        
+        // Trier les adresses par ordre alphabétique
+        const adressesTriees = villesGroupes[ville].sort((a, b) =>
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+        );
+        
+        adressesTriees.forEach((r) => {
+          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+          html += `<div class="result-item">`;
+          html += `<span class="result-address">${adresseDisplay}</span>`;
+          html += `<span class="result-number">${r.Numero}</span>`;
+          html += `</div>`;
+        });
+        
+        html += `</div></div>`;
+      });
+
+      document.getElementById("popupContent").innerHTML = html;
       document.getElementById("popupTitle").textContent =
         "Résultats de la recherche image";
       document.getElementById("popupOverlay").classList.remove("hidden");

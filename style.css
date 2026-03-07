@@ -629,11 +629,90 @@ html.night-theme .popup-window {
 .popup-scroll {
   width: 100%;
   height: auto;
+  border-radius: 12px;
   max-height: 40vh;
   overflow-y: auto;
   margin: 0 0 15px 0;
+  display: block;
+}
+
+/* Popup results - same styling as live search results */
+.popup-scroll .results-group {
+  width: 100%;
+  margin-bottom: 0px;
+  border-bottom: 1px solid var(--border);
+}
+
+.popup-scroll .results-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.popup-scroll .results-city-header {
+  background: var(--bg-btn);
+  color: var(--text-white);
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 5;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-scroll .results-city-header i {
+  font-size: 0.85rem;
+}
+
+.popup-scroll .results-addresses {
+  padding: 4px 0;
+}
+
+.popup-scroll .result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.popup-scroll .result-item:last-child {
+  border-bottom: none;
+}
+
+.popup-scroll .result-item:hover {
+  background: rgba(0, 119, 255, 0.1);
+}
+
+.popup-scroll .result-address {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: left;
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.popup-scroll .result-number {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-cyan);
+  margin-left: 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Night theme support for popup results */
+html.night-theme .popup-scroll .result-item {
+  border-bottom: 1px solid var(--border);
+}
+
+html.night-theme .popup-scroll .result-address {
+  color: var(--text-light);
 }
 
 .popup-table {
