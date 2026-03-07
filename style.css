@@ -884,13 +884,14 @@ html.night-theme td:last-child {
 .mode-toggle {
   width: 40px;
   height: 40px;
+  color: var(--bg-btn);
+  background: none;
   border-radius: 8px;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   padding: 0;
 }
 
-.file-btn,
-.mode-toggle {
+.file-btn  {
   background: var(--bg-btn);
 }
 
