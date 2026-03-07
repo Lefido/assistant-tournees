@@ -12,6 +12,7 @@
   --text-white: #ffffff;
   --border: #cccccc;
   --danger: #ec5c5c;
+  --dangerCards: #ec5c5c31;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -30,6 +31,7 @@
   --text-white: #ffffff;
   --border: #0f3460;
   --danger: #ec5c5c;
+  --dangerCards: #ec5c5c31;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -332,6 +334,15 @@ html.night-theme .result-item {
 
 .result-item:hover {
   background: rgba(0, 119, 255, 0.1);
+}
+
+.result-item-danger {
+  background-color: var(--dangerCards) !important;
+}
+
+.result-item-danger .result-number,
+.popup-scroll .result-item-danger .result-number {
+  color: var(--text-white) !important;
 }
 
 .result-address {
@@ -1261,6 +1272,17 @@ html.night-theme .bras-city-label {
 
 html.night-theme .address-card {
   background: var(--bg-panel);
+}
+
+/* Address-card danger - pour les numéros spéciaux */
+.address-card-danger {
+  background-color: var(--dangerCards) !important;
+}
+
+.address-card-danger .card-field,
+.address-card-danger .card-field i,
+.address-card-danger .card-field span {
+  color: var(--text-white) !important;
 }
 
 .card-field {

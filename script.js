@@ -372,7 +372,10 @@ afficherResultatsRecherche(resultats) {
       
       adressesTriees.forEach((r) => {
         const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
-        html += `<div class="result-item">`;
+        const numero = String(r.Numero || "").toUpperCase();
+        const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+        const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+        html += `<div class="${itemClass}">`;
         html += `<span class="result-address">${adresseDisplay}</span>`;
         html += `<span class="result-number">${r.Numero}</span>`;
         html += `</div>`;
@@ -700,7 +703,10 @@ _rechercherDepuisOCR(adresseAnalysée) {
         
         adressesTriees.forEach((r) => {
           const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
-          html += `<div class="result-item">`;
+          const numero = String(r.Numero || "").toUpperCase();
+          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
@@ -938,14 +944,17 @@ class GestionnaireInterface {
         html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
         html += `<div class="results-addresses">`;
         
-        // Trier les adresses par ordre alphabétique
-        const adressesTriees = villesGroupes[ville].sort((a, b) =>
-          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
-        );
-        
-        adressesTriees.forEach((r) => {
+      // Trier les adresses par ordre alphabétique
+      const adressesTriees = villesGroupes[ville].sort((a, b) =>
+        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+      );
+      
+      adressesTriees.forEach((r) => {
           const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
-          html += `<div class="result-item">`;
+          const numero = String(r.Numero || "").toUpperCase();
+          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
@@ -1343,8 +1352,11 @@ class GestionnaireInterface {
 
           // Ajouter les cartes pour cette ville
           villesGroupes[ville].forEach((item) => {
+            const numero = String(item.Numero || "").toUpperCase();
+            const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+            const cardClass = estSpecial ? "address-card address-card-danger" : "address-card";
             const card = document.createElement("div");
-            card.className = "address-card";
+            card.className = cardClass;
             card.innerHTML = `
                             <div class="card-field">
                                 <i class="fas fa-city"></i>
