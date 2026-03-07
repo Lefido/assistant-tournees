@@ -1313,8 +1313,8 @@ class GestionnaireInterface {
         // Create PDF button - use villesGroupes for this bras
         const pdfBtn = document.createElement("button");
         pdfBtn.className = "bras-pdf-btn";
-        pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i>';
-        pdfBtn.title = "Générer PDF";
+        pdfBtn.innerHTML = '<i class="fas fa-print"></i>';
+        pdfBtn.title = "Imprimer";
         pdfBtn.onclick = (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -1988,13 +1988,147 @@ basculerMode(bouton) {
     this.fermerPopupPDF();
   }
 
+  static hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  }
+
+  static rgbToHex(r, g, b) {
+    return (
+      "#" +
+      ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()
+    );
+  }
+
+  static blendColors(colorHex, backgroundHex, alpha) {
+    const colorRgb = GestionnaireInterface.hexToRgb(colorHex);
+    const backgroundRgb = GestionnaireInterface.hexToRgb(backgroundHex);
+    if (!colorRgb || !backgroundRgb) return colorHex; // fallback
+
+    const r = Math.round(colorRgb.r * alpha + backgroundRgb.r * (1 - alpha));
+    const g = Math.round(colorRgb.g * alpha + backgroundRgb.g * (1 - alpha));
+    const b = Math.round(colorRgb.b * alpha + backgroundRgb.b * (1 - alpha));
+
+    return GestionnaireInterface.rgbToHex(r, g, b);
+  }
+
+  genererSelectionDOCX() {
+    const checkboxes = document.querySelectorAll(
+      '#pdfCitiesList input[type="checkbox"]:checked',
+    );
+    const villesSelectionnees = Array.from(checkboxes).map((cb) =>
+      cb.getAttribute("data-ville"),
+    );
+
+    if (villesSelectionnees.length === 0) {
+      alert("Veuillez sélectionner au moins une ville.");
+      return;
+    }
+
+    // Trier les villes par ordre alphabétique
+    const villesTriees = villesSelectionnees.sort((a, b) =>
+      a.localeCompare(b, "fr", { sensitivity: "base" }),
+    );
+
+    let contenuImpression = `<html><head><title>Impression Tournées</title><style>
+            @page {
+                size: A3;
+                margin: 1cm;
+            }
+            body{font-family:Arial,sans-serif;}
+            .page-break{page-break-after:always}
+            table{width:100%; border-collapse:collapse}
+            td{padding:8pt;border:1px solid #ccc}
+            .adresse-cell{text-align:left;font-size:36pt}
+            .numero-cell{text-align:center;font-size:36pt;font-weight:bold}
+        </style></head><body>`;
+
+    villesTriees.forEach((ville, index) => {
+      if (index > 0) {
+        contenuImpression += '<div class="page-break"></div>';
+      }
+      const villeTitre = ville.toUpperCase();
+      const couleurVille = this.gestionnaireDonnees.obtenirCouleurVille(
+        this.brasSelectionnePDF,
+        ville,
+      );
+      
+      const couleurLigneSpeciale = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.37);
+      const couleurLigneAlternee = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.12);
+
+      contenuImpression += `<table><tr><th colspan="2" style="background-color:${couleurVille};color:#fff;padding:12pt;margin:0;font-size:45pt;text-align:center;border:1px solid #ccc;">${villeTitre}</th></tr>`;
+      const adressesVille = this.villesGroupesPDF[ville] || [];
+      const adressesFiltreesVille = adressesVille.filter(
+        (adresse) => adresse.TypeRecherche !== "2",
+      );
+      adressesFiltreesVille.sort((a, b) =>
+        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
+      );
+      let alterner = false;
+      let precedentCaractere = "";
+      adressesFiltreesVille.forEach((adresse) => {
+        const adresseDisplay = adresse.Adresse.toUpperCase();
+        const numero = String(adresse.Numero || "").toUpperCase();
+        const estSpecial =
+          numero.startsWith("CS") ||
+          numero.startsWith("PICKUP") ||
+          numero.startsWith("PPDC") ||
+          numero.startsWith("REEX");
+        const couleurLigne = estSpecial
+          ? `background-color:${couleurLigneSpeciale};`
+          : alterner
+            ? `background-color:${couleurLigneAlternee};`
+            : "";
+        alterner = !alterner;
+
+        const premierCaractere = adresseDisplay.charAt(0);
+        const changementCaractere =
+          precedentCaractere === "" || precedentCaractere !== premierCaractere;
+        precedentCaractere = premierCaractere;
+
+        let adresseHtml = "";
+        if (changementCaractere) {
+          const resteAdresse = adresseDisplay.substring(1);
+          adresseHtml = `<span style="color:red;font-size:51pt;font-weight:bold;">${premierCaractere}</span><span style="color:black;font-size:36pt;font-weight:bold;">${resteAdresse}</span>`;
+        } else {
+          adresseHtml = `<span style="color:black;font-size:36pt;font-weight:bold;">${adresseDisplay}</span>`;
+        }
+
+        contenuImpression += `<tr style="${couleurLigne}"><td class="adresse-cell">${adresseHtml}</td><td class="numero-cell">${adresse.Numero}</td></tr>`;
+      });
+      contenuImpression += "</table>";
+    });
+
+    contenuImpression += "</body></html>";
+
+    const blob = htmlDocx.asBlob(contenuImpression);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `tournee_${this.brasSelectionnePDF}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    this.fermerPopupPDF();
+  }
+
   initialiserPopupPDF() {
     const pdfPopupClose = document.getElementById("pdfPopupClose");
     const printPdfBtn = document.getElementById("printPdfBtn");
+    const generateDocxBtn = document.getElementById("generateDocxBtn");
     const pdfPopupOverlay = document.getElementById("pdfPopupOverlay");
 
     if (pdfPopupClose) pdfPopupClose.onclick = () => this.fermerPopupPDF();
     if (printPdfBtn) printPdfBtn.onclick = () => this.imprimerSelectionPDF();
+    if (generateDocxBtn) generateDocxBtn.onclick = () => this.genererSelectionDOCX();
     if (pdfPopupOverlay) {
       pdfPopupOverlay.addEventListener("click", (e) => {
         if (e.target === pdfPopupOverlay) this.fermerPopupPDF();
