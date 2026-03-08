@@ -641,7 +641,7 @@ html.night-theme .popup-window {
   width: 100%;
   height: auto;
   border-radius: 12px;
-  max-height: 40vh;
+  max-height: 50vh;
   overflow-y: auto;
   margin: 0 0 15px 0;
   display: block;
