@@ -1408,6 +1408,14 @@ html.night-theme .no-data-msg {
   max-width: 400px;
 }
 
+#printPdfBtn {
+  background-color: var(--danger);
+}
+
+#generateDocxBtn {
+  background-color: var(--bg-btn);
+}
+
 .pdf-cities-list {
   width: 100%;
   max-height: 400px;
@@ -1458,7 +1466,7 @@ html.night-theme .no-data-msg {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: var(--bg-input);
+  background: var(--text-white);
   border: 2px solid var(--border);
   border-radius: 5px;
   transition: all 0.2s ease;
