@@ -1268,6 +1268,8 @@ html.night-theme .bras-city-label {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 90px;
+  justify-content: space-between;
 }
 
 html.night-theme .address-card {
@@ -1280,9 +1282,12 @@ html.night-theme .address-card {
 }
 
 .address-card-danger .card-field,
-.address-card-danger .card-field i,
 .address-card-danger .card-field span {
   color: var(--text-white) !important;
+}
+
+.address-card-danger .card-field i {
+  color: var(--bg-btn) !important;
 }
 
 .card-field {
