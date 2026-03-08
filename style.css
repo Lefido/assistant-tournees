@@ -1270,6 +1270,14 @@ html.night-theme .bras-city-label {
   gap: 8px;
   min-height: 90px;
   justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.address-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+  border-color: var(--bg-btn);
 }
 
 html.night-theme .address-card {

@@ -1357,6 +1357,7 @@ class GestionnaireInterface {
             const cardClass = estSpecial ? "address-card address-card-danger" : "address-card";
             const card = document.createElement("div");
             card.className = cardClass;
+            card.style.cursor = "pointer";
             card.innerHTML = `
                             <div class="card-field">
                                 <i class="fas fa-city"></i>
@@ -1371,14 +1372,18 @@ class GestionnaireInterface {
                                 <span>${item.Numero}</span>
                             </div>
                             <div class="card-actions">
-                                <button class="action-btn edit-btn" onclick="gestionnaireInterface.modifierAdresse(${item.index})" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </button>
                                 <button class="action-btn delete-btn" onclick="gestionnaireInterface.supprimerAdresse(${item.index})" title="Supprimer">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         `;
+            // Ajouter un écouteur d'événement click sur la carte pour l'édition
+            card.addEventListener("click", (e) => {
+                // Ne pas déclencher l'édition si on clique sur le bouton supprimer
+                if (!e.target.closest(".delete-btn")) {
+                    gestionnaireInterface.modifierAdresse(item.index);
+                }
+            });
             cardsGrid.appendChild(card);
           });
         });
