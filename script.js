@@ -1510,40 +1510,37 @@ class GestionnaireInterface {
     const addressPopupClose = document.getElementById("addressPopupClose");
     const addressPopupOverlay = document.getElementById("addressPopupOverlay");
 
-    if (addAddressBtn) {
-      addAddressBtn.onclick = () => {
-        document.getElementById("addressBras").value = "";
-        document.getElementById("addressVille").value = "";
-        document.getElementById("addressRue").value = "";
-        document.getElementById("addressNumero").value = "";
-        document.getElementById("addressType").value = "1";
+    // Fonction pour configurer le bouton save en mode "ajout"
+    const configurerModeAjout = () => {
+      document.getElementById("addressPopupTitle").textContent =
+        "Ajouter une adresse";
 
-        document.getElementById("addressPopupTitle").textContent =
-          "Ajouter une adresse";
+      // Réinitialiser les champs
+      document.getElementById("addressBras").value = "";
+      document.getElementById("addressVille").value = "";
+      document.getElementById("addressRue").value = "";
+      document.getElementById("addressNumero").value = "";
+      document.getElementById("addressType").value = "1";
 
-        const inputFields = [
-          "addressBras",
-          "addressVille",
-          "addressRue",
-          "addressNumero",
-        ];
-        inputFields.forEach((id) => {
-          const input = document.getElementById(id);
-          if (input) {
-            input.oninput = (e) => {
-              const start = e.target.selectionStart;
-              const end = e.target.selectionEnd;
-              e.target.value = e.target.value.toUpperCase();
-              e.target.setSelectionRange(start, end);
-            };
-          }
-        });
+      const inputFields = [
+        "addressBras",
+        "addressVille",
+        "addressRue",
+        "addressNumero",
+      ];
+      inputFields.forEach((id) => {
+        const input = document.getElementById(id);
+        if (input) {
+          input.oninput = (e) => {
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
+            e.target.value = e.target.value.toUpperCase();
+            e.target.setSelectionRange(start, end);
+          };
+        }
+      });
 
-        addressPopupOverlay.classList.remove("hidden");
-      };
-    }
-
-    if (saveAddressBtn) {
+      // Réinitialiser le handler du bouton save pour le mode "ajout"
       saveAddressBtn.onclick = () => {
         const bras = document
           .getElementById("addressBras")
@@ -1608,6 +1605,18 @@ class GestionnaireInterface {
 
         alert("Adresse ajoutée avec succès !");
       };
+    };
+
+    if (addAddressBtn) {
+      addAddressBtn.onclick = () => {
+        configurerModeAjout();
+        addressPopupOverlay.classList.remove("hidden");
+      };
+    }
+
+    // Initialiser le handler du bouton save pour le mode "ajout" par défaut
+    if (saveAddressBtn) {
+      configurerModeAjout();
     }
 
     if (addressPopupClose) {

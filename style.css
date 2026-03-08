@@ -12,7 +12,7 @@
   --text-white: #ffffff;
   --border: #cccccc;
   --danger: #ec5c5c;
-  --dangerCards: #ec5c5c31;
+  --dangerCards: #ec5c5c8c;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -31,7 +31,7 @@
   --text-white: #ffffff;
   --border: #0f3460;
   --danger: #ec5c5c;
-  --dangerCards: #ec5c5c31;
+  --dangerCards: #ec5c5c8c;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -1419,9 +1419,14 @@ html.night-theme .no-data-msg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
+  transition: background 0.2s ease;
+}
+
+.pdf-city-item:hover {
+  background: rgba(0, 119, 255, 0.08);
 }
 
 .pdf-city-item:last-child {
@@ -1430,18 +1435,57 @@ html.night-theme .no-data-msg {
 
 .pdf-city-item label {
   flex: 1;
-  margin-left: 10px;
+  margin-left: 12px;
   cursor: pointer;
   text-transform: capitalize;
   color: var(--text-light);
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
+.pdf-city-item label:hover {
+  color: var(--bg-btn);
+}
+
+/* Custom checkbox styling */
 .pdf-city-item input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
   accent-color: var(--bg-btn);
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-city-item input[type="checkbox"]:hover {
+  border-color: var(--bg-btn);
+  box-shadow: 0 0 5px rgba(0, 119, 255, 0.3);
+}
+
+.pdf-city-item input[type="checkbox"]:checked {
+  background: var(--bg-btn);
+  border-color: var(--bg-btn);
+}
+
+.pdf-city-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .pdf-popup-buttons {
