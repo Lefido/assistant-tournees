@@ -1779,34 +1779,78 @@ basculerMode(bouton) {
     const panneauUtilisateur = document.getElementById("userPanel");
 
     const panneauAdminCache = panneauAdmin.classList.contains("hidden");
-    if (panneauAdminCache) {
-      panneauAdmin.classList.remove("hidden");
-      panneauAdmin.style.display = "block";
-      panneauUtilisateur.classList.add("hidden");
-      panneauUtilisateur.style.display = "none";
-      bouton.innerHTML = '<i class="fas fa-home"></i>';
-    } else {
-      panneauAdmin.classList.add("hidden");
-      panneauAdmin.style.display = "none";
-      panneauUtilisateur.classList.remove("hidden");
-      panneauUtilisateur.style.display = "block";
-      const aDonnees = this.gestionnaireDonnees.aDesDonnees();
-      if (!this.gestionnaireDonnees.brasSelectionne || !aDonnees) {
-        document.getElementById("titleVille").classList.add("hidden");
-      } else {
-        document.getElementById("titleVille").classList.remove("hidden");
-      }
-      if (this.gestionnaireDonnees.brasSelectionne) {
-        const boutonVocal = document.getElementById("voiceBtn");
-        const zoneVocale = document.querySelector(".voice-zone");
-        if (boutonVocal && zoneVocale && !zoneVocale.contains(boutonVocal)) {
-          boutonVocal.className = "voice-btn";
-          zoneVocale.appendChild(boutonVocal);
-          zoneVocale.style.display = "flex";
-          this.positionnerZoneVocale();
+    
+    // Ajouter l'animation de rotation au bouton
+    bouton.classList.remove('rotating');
+    void bouton.offsetWidth; // Force reflow
+    bouton.classList.add('rotating');
+    
+    if (!panneauAdminCache) {
+      // Passage de Paramètres vers Accueil (admin visible → aller vers user)
+      // Étape 1 : Masquer admin avec transition
+      panneauAdmin.classList.remove('fade-in');
+      panneauAdmin.classList.add('fade-out');
+      
+      // Étape 2 : Après transition, afficher user
+      setTimeout(() => {
+        panneauAdmin.classList.add('hidden');
+        panneauAdmin.style.display = "none";
+        panneauAdmin.classList.remove('fade-out');
+        
+        panneauUtilisateur.classList.remove('hidden');
+        panneauUtilisateur.style.display = "block";
+        // Force reflow pour redémarrer l'animation
+        panneauUtilisateur.offsetHeight; 
+        panneauUtilisateur.classList.add('fade-in');
+        
+        // Logique supplémentaire pour userPanel
+        const aDonnees = this.gestionnaireDonnees.aDesDonnees();
+        if (!this.gestionnaireDonnees.brasSelectionne || !aDonnees) {
+          document.getElementById("titleVille").classList.add("hidden");
+        } else {
+          document.getElementById("titleVille").classList.remove("hidden");
         }
-      }
+        if (this.gestionnaireDonnees.brasSelectionne) {
+          const boutonVocal = document.getElementById("voiceBtn");
+          const zoneVocale = document.querySelector(".voice-zone");
+          if (boutonVocal && zoneVocale) {
+            // Déplacer le bouton vocal si nécessaire
+            if (!zoneVocale.contains(boutonVocal)) {
+              boutonVocal.className = "voice-btn";
+              zoneVocale.appendChild(boutonVocal);
+            }
+            zoneVocale.style.display = "flex";
+          }
+        }
+        // Positionner la zone vocale après l'animation
+        setTimeout(() => {
+          this.positionnerZoneVocale();
+        }, 50);
+      }, 300); // Durée de la transition CSS
+      
       bouton.innerHTML = '<i class="fas fa-cog"></i>';
+    } else {
+      // Passage de Accueil vers Paramètres (admin caché → aller vers admin)
+      // Étape 1 : Masquer user avec transition
+      panneauUtilisateur.classList.remove('fade-in');
+      panneauUtilisateur.classList.add('fade-out');
+      
+      // Étape 2 : Après transition, afficher admin
+      setTimeout(() => {
+        panneauUtilisateur.classList.add('hidden');
+        panneauUtilisateur.style.display = "none";
+        panneauUtilisateur.classList.remove('fade-out');
+        
+        panneauAdmin.classList.remove('hidden');
+        panneauAdmin.style.display = "block";
+        // Force reflow pour redémarrer l'animation
+        panneauAdmin.offsetHeight;
+        panneauAdmin.classList.add('fade-in');
+        
+        this._checkDataWarning();
+      }, 300); // Durée de la transition CSS
+      
+      bouton.innerHTML = '<i class="fas fa-home"></i>';
     }
   }
 
