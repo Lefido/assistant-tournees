@@ -1253,6 +1253,7 @@ html.night-theme .bras-summary {
   height: 10px;
   position: sticky;
   top: 46px;
+  z-index: 20;
 }
 
 html.night-theme .bras-city-label {
@@ -1278,6 +1279,7 @@ html.night-theme .bras-city-label {
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
   border-color: var(--bg-btn);
+  z-index: 0;
 }
 
 html.night-theme .address-card {
