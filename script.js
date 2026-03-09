@@ -1381,6 +1381,7 @@ class GestionnaireInterface {
             card.addEventListener("click", (e) => {
                 // Ne pas déclencher l'édition si on clique sur le bouton supprimer
                 if (!e.target.closest(".delete-btn")) {
+                    vibrerAuClic();
                     gestionnaireInterface.modifierAdresse(item.index);
                 }
             });
@@ -2211,6 +2212,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Bouton effacer stockage
   document.getElementById("clearStorageBtn").onclick = () => {
+    vibrerAuClic();
     if (confirm("Voulez-vous vraiment effacer toutes les données chargées ?")) {
       gestionnaireDonnees.effacerDonnees();
       location.reload();
