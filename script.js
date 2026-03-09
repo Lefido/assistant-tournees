@@ -1747,6 +1747,7 @@ class GestionnaireInterface {
   }
 
   supprimerAdresse(index) {
+    vibrerAuClic();
     if (confirm("Voulez-vous vraiment supprimer cette adresse ?")) {
       const addressSearchInput = document.getElementById("addressSearchInput");
       const valeurRecherche = addressSearchInput
