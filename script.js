@@ -197,13 +197,17 @@ class GestionnaireDonnees {
     // Trier les données par BRAS, Ville et Adresse (ordre croissant)
     const donneesTriees = [...this.donneesExcel].sort((a, b) => {
       // Trier par BRAS
-      const brasCompare = a.BRAS.localeCompare(b.BRAS, "fr", { sensitivity: "base" });
+      const brasCompare = a.BRAS.localeCompare(b.BRAS, "fr", {
+        sensitivity: "base",
+      });
       if (brasCompare !== 0) return brasCompare;
-      
+
       // Trier par Ville
-      const villeCompare = a.Ville.localeCompare(b.Ville, "fr", { sensitivity: "base" });
+      const villeCompare = a.Ville.localeCompare(b.Ville, "fr", {
+        sensitivity: "base",
+      });
       if (villeCompare !== 0) return villeCompare;
-      
+
       // Trier par Adresse
       return a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" });
     });
@@ -342,7 +346,7 @@ class GestionnaireReconnaissanceVocale {
     }
   }
 
-afficherResultatsRecherche(resultats) {
+  afficherResultatsRecherche(resultats) {
     // Grouper les résultats par ville
     const villesGroupes = {};
     resultats.forEach((r) => {
@@ -354,33 +358,40 @@ afficherResultatsRecherche(resultats) {
 
     // Trier les villes par ordre alphabétique
     const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-      a.localeCompare(b, "fr", { sensitivity: "base" })
+      a.localeCompare(b, "fr", { sensitivity: "base" }),
     );
 
     let html = "";
-    
+
     villesTriees.forEach((ville) => {
       const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
       html += `<div class="results-group">`;
       html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
       html += `<div class="results-addresses">`;
-      
+
       // Trier les adresses par ordre alphabétique
       const adressesTriees = villesGroupes[ville].sort((a, b) =>
-        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
       );
-      
+
       adressesTriees.forEach((r) => {
-        const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+        const adresseDisplay =
+          r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
         const numero = String(r.Numero || "").toUpperCase();
-        const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
-        const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+        const estSpecial =
+          numero.startsWith("CS") ||
+          numero.startsWith("PICKUP") ||
+          numero.startsWith("PPDC") ||
+          numero.startsWith("REEX");
+        const itemClass = estSpecial
+          ? "result-item result-item-danger"
+          : "result-item";
         html += `<div class="${itemClass}">`;
         html += `<span class="result-address">${adresseDisplay}</span>`;
         html += `<span class="result-number">${r.Numero}</span>`;
         html += `</div>`;
       });
-      
+
       html += `</div></div>`;
     });
 
@@ -659,7 +670,7 @@ class GestionnaireCamera {
     return { ville: ville, rue: rue, dernierMotRue: dernierMotRue };
   }
 
-_rechercherDepuisOCR(adresseAnalysée) {
+  _rechercherDepuisOCR(adresseAnalysée) {
     const termeRecherche =
       adresseAnalysée.dernierMotRue ||
       adresseAnalysée.rue ||
@@ -685,33 +696,40 @@ _rechercherDepuisOCR(adresseAnalysée) {
 
       // Trier les villes par ordre alphabétique
       const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-        a.localeCompare(b, "fr", { sensitivity: "base" })
+        a.localeCompare(b, "fr", { sensitivity: "base" }),
       );
 
       let html = "";
-      
+
       villesTriees.forEach((ville) => {
         const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
         html += `<div class="results-group">`;
         html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
         html += `<div class="results-addresses">`;
-        
+
         // Trier les adresses par ordre alphabétique
         const adressesTriees = villesGroupes[ville].sort((a, b) =>
-          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
         );
-        
+
         adressesTriees.forEach((r) => {
-          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+          const adresseDisplay =
+            r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
-          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          const estSpecial =
+            numero.startsWith("CS") ||
+            numero.startsWith("PICKUP") ||
+            numero.startsWith("PPDC") ||
+            numero.startsWith("REEX");
+          const itemClass = estSpecial
+            ? "result-item result-item-danger"
+            : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
         });
-        
+
         html += `</div></div>`;
       });
 
@@ -917,7 +935,7 @@ class GestionnaireInterface {
 
     if (resultatsFiltres.length > 0) {
       divResultats.style.display = "block";
-      
+
       // Format groupé par ville (pour tous les écrans)
       const villesGroupes = {};
       resultatsFiltres.forEach((r) => {
@@ -926,43 +944,51 @@ class GestionnaireInterface {
         }
         villesGroupes[r.Ville].push(r);
       });
-      
+
       // Trier les villes par ordre alphabétique
       const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-        a.localeCompare(b, "fr", { sensitivity: "base" })
+        a.localeCompare(b, "fr", { sensitivity: "base" }),
       );
-      
+
       let html = "";
-      
+
       if (estAlternatif) {
-        html += '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>';
+        html +=
+          '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>';
       }
-      
+
       villesTriees.forEach((ville) => {
         const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
         html += `<div class="results-group">`;
         html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
         html += `<div class="results-addresses">`;
-        
-      // Trier les adresses par ordre alphabétique
-      const adressesTriees = villesGroupes[ville].sort((a, b) =>
-        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
-      );
-      
-      adressesTriees.forEach((r) => {
-          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+
+        // Trier les adresses par ordre alphabétique
+        const adressesTriees = villesGroupes[ville].sort((a, b) =>
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
+        );
+
+        adressesTriees.forEach((r) => {
+          const adresseDisplay =
+            r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
-          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          const estSpecial =
+            numero.startsWith("CS") ||
+            numero.startsWith("PICKUP") ||
+            numero.startsWith("PPDC") ||
+            numero.startsWith("REEX");
+          const itemClass = estSpecial
+            ? "result-item result-item-danger"
+            : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
         });
-        
+
         html += `</div></div>`;
       });
-      
+
       divResultats.innerHTML = html;
     } else {
       divResultats.style.display = "none";
@@ -1037,19 +1063,28 @@ class GestionnaireInterface {
 
     cards.forEach((card) => {
       // Extraire les champs individuels de la carte
-      const villeElement = card.querySelector('.card-field:nth-child(1) span');
-      const adresseElement = card.querySelector('.card-field:nth-child(2) span');
-      const numeroElement = card.querySelector('.card-field:nth-child(3) span');
-      
-      const ville = villeElement ? this.gestionnaireDonnees.normaliserTexte(villeElement.textContent) : "";
-      const adresse = adresseElement ? this.gestionnaireDonnees.normaliserTexte(adresseElement.textContent) : "";
-      const numero = numeroElement ? this.gestionnaireDonnees.normaliserTexte(numeroElement.textContent) : "";
-      
+      const villeElement = card.querySelector(".card-field:nth-child(1) span");
+      const adresseElement = card.querySelector(
+        ".card-field:nth-child(2) span",
+      );
+      const numeroElement = card.querySelector(".card-field:nth-child(3) span");
+
+      const ville = villeElement
+        ? this.gestionnaireDonnees.normaliserTexte(villeElement.textContent)
+        : "";
+      const adresse = adresseElement
+        ? this.gestionnaireDonnees.normaliserTexte(adresseElement.textContent)
+        : "";
+      const numero = numeroElement
+        ? this.gestionnaireDonnees.normaliserTexte(numeroElement.textContent)
+        : "";
+
       // Vérifier si un des champs commence par le terme de recherche
-      const correspond = ville.startsWith(valeurNormalisee) || 
-                        adresse.startsWith(valeurNormalisee) || 
-                        numero.startsWith(valeurNormalisee);
-      
+      const correspond =
+        ville.startsWith(valeurNormalisee) ||
+        adresse.startsWith(valeurNormalisee) ||
+        numero.startsWith(valeurNormalisee);
+
       if (correspond) {
         card.style.display = "";
         // Trouver le parent bras-details
@@ -1353,8 +1388,14 @@ class GestionnaireInterface {
           // Ajouter les cartes pour cette ville
           villesGroupes[ville].forEach((item) => {
             const numero = String(item.Numero || "").toUpperCase();
-            const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
-            const cardClass = estSpecial ? "address-card address-card-danger" : "address-card";
+            const estSpecial =
+              numero.startsWith("CS") ||
+              numero.startsWith("PICKUP") ||
+              numero.startsWith("PPDC") ||
+              numero.startsWith("REEX");
+            const cardClass = estSpecial
+              ? "address-card address-card-danger"
+              : "address-card";
             const card = document.createElement("div");
             card.className = cardClass;
             card.style.cursor = "pointer";
@@ -1379,11 +1420,11 @@ class GestionnaireInterface {
                         `;
             // Ajouter un écouteur d'événement click sur la carte pour l'édition
             card.addEventListener("click", (e) => {
-                // Ne pas déclencher l'édition si on clique sur le bouton supprimer
-                if (!e.target.closest(".delete-btn")) {
-                    vibrerAuClic();
-                    gestionnaireInterface.modifierAdresse(item.index);
-                }
+              // Ne pas déclencher l'édition si on clique sur le bouton supprimer
+              if (!e.target.closest(".delete-btn")) {
+                vibrerAuClic();
+                gestionnaireInterface.modifierAdresse(item.index);
+              }
             });
             cardsGrid.appendChild(card);
           });
@@ -1748,33 +1789,36 @@ class GestionnaireInterface {
 
   supprimerAdresse(index) {
     vibrerAuClic();
-    if (confirm("Voulez-vous vraiment supprimer cette adresse ?")) {
-      const addressSearchInput = document.getElementById("addressSearchInput");
-      const valeurRecherche = addressSearchInput
-        ? addressSearchInput.value
-        : "";
+    setTimeout(() => {
+      if (confirm("Voulez-vous vraiment supprimer cette adresse ?")) {
+        const addressSearchInput =
+          document.getElementById("addressSearchInput");
+        const valeurRecherche = addressSearchInput
+          ? addressSearchInput.value
+          : "";
 
-      // Sauvegarder le BRAS sélectionné avant le rafraîchissement
-      const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+        // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+        const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
 
-      this.gestionnaireDonnees.supprimerAdresse(index);
-      this.rafraichirInterface();
-      this.verifierAvertissementDonnees();
+        this.gestionnaireDonnees.supprimerAdresse(index);
+        this.rafraichirInterface();
+        this.verifierAvertissementDonnees();
 
-      // Restaurer le BRAS sélectionné après le rafraîchissement
-      if (brasSelectionne) {
-        this.restaurerBrasSelectionne();
+        // Restaurer le BRAS sélectionné après le rafraîchissement
+        if (brasSelectionne) {
+          this.restaurerBrasSelectionne();
+        }
+
+        if (valeurRecherche) {
+          if (addressSearchInput) addressSearchInput.value = valeurRecherche;
+          this.gererRechercheAdresses(valeurRecherche);
+        }
+        alert("Adresse supprimée avec succès !");
       }
-
-      if (valeurRecherche) {
-        if (addressSearchInput) addressSearchInput.value = valeurRecherche;
-        this.gererRechercheAdresses(valeurRecherche);
-      }
-      alert("Adresse supprimée avec succès !");
-    }
+    });
   }
 
-basculerMode(bouton) {
+  basculerMode(bouton) {
     const panneauAdmin = document.getElementById("adminPanel");
     const panneauUtilisateur = document.getElementById("userPanel");
 
@@ -1816,12 +1860,23 @@ basculerMode(bouton) {
 
   // Les 16 couleurs les plus utilisées
   static COULEURS = [
-    '#1F4E79', '#2E75B6', '#5B9BD5', '#9CC3E5',
-    '#2F7F2F', '#4DB6AC', '#A5D6A7', '#80CBC4',
-    '#FFD966', '#FFEB99', '#F4B183', '#FFCC80',
-    '#E74C3C', '#F1948A', '#f11919', '#e9b117'
-];
-
+    "#1F4E79",
+    "#2E75B6",
+    "#5B9BD5",
+    "#9CC3E5",
+    "#2F7F2F",
+    "#4DB6AC",
+    "#A5D6A7",
+    "#80CBC4",
+    "#FFD966",
+    "#FFEB99",
+    "#F4B183",
+    "#FFCC80",
+    "#E74C3C",
+    "#F1948A",
+    "#f11919",
+    "#e9b117",
+  ];
 
   afficherPopupPDF(bras, villesGroupes) {
     this.brasSelectionnePDF = bras;
@@ -2086,9 +2141,17 @@ basculerMode(bouton) {
         this.brasSelectionnePDF,
         ville,
       );
-      
-      const couleurLigneSpeciale = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.37);
-      const couleurLigneAlternee = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.12);
+
+      const couleurLigneSpeciale = GestionnaireInterface.blendColors(
+        couleurVille,
+        "#FFFFFF",
+        0.37,
+      );
+      const couleurLigneAlternee = GestionnaireInterface.blendColors(
+        couleurVille,
+        "#FFFFFF",
+        0.12,
+      );
 
       contenuImpression += `<table><tr><th colspan="2" style="background-color:${couleurVille};color:#fff;padding:12pt;margin:0;font-size:45pt;text-align:center;border:1px solid #ccc;">${villeTitre}</th></tr>`;
       const adressesVille = this.villesGroupesPDF[ville] || [];
@@ -2156,7 +2219,8 @@ basculerMode(bouton) {
 
     if (pdfPopupClose) pdfPopupClose.onclick = () => this.fermerPopupPDF();
     if (printPdfBtn) printPdfBtn.onclick = () => this.imprimerSelectionPDF();
-    if (generateDocxBtn) generateDocxBtn.onclick = () => this.genererSelectionDOCX();
+    if (generateDocxBtn)
+      generateDocxBtn.onclick = () => this.genererSelectionDOCX();
     if (pdfPopupOverlay) {
       pdfPopupOverlay.addEventListener("click", (e) => {
         if (e.target === pdfPopupOverlay) this.fermerPopupPDF();
