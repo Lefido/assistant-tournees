@@ -935,7 +935,7 @@ class GestionnaireInterface {
       let html = "";
       
       if (estAlternatif) {
-        html += '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>';
+        html += '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-top: 6px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; min-height: 10px;">Aucun résultat trouvé. Résultats alternatifs</p>';
       }
       
       villesTriees.forEach((ville) => {
@@ -1540,7 +1540,12 @@ class GestionnaireInterface {
           input.oninput = (e) => {
             const start = e.target.selectionStart;
             const end = e.target.selectionEnd;
-            e.target.value = e.target.value.toUpperCase();
+            // addressNumero reste en majuscule, les autres en capitalize
+            if (id === 'addressNumero') {
+              e.target.value = e.target.value.toUpperCase();
+            } else {
+              e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+            }
             e.target.setSelectionRange(start, end);
           };
         }
@@ -1671,7 +1676,12 @@ class GestionnaireInterface {
         input.oninput = (e) => {
           const start = e.target.selectionStart;
           const end = e.target.selectionEnd;
-          e.target.value = e.target.value.toUpperCase();
+          // addressNumero reste en majuscule, les autres en capitalize
+          if (id === 'addressNumero') {
+            e.target.value = e.target.value.toUpperCase();
+          } else {
+            e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+          }
           e.target.setSelectionRange(start, end);
         };
       }

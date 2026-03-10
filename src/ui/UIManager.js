@@ -115,7 +115,7 @@ export default class UIManager {
                 resultsDiv.style.display = 'block';
                 let html = '<table class="popup-table"><tbody>';
                 if (isAlternative) {
-                    html = '<p style="color: var(--danger); font-weight: bold; text-align: center; margin-bottom: 5px;">Aucun résultat trouvé. Résultats alternatifs :</p>' + html;
+                    html = '<p style="color: var(--danger); font-weight: bold; text-align: center; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; min-height: 50px;">Aucun résultat trouvé. Résultats alternatifs :</p>' + html;
                 }
                 html += filteredResults.map(r => `<tr><td>${r.Ville}</td><td>${r.Adresse}</td><td>${r.Numero}</td></tr>`).join('');
                 resultsDiv.innerHTML = html + '</tbody></table>';
@@ -276,7 +276,14 @@ export default class UIManager {
             document.getElementById('addressPopupTitle').textContent = 'Ajouter une adresse';
             ['addressBras', 'addressVille', 'addressRue', 'addressNumero'].forEach(id => {
                 document.getElementById(id).value = '';
-                document.getElementById(id).oninput = e => e.target.value = e.target.value.toUpperCase();
+                document.getElementById(id).oninput = e => {
+                    // addressNumero reste en majuscule, les autres en capitalize
+                    if (id === 'addressNumero') {
+                        e.target.value = e.target.value.toUpperCase();
+                    } else {
+                        e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+                    }
+                };
             });
             document.getElementById('addressType').value = '1';
             addressPopupOverlay.classList.remove('hidden');

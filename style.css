@@ -1194,7 +1194,7 @@ html.night-theme .app-footer {
   color: var(--text-light);
   font-size: 1rem;
   font-weight: bold;
-  text-transform: uppercase;
+  text-transform: capitalize;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -1204,7 +1204,7 @@ html.night-theme .app-footer {
 }
 
 .form-input::placeholder {
-  text-transform: none;
+  text-transform: capitalize;
   font-weight: normal;
 }
 
