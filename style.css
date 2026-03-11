@@ -1322,7 +1322,7 @@ html.night-theme .bras-summary {
   height: 10px;
   position: sticky;
   top: 88px;
-  z-index: 20;
+  z-index: 8;
 }
 
 html.night-theme .bras-city-label {
