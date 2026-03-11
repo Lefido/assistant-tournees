@@ -1271,7 +1271,7 @@ tr.editing td {
   gap: 8px;
   border-radius: 10px;
   position: sticky;
-  top: 0;
+  top: 50px;
   z-index: 10;
   margin: 5px 0;
 }
@@ -1321,7 +1321,7 @@ html.night-theme .bras-summary {
   letter-spacing: 0.5px;
   height: 10px;
   position: sticky;
-  top: 46px;
+  top: 88px;
   z-index: 20;
 }
 
@@ -1414,12 +1414,16 @@ html.night-theme .no-data-msg {
 
 /* ADDRESS SEARCH IN ADMIN PANEL */
 .address-search-wrapper {
-  position: relative;
+  position: sticky;
+  top: 0px;
   display: flex;
   align-items: center;
   width: 100%;
   max-width: 100%;
-  margin: 10px 0;
+  margin: 0 0;
+  background: var(--bg-dark);
+  padding: 0 0;
+  z-index: 20;
 }
 
 .address-search-input {
@@ -1431,6 +1435,7 @@ html.night-theme .no-data-msg {
   color: var(--text-light);
   font-size: 1rem;
   outline: none;
+
 }
 
 .address-search-input:focus {
