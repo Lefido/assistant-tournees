@@ -67,6 +67,10 @@
   border: 0 !important;
 }
 
+.danger-text {
+  color: var(--danger);
+}
+
 .mt-20 {
   margin-top: 20px !important;
 }
