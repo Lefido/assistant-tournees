@@ -146,7 +146,7 @@ class GestionnaireDonnees {
   }
 
   ajouterAdresse(adresse) {
-    this.donneesExcel.push({
+    const nouvelleAdresse = {
       BRAS: String(adresse.BRAS || "")
         .trim()
         .toLowerCase(),
@@ -158,13 +158,18 @@ class GestionnaireDonnees {
         .toLowerCase(),
       Numero: String(adresse.Numero || "").trim(),
       TypeRecherche: String(adresse.TypeRecherche || "").trim(),
-    });
+    };
+    this.donneesExcel.push(nouvelleAdresse);
     this.sauvegarderDansStockage();
+    
+    // Ajouter au journal
+    this.ajouterLog('création', nouvelleAdresse);
   }
 
   modifierAdresse(index, adresse) {
     if (index >= 0 && index < this.donneesExcel.length) {
-      this.donneesExcel[index] = {
+      const ancienneAdresse = { ...this.donneesExcel[index] };
+      const adresseModifiee = {
         BRAS: String(adresse.BRAS || "")
           .trim()
           .toLowerCase(),
@@ -177,14 +182,91 @@ class GestionnaireDonnees {
         Numero: String(adresse.Numero || "").trim(),
         TypeRecherche: String(adresse.TypeRecherche || "").trim(),
       };
+      this.donneesExcel[index] = adresseModifiee;
       this.sauvegarderDansStockage();
+      
+      // Ajouter au journal
+      this.ajouterLog('modification', adresseModifiee, index);
     }
   }
 
   supprimerAdresse(index) {
     if (index >= 0 && index < this.donneesExcel.length) {
+      const adresseSupprimee = { ...this.donneesExcel[index] };
       this.donneesExcel.splice(index, 1);
       this.sauvegarderDansStockage();
+      
+      // Ajouter au journal
+      this.ajouterLog('suppression', adresseSupprimee, index);
+    }
+  }
+
+  ajouterLog(type, adresse, index = null) {
+    const journal = this.obtenirJournal();
+    const log = {
+      type: type,
+      date: new Date().toLocaleString('fr-FR', { 
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+      }),
+      address: { ...adresse },
+      index: index
+    };
+    journal.unshift(log); // Ajout en tête pour récence
+    localStorage.setItem('tourneeJournal', JSON.stringify(journal));
+    
+    // Mettre à jour visibilité bouton
+    this.mettreAJourVisibiliteBoutonJournal();
+  }
+
+  obtenirJournal() {
+    const journal = localStorage.getItem('tourneeJournal');
+    return journal ? JSON.parse(journal) : [];
+  }
+
+  viderJournal() {
+    localStorage.removeItem('tourneeJournal');
+    this.mettreAJourVisibiliteBoutonJournal();
+  }
+
+  exporterJournalExcel() {
+    const journal = this.obtenirJournal();
+    if (journal.length === 0) {
+      alert('Aucun élément dans le journal.');
+      return;
+    }
+
+    const donneesExport = journal.map(log => {
+      let typeLabel = '';
+      if (log.type === 'création') typeLabel = 'Création';
+      else if (log.type === 'modification') typeLabel = 'Modification';
+      else if (log.type === 'suppression') typeLabel = 'Suppression';
+      
+      return {
+        Type: typeLabel,
+        Date: log.date,
+        'Index': log.index !== null ? log.index : '',
+        BRAS: log.address.BRAS,
+        Ville: log.address.Ville,
+        Adresse: log.address.Adresse,
+        Numero: log.address.Numero,
+        'Type Recherche': log.address.TypeRecherche
+      };
+    });
+
+    const feuille = XLSX.utils.json_to_sheet(donneesExport);
+    const classeur = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(classeur, feuille, 'Journal');
+    XLSX.writeFile(classeur, 'journal_modifications.xlsx');
+  }
+
+  mettreAJourVisibiliteBoutonJournal() {
+    const boutonJournal = document.querySelector('.journal-btn');
+    if (boutonJournal) {
+      const journal = this.obtenirJournal();
+      const count = journal.length;
+      boutonJournal.innerHTML = `<i class="fas fa-book"></i>Journal des modifications ${count > 0 ? `(${count})` : ''}`;
+      boutonJournal.style.display = count > 0 ? '' : 'none';
     }
   }
 
@@ -1223,6 +1305,9 @@ class GestionnaireInterface {
         this.gestionnaireDonnees.aDesDonnees() ? "flex" : "none";
     }
 
+    // Afficher/masquer bouton journal
+    this.gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();
+
     const titreBras = document.querySelector("#userPanel h2:first-of-type");
     const conteneurBras = document.getElementById("brasBtnContainer");
     const conteneurRecherche = document.getElementById("liveSearchContainer");
@@ -1249,6 +1334,9 @@ class GestionnaireInterface {
 
   rafraichirInterface() {
     const aDonnees = this.gestionnaireDonnees.aDesDonnees();
+
+    // Mettre à jour visibilité bouton journal
+    this.gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();
 
     // Sauvegarder l'état étendu des éléments details
     const brasElementsOuverts = [];
@@ -2269,6 +2357,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clearStorageBtn").onclick = () => {
     vibrerAuClic();
     if (confirm("Voulez-vous vraiment effacer toutes les données chargées ?")) {
+      gestionnaireDonnees.viderJournal();
       gestionnaireDonnees.effacerDonnees();
       location.reload();
     }
@@ -2280,10 +2369,88 @@ window.addEventListener("DOMContentLoaded", () => {
       gestionnaireReconnaissance.demarrerReconnaissance();
   }
 
-  // Export Excel
-  document.getElementById("exportExcelBtn").onclick = () => {
-    gestionnaireDonnees.exporterVersExcel();
-  };
+// Journal events
+document.querySelector('.journal-btn').onclick = () => {
+  const journal = gestionnaireDonnees.obtenirJournal();
+  const content = document.getElementById('journalContent');
+  const popup = document.getElementById('journalPopupOverlay');
+  const popupTitle = document.querySelector('#journalPopupTitle');
+  
+  const count = journal.length;
+  if (count === 0) {
+    content.innerHTML = '<p style="text-align: center; color: var(--text-light);">Aucun élément dans le journal.</p>';
+    if (popupTitle) popupTitle.textContent = 'Journal des modifications';
+  } else {
+    if (popupTitle) popupTitle.textContent = `Journal des modifications (${count})`;
+
+    let html = '<div class="journal-cards-container">';
+    
+    journal.forEach(log => {
+      let typeClass, typeLabel;
+      if (log.type === 'création') {
+        typeClass = 'journal-type-creation';
+        typeLabel = 'Création';
+      } else if (log.type === 'modification') {
+        typeClass = 'journal-type-modification';
+        typeLabel = 'Modification';
+      } else if (log.type === 'suppression') {
+        typeClass = 'journal-type-suppression';
+        typeLabel = 'Suppression';
+      }
+      html += `
+        <div class="journal-card">
+          <div class="journal-card-header">
+            <span class="journal-date">${log.date}</span>
+            <span class="journal-type ${typeClass}">${typeLabel}</span>
+          </div>
+          <div class="journal-card-body">
+            <div class="journal-field journal-main"><i class="fas fa-building"></i> ${log.address.BRAS.replace(/\b\w/g, l => l.toUpperCase())}</div>
+            <div class="journal-field journal-main"><i class="fas fa-city"></i> ${log.address.Ville.replace(/\b\w/g, l => l.toUpperCase())}</div>
+            <div class="journal-field journal-main"><i class="fas fa-map-marker-alt"></i> ${log.address.Adresse.replace(/\b\w/g, l => l.toUpperCase())}</div>
+            <div class="journal-fields-row">
+              <div class="journal-field journal-right"><i class="fas fa-hashtag"></i> ${log.address.Numero}</div>
+              <div class="journal-field journal-right"><i class="fas fa-search"></i> ${log.address.TypeRecherche}</div>
+            `;
+            if (log.index !== null) {
+              html += `<div class="journal-field journal-right"><i class="fas fa-list-ol"></i> ${log.index}</div>`;
+            }
+            html += `</div>`;
+      html += '</div></div>';
+    });
+    html += '</div>';
+    content.innerHTML = html;
+  }
+  
+  popup.classList.remove('hidden');
+};
+
+// Journal popup controls
+document.getElementById('exportJournalBtn').onclick = () => {
+  gestionnaireDonnees.exporterJournalExcel();
+};
+
+document.getElementById('clearJournalBtn').onclick = () => {
+  if (confirm('Voulez-vous vraiment vider tout le journal ?')) {
+    gestionnaireDonnees.viderJournal();
+    document.getElementById('journalPopupOverlay').classList.add('hidden');
+  }
+};
+
+document.getElementById('journalPopupClose').onclick = () => {
+  document.getElementById('journalPopupOverlay').classList.add('hidden');
+};
+
+document.getElementById('journalPopupOverlay').onclick = (e) => {
+  if (e.target.id === 'journalPopupOverlay') {
+    e.target.classList.add('hidden');
+  }
+};
+
+// Export Excel
+document.getElementById("exportExcelBtn").onclick = () => {
+  gestionnaireDonnees.exporterVersExcel();
+};
+
 });
 
 function gererImportExcel(e) {
@@ -2308,3 +2475,4 @@ function gererImportExcel(e) {
       alert("Erreur lors de l'importation du fichier.");
     });
 }
+gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();

@@ -1,9 +1,6 @@
-# TODO: Apply --danger color to specific text
+# TODO - Journal Counter
 
-## Steps:
-- [x] 1. Edit index.html: Wrap target text in `<span class="danger-text">`
-- [x] 2. Edit style.css: Add `.danger-text` utility class
-- [x] 3. Verify change and complete task
-
-**Task completed!**
-
+✅ 1. Flexbox journal-card espacement  
+✅ 2. clearStorageBtn vide journal  
+✅ 3. Compteur "(N)" sur bouton Journal  
+✅ Complet

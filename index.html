@@ -151,6 +151,7 @@
               <i class="fas fa-file-export"></i>Exportation Excel
             </button>
           </div>
+            <button class="file-btn journal-btn" style="width: 100%; margin-bottom: 12px;"><i class="fas fa-book"></i>Journal des modifications</button>
             <h2 id="importedFileTitle" class="section-title">Fichier d'exploitation</h2>
           <div id="fileNameDisplay" class="file-name-display"></div>
             <h3 id="importedAddressesTitle" class="section-title">Gestion des adresses</h3>
@@ -281,8 +282,8 @@
             <input type="text" id="addressRue" class="form-input" placeholder="Ex: Rue De La Paix" />
           </div>
           <div class="form-group">
-<label for="addressNumero">Numéro : <span class="danger-text">(CS, PICKUP, PPDC, REEX : indicateurs d'importance.)</span></label>
-             <input type="text" id="addressNumero" class="form-input" placeholder="Ex: 10, CS, PICKUP, PPDC, REEX" />
+            <label for="addressNumero">Numéro : <span class="danger-text">(CS, PICKUP, PPDC, REEX : indicateurs d'importance.)</span></label>
+            <input type="text" id="addressNumero" class="form-input" placeholder="Ex: 10, CS, PICKUP, PPDC, REEX" />
           </div>
           <div class="form-group">
             <label for="addressType">Type Recherche : (T1: Réelle, T2: Approx)</label>
@@ -300,6 +301,32 @@
             aria-label="Fermer la fenêtre"
           >
             Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Journal des modifications -->
+    <div
+      id="journalPopupOverlay"
+      class="popup-overlay hidden journal-popup-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-labelledby="journalPopupTitle"
+    >
+      <div class="popup-window journal-popup-window">
+        <h3 id="journalPopupTitle" class="popup-title">Journal des modifications</h3>
+        <div id="journalContent" class="journal-content"></div>
+        <div class="journal-actions">
+          <button id="exportJournalBtn" class="file-btn confirm-action-btn">
+            <i class="fas fa-file-excel"></i>Excel
+          </button>
+          <button id="clearJournalBtn" class="danger-btn">
+            <i class="fas fa-trash"></i>Supprimer
+          </button>
+          <button id="journalPopupClose" class="cancel-action-btn">
+            Fermer
           </button>
         </div>
       </div>
