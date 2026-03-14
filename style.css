@@ -188,14 +188,14 @@ html.night-theme body {
   text-align: center;
   padding: 15px;
   padding-bottom: 40px;
-  padding-top: 80px;
+  padding-top: 65px;
   width: 100%;
   max-width: 650px;
   margin: 0 auto;
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: visible;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 90px);
 }
 
 /* =====================================
@@ -231,12 +231,10 @@ html.night-theme body {
   text-align: center;
   font-size: 1.1rem;
   padding: 6px;
-  margin: 0px auto 12px;
+  margin: 8px auto 8px;
   color: var(--text-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
   display: block;
-  /* border-bottom: 1px solid var(--border); */
-  /* box-shadow: -4px 8px 20px var(--border); */
 
 }
 
@@ -1011,6 +1009,24 @@ html.night-theme td:last-child {
   width: 50%;
 }
 
+/* ✅ FIX BOUTONS EXCEL 50/50 */
+.admin-actions.buttons-50 {
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+
+.admin-actions.buttons-50 #importExcelBtn,
+.admin-actions.buttons-50 #exportExcelBtn {
+  flex: 1 !important;
+  width: 50% !important;
+  max-width: 50% !important;
+  min-width: 0 !important;
+}
+
+.admin-actions.buttons-50 .file-btn {
+  margin: 0 !important;
+}
+
 .file-name-display {
   text-align: center;
   padding: 8px 12px;
@@ -1412,7 +1428,7 @@ tr.editing td {
   max-width: 100%;
   margin-top: 0px;
   overflow-y: auto;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 105px);
   max-height: none;
   padding-bottom: 10px;
   box-sizing: border-box;
@@ -1445,7 +1461,7 @@ tr.editing td {
   gap: 8px;
   border-radius: 10px;
   position: sticky;
-  top: 50px;
+  top: 55px;
   z-index: 10;
   margin: 5px 0;
 }
@@ -1495,7 +1511,7 @@ html.night-theme .bras-summary {
   letter-spacing: 0.5px;
   height: 10px;
   position: sticky;
-  top: 88px;
+  top: 94px;
   z-index: 8;
 }
 
@@ -1589,7 +1605,7 @@ html.night-theme .no-data-msg {
 /* ADDRESS SEARCH IN ADMIN PANEL */
 .address-search-wrapper {
   position: sticky;
-  top: 0px;
+  top: 5px;
   display: flex;
   align-items: center;
   width: 100%;

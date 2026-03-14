@@ -141,6 +141,7 @@ class GestionnaireDonnees {
     this.donneesExcel = [];
     this.brasSelectionne = "";
     this.villeSelectionnee = "";
+    this.nomFichier = "";  // ✅ Clear nomFichier
     localStorage.removeItem("tourneeData");
     localStorage.removeItem("tourneeNomFichier");
   }
@@ -841,6 +842,14 @@ class GestionnaireInterface {
 
   initialiserApplication() {
     this.gestionnaireDonnees.chargerDepuisStockage();
+    
+    // ✅ RESTAURER ONGLETS (Accueil/Paramètres)
+    const interfaceSaved = localStorage.getItem('tourneeInterfaceMode') || 'accueil';
+    if (interfaceSaved === 'parametres') {
+      this.basculerMode(document.getElementById('modeToggle'));
+      console.log('📋 Interface restaurée: Paramètres');
+    }
+    
     this.rafraichirInterface();
     this.restaurerBrasSelectionne();
     this.verifierAvertissementDonnees();
@@ -1257,95 +1266,106 @@ class GestionnaireInterface {
     });
   }
 
-  verifierAvertissementDonnees() {
+verifierAvertissementDonnees() {
+    const aDonnees = this.gestionnaireDonnees.aDesDonnees();
+    const adminActions = document.querySelector('.admin-actions');
+    
     const avertissement = document.getElementById("noFileWarning");
     if (avertissement)
-      avertissement.style.display = this.gestionnaireDonnees.aDesDonnees()
-        ? "none"
-        : "block";
+      avertissement.style.display = aDonnees ? "none" : "block";
 
-    // Afficher/masquer le bouton clearStorageBtn seulement s'il y a des adresses
+    // Bouton clearStorageBtn
     const clearStorageBtn = document.getElementById("clearStorageBtn");
     if (clearStorageBtn) {
-      clearStorageBtn.style.display = this.gestionnaireDonnees.aDesDonnees()
-        ? "inline-block"
-        : "none";
+      clearStorageBtn.style.display = aDonnees ? "inline-block" : "none";
     }
 
-    // Le bouton addAddressBtn doit faire 100% en largeur s'il n'y a aucune adresse
+    // Bouton addAddressBtn
     const addAddressBtn = document.getElementById("addAddressBtn");
     if (addAddressBtn) {
-      addAddressBtn.style.width = this.gestionnaireDonnees.aDesDonnees()
-        ? ""
-        : "100%";
+      addAddressBtn.style.width = aDonnees ? "" : "100%";
     }
 
-    // Le bouton exportExcelBtn doit être caché s'il n'y a aucune adresse
-    const exportExcelBtn = document.getElementById("exportExcelBtn");
-    if (exportExcelBtn) {
-      exportExcelBtn.style.display = this.gestionnaireDonnees.aDesDonnees()
-        ? "inline-block"
-        : "none";
-    }
-
-    // Le bouton importExcelBtn doit prendre toute la largeur s'il n'y a pas d'adresse
+    // Boutons Excel - FIX 50%
     const importExcelBtn = document.getElementById("importExcelBtn");
+    const exportExcelBtn = document.getElementById("exportExcelBtn");
+    
     if (importExcelBtn) {
-      importExcelBtn.style.width = this.gestionnaireDonnees.aDesDonnees()
-        ? ""
-        : "100%";
+      importExcelBtn.style.width = aDonnees ? "" : "100%";
+      importExcelBtn.style.display = ""; // Reset
+    }
+    if (exportExcelBtn) {
+      exportExcelBtn.style.display = aDonnees ? "inline-block" : "none";
+      exportExcelBtn.style.width = ""; // Reset
+    }
+    
+    // Toggle classe pour 50/50 robuste
+    if (adminActions) {
+      if (aDonnees) {
+        adminActions.classList.add('buttons-50');
+        console.log('✅ Données présentes: boutons Excel 50/50 activé');
+      } else {
+        adminActions.classList.remove('buttons-50');
+        console.log('❌ Pas de données: import 100%, export caché');
+      }
     }
 
-    // Afficher/masquer le champ de recherche d'adresses
-    const addressSearchWrapper = document.getElementById(
-      "addressSearchWrapper",
-    );
+    // Champ recherche adresses
+    const addressSearchWrapper = document.getElementById("addressSearchWrapper");
     if (addressSearchWrapper) {
-      addressSearchWrapper.style.display =
-        this.gestionnaireDonnees.aDesDonnees() ? "flex" : "none";
+      addressSearchWrapper.style.display = aDonnees ? "flex" : "none";
     }
 
-    // Afficher/masquer bouton journal
+    // Bouton journal
     this.gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();
 
+    // Éléments user panel
     const titreBras = document.querySelector("#userPanel h2:first-of-type");
     const conteneurBras = document.getElementById("brasBtnContainer");
     const conteneurRecherche = document.getElementById("liveSearchContainer");
     const zoneVocale = document.querySelector(".voice-zone");
     const titreVille = document.getElementById("titleVille");
-    const aDonnees = this.gestionnaireDonnees.aDesDonnees();
     const aSelectionne = this.gestionnaireDonnees.brasSelectionne !== "";
 
     if (titreBras) titreBras.style.display = aDonnees ? "block" : "none";
     if (conteneurBras) conteneurBras.style.display = aDonnees ? "flex" : "none";
     if (conteneurRecherche)
-      conteneurRecherche.style.display =
-        aDonnees && aSelectionne ? "block" : "none";
+      conteneurRecherche.style.display = aDonnees && aSelectionne ? "block" : "none";
     if (zoneVocale)
       zoneVocale.style.display = aDonnees && aSelectionne ? "flex" : "none";
     if (titreVille) {
-      if (aDonnees && aSelectionne) {
-        titreVille.classList.remove("hidden");
-      } else {
-        titreVille.classList.add("hidden");
-      }
+      titreVille.classList.toggle("hidden", !(aDonnees && aSelectionne));
     }
+    
+    // Debug final
+    console.log('📐 Buttons debug:', {
+      hasData: aDonnees,
+      importWidth: importExcelBtn?.style.width,
+      exportDisplay: exportExcelBtn?.style.display,
+      adminActionsClass: adminActions?.className
+    });
   }
 
   rafraichirInterface() {
+    // ✅ CLEAR CACHES avant rebuild (fix villes fantômes après clearStorage)
+    document.getElementById('brasBtnContainer').innerHTML = '';
+    document.getElementById('cityBtnContainer').innerHTML = '';
+    
     const aDonnees = this.gestionnaireDonnees.aDesDonnees();
 
     // Mettre à jour visibilité bouton journal
     this.gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();
 
-    // Sauvegarder l'état étendu des éléments details
-    const brasElementsOuverts = [];
-    document.querySelectorAll(".bras-details[open]").forEach((details) => {
-      const summary = details.querySelector(".bras-summary");
-      if (summary) {
-        brasElementsOuverts.push(summary.textContent);
-      }
-    });
+    // Sauvegarder l'état étendu des éléments details (seulement si données)
+    const brasElementsOuverts = aDonnees ? [] : [];
+    if (aDonnees) {
+      document.querySelectorAll(".bras-details[open]").forEach((details) => {
+        const summary = details.querySelector(".bras-summary");
+        if (summary) {
+          brasElementsOuverts.push(summary.textContent);
+        }
+      });
+    }
 
     // Afficher/masquer le titre "Fichier importé" - seulement si un fichier Excel a été importé
     const titreFichier = document.getElementById("importedFileTitle");
@@ -1927,6 +1947,8 @@ basculerMode(bouton) {
       }, 300); // Durée de la transition CSS
       
       bouton.innerHTML = '<i class="fas fa-cog"></i>';
+      localStorage.setItem('tourneeInterfaceMode', 'accueil');
+      console.log('🔄 Mode changé → Accueil sauvegardé');
     } else {
       // Passage de Accueil vers Paramètres (admin caché → aller vers admin)
       // Étape 1 : Masquer user avec transition
@@ -1945,10 +1967,12 @@ basculerMode(bouton) {
         panneauAdmin.offsetHeight;
         panneauAdmin.classList.add('fade-in');
         
-        this._checkDataWarning();
+        this.verifierAvertissementDonnees();
       }, 300); // Durée de la transition CSS
       
       bouton.innerHTML = '<i class="fas fa-home"></i>';
+      localStorage.setItem('tourneeInterfaceMode', 'parametres');
+      console.log('🔄 Mode changé → Paramètres sauvegardé');
     }
   }
 
@@ -2353,13 +2377,19 @@ window.addEventListener("DOMContentLoaded", () => {
     gestionnaireInterface.basculerMode(this);
   };
 
-  // Bouton effacer stockage
+  // Bouton effacer stockage - RESTE SUR PARAMÈTRES + RESTAURE ONGLETS
   document.getElementById("clearStorageBtn").onclick = () => {
     vibrerAuClic();
     if (confirm("Voulez-vous vraiment effacer toutes les données chargées ?")) {
       gestionnaireDonnees.viderJournal();
       gestionnaireDonnees.effacerDonnees();
-      location.reload();
+      
+      // ✅ RESTER SUR INTERFACE PARAMÈTRES
+      gestionnaireInterface.rafraichirInterface();
+      gestionnaireInterface.verifierAvertissementDonnees();
+      
+      console.log('🗑️ Données effacées - Interface Paramètres conservée');
+      alert("Données effacées !");
     }
   };
 
