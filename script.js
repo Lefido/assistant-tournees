@@ -1486,14 +1486,7 @@ verifierAvertissementDonnees() {
         rightContainer.style.alignItems = 'center';
         rightContainer.style.gap = '4px';
 
-        // Create count badge
-        const countBadge = document.createElement("span");
-        countBadge.className = "bras-count-badge";
-        countBadge.textContent = totalCount;
-        countBadge.setAttribute('data-count', totalCount);
-        rightContainer.appendChild(countBadge);
-
-        // Create PDF button - use villesGroupes for this bras
+        // Create PDF button - use villesGroupes for this bras (moved first)
         const pdfBtn = document.createElement("button");
         pdfBtn.className = "bras-pdf-btn";
         pdfBtn.innerHTML = '<i class="fas fa-print"></i>';
@@ -1504,6 +1497,13 @@ verifierAvertissementDonnees() {
           gestionnaireInterface.afficherPopupPDF(bras, villesGroupes);
         };
         rightContainer.appendChild(pdfBtn);
+
+        // Create count badge (moved after PDF btn)
+        const countBadge = document.createElement("span");
+        countBadge.className = "bras-count-badge";
+        countBadge.textContent = totalCount;
+        countBadge.setAttribute('data-count', totalCount);
+        rightContainer.appendChild(countBadge);
 
         brasSummary.appendChild(rightContainer);
 

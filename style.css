@@ -1530,15 +1530,15 @@ html.night-theme .bras-summary {
   background: var(--bg-dark);
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 8px 9px;
   margin: 4px 0 4px 0;
   text-align: center;
   font-weight: bold;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--bg-btn);
   text-transform: capitalize;
   letter-spacing: 0.5px;
-  height: 10px;
+  height: 16px;
   position: sticky;
   top: 99px;
   z-index: 8;
@@ -1713,10 +1713,10 @@ html.night-theme .no-data-msg {
   pointer-events: auto;
   z-index: 5;
   position: relative;
-  margin-left: 4px;
+  margin-right: 4px;
 }
 
-.bras-summary .bras-count-badge + .bras-pdf-btn {
+.bras-summary .bras-pdf-btn + .bras-count-badge {
   margin-left: 0 !important;
 }
 

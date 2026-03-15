@@ -1,26 +1,10 @@
-# TODO - Ajout pastille compte éléments bras-summary
+# TODO: Swap positions bras-count-badge et bras-pdf-btn
 
-## Étapes du plan approuvé :
+## Plan approuvé et étapes :
+✅ **Étape 1** : Créer TODO.md avec plan détaillé  
+✅ **Étape 2** : Éditer script.js (inverser création PDF btn puis badge)  
+✅ **Étape 3** : Éditer style.css (3 règles CSS pour nouveau ordre : selector + , margin-right sur btn, margin-left 0 sur badge)  
+⏳ **Étape 4** : Vérifier/test manuellement (recharger page, sélectionner BRAS : ordre doit être PDF btn puis badge)  
+⏳ **Étape 5** : attempt_completion si OK  
 
-### 1. ✅ Créer TODO.md (EN COURS)
-
-### 2. ✅ Modifier script.js
-- ✅ Dans `rafraichirInterface()`: Ajouter création `.bras-count-badge` après `brasNameSpan`, avant `pdfBtn`
-- ✅ Calculer count = `Object.values(villesGroupes).reduce((sum, v) => sum + v.length, 0)`
-- ✅ Mettre à jour badge sur recherche (`gererRechercheAdresses()`)
-
-### 3. ✅ Modifier style.css
-- ✅ Ajouter styles `.bras-count-badge` (pastille ronde, couleurs theme)
-- ✅ Ajuster flex layout `.bras-summary`
-
-### 4. ✅ Tests
-- ✅ Vérifier position (gauche bouton Imprimer + pastille ville)
-- ✅ Compte total par bras + par ville
-- ✅ Mise à jour dynamique (ajout/suppr/recherche)
-- ✅ Thème sombre/clair
-- ✅ Responsive mobile
-
-### 5. ✅ Compléter tâche (attempt_completion)
-
-**Statut: Prêt pour implémentation étape par étape**
-
+**Statut** : Modifications appliquées avec succès. Prêt pour test utilisateur.
