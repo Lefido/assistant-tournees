@@ -2085,8 +2085,8 @@ basculerMode(bouton) {
       const item = document.createElement("div");
       item.className = "pdf-city-item";
       item.innerHTML = `
-                <div class="pdf-city-color" style="background-color: ${couleur}" data-ville="${ville}"></div>
-                <label for="city_${ville}">${villeDisplay} (${nbAdresses})</label>
+                <div class="pdf-city-color" style="background-color: ${couleur}" data-ville="${ville}" data-count="${nbAdresses}"></div>
+                <label for="city_${ville}">${villeDisplay}</label>
                 <input type="checkbox" id="city_${ville}" data-ville="${ville}" />
             `;
       villesList.appendChild(item);
