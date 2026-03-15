@@ -1491,9 +1491,8 @@ tr.editing td {
 }
 
 html.night-theme .bras-count-badge {
-  background: var(--border);
+  background: var(--text-white);
   color: var(--bg-btn);
-  border-color: var(--border);
 }
 
 .bras-summary::-webkit-details-marker {
@@ -1532,7 +1531,7 @@ html.night-theme .bras-summary {
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
   padding: 8px 12px;
-  margin: 2px 0 2px 0;
+  margin: 4px 0 4px 0;
   text-align: center;
   font-weight: bold;
   font-size: 0.95rem;
@@ -1551,25 +1550,23 @@ html.night-theme .bras-city-label {
 }
 
 .bras-city-count-badge {
-  background: var(--text-white);
-  color: var(--bg-btn);
+  background: var(--bg-btn);
+  color: var(--text-white);
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   font-size: 0.7rem;
-  border: 1px solid var(--text-white);
   flex-shrink: 0;
   margin-left: 6px;
 }
 
 html.night-theme .bras-city-count-badge {
-  background: var(--border);
-  color: var(--bg-btn);
-  border-color: var(--border);
+  background: var(--bg-btn);
+  color: var(--text-white);
 }
 
 .address-card {
