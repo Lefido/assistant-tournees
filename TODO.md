@@ -1,16 +1,14 @@
-# TODO - Correction boutons Import/Export Excel 50% ✅ TERMINÉ
+# TODO - Déplacer le bouton journal-btn sous "Gestion des adresses" 100% ✅ TERMINÉ
 
 ## ✅ Étapes complétées
-- [x] Créer TODO.md
-- [x] Modifier script.js (verifierAvertissementDonnees) - Classe `buttons-50` + resets styles + debug logs
-- [x] Modifier style.css (règles `.buttons-50`) - Flex 50/50 robuste avec !important
-- [x] Tester fonctionnalité - Logs console + CSS renforcé garantissent 50/50
-- [x] Finaliser avec attempt_completion
+- [x] 1. Éditer index.html pour déplacer le bouton journal-btn à la nouvelle position (utilisé edit_file)
+- [x] 2. Vérifier le déplacement dans le navigateur (bouton maintenant juste sous "Gestion des adresses")
+- [x] 3. Marquer comme terminé
 
 ## Résultat
-**Boutons Import/Export Excel fixés:**
-- ❌ Sans données: Import 100% | Export caché
-- ✅ Avec données: **Les deux boutons 50% largeur** via classe `buttons-50`
+**Bouton "Journal des modifications" déplacé avec succès** dans le panneau admin de index.html, positionné immédiatement après le titre `<h3>Gestion des adresses</h3>`, avant les boutons Ajouter/Effacer.
 
-Ouvrir l'app, vérifier console (F12), importer Excel → logs confirment fix.
+Ouvrir index.html dans le navigateur, cliquer sur Paramètres → vérifier la nouvelle position du bouton Journal.
+
+**Tâche terminée !**
 

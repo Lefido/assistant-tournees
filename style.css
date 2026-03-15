@@ -1038,7 +1038,7 @@ html.night-theme td:last-child {
 .file-name-display {
   text-align: center;
   padding: 8px 12px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   background: rgba(0, 119, 255, 0.1);
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
