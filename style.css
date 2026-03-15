@@ -231,7 +231,7 @@ html.night-theme body {
   text-align: center;
   font-size: 1.1rem;
   padding: 6px;
-  margin: 8px auto 8px;
+  margin: 8px auto 6px;
   color: var(--text-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
   display: block;
@@ -1456,7 +1456,6 @@ tr.editing td {
 }
 
 .bras-summary {
-
   background: var(--bg-btn);
   color: var(--text-white);
   padding: 6px 10px;
@@ -1466,12 +1465,35 @@ tr.editing td {
   list-style: none;
   display: flex;
   align-items: center;
+  text-align: left;
   gap: 8px;
   border-radius: 10px;
   position: sticky;
   top: 55px;
   z-index: 10;
   margin: 5px 0;
+}
+
+.bras-count-badge {
+  background: var(--text-white);
+  color: var(--bg-btn);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.7rem;
+  border: 2px solid var(--text-white);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+html.night-theme .bras-count-badge {
+  background: var(--border);
+  color: var(--bg-btn);
+  border-color: var(--border);
 }
 
 .bras-summary::-webkit-details-marker {
@@ -1519,13 +1541,35 @@ html.night-theme .bras-summary {
   letter-spacing: 0.5px;
   height: 10px;
   position: sticky;
-  top: 94px;
+  top: 99px;
   z-index: 8;
 }
 
 html.night-theme .bras-city-label {
   background: var(--bg-dark);
   color: var(--accent-cyan);
+}
+
+.bras-city-count-badge {
+  background: var(--text-white);
+  color: var(--bg-btn);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.7rem;
+  border: 1px solid var(--text-white);
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+html.night-theme .bras-city-count-badge {
+  background: var(--border);
+  color: var(--bg-btn);
+  border-color: var(--border);
 }
 
 .address-card {
@@ -1658,14 +1702,13 @@ html.night-theme .no-data-msg {
 
 /* PDF Button in bras-summary */
 .bras-pdf-btn {
-  margin-left: auto;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 2px 2px;
-  border-radius: 5px;
+  padding: 4px 6px;
+  border-radius: 6px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -1673,6 +1716,11 @@ html.night-theme .no-data-msg {
   pointer-events: auto;
   z-index: 5;
   position: relative;
+  margin-left: 4px;
+}
+
+.bras-summary .bras-count-badge + .bras-pdf-btn {
+  margin-left: 0 !important;
 }
 
 

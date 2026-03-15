@@ -1109,12 +1109,38 @@ class GestionnaireInterface {
       valeurRecherche.trim(),
     );
 
-    // Si la recherche est vide, restaurer toutes les cartes et tous les labels
+    // Si la recherche est vide, restaurer toutes les cartes et tous les labels + badges
     if (!valeurNormalisee) {
       this.afficherToutesLesAdresses();
       // Restaurer tous les labels de ville
       document.querySelectorAll(".bras-city-label").forEach((label) => {
         label.style.display = "";
+      });
+      // Restaurer badges à total (bras + villes)
+      document.querySelectorAll('.bras-summary').forEach(summary => {
+        const brasDetails = summary.closest('.bras-details');
+        const totalCards = brasDetails.querySelectorAll('.address-card').length;
+        const badge = summary.querySelector('.bras-count-badge');
+        if (badge) {
+          badge.textContent = totalCards;
+          badge.setAttribute('data-count', totalCards);
+        }
+      });
+      
+      // Restaurer badges villes
+      document.querySelectorAll('.bras-city-label').forEach(label => {
+        const cardsInCity = [];
+        let sibling = label.nextElementSibling;
+        while (sibling && !sibling.classList.contains('bras-city-label')) {
+          if (sibling.classList.contains('address-card') && sibling.style.display !== 'none') {
+            cardsInCity.push(sibling);
+          }
+          sibling = sibling.nextElementSibling;
+        }
+        const cityBadge = label.querySelector('.bras-city-count-badge');
+        if (cityBadge) {
+          cityBadge.textContent = cardsInCity.length;
+        }
       });
       return;
     }
@@ -1200,6 +1226,31 @@ class GestionnaireInterface {
           details.open = true;
         }
       }
+
+      // Mettre à jour badge bras + villes
+      const visibleCount = cardsVisibles.length;
+      const badge = summary.querySelector('.bras-count-badge');
+      if (badge) {
+        badge.textContent = visibleCount;
+        badge.setAttribute('data-count-visible', visibleCount);
+      }
+      
+      // Mettre à jour badges villes dans ce bras
+      const cityLabels = details.querySelectorAll('.bras-city-label');
+      cityLabels.forEach(label => {
+        const cardsInCity = [];
+        let sibling = label.nextElementSibling;
+        while (sibling && !sibling.classList.contains('bras-city-label')) {
+          if (sibling.classList.contains('address-card') && sibling.style.display !== 'none') {
+            cardsInCity.push(sibling);
+          }
+          sibling = sibling.nextElementSibling;
+        }
+        const cityBadge = label.querySelector('.bras-city-count-badge');
+        if (cityBadge) {
+          cityBadge.textContent = cardsInCity.length;
+        }
+      });
     });
   }
 
@@ -1412,12 +1463,13 @@ verifierAvertissementDonnees() {
         const brasSummary = document.createElement("summary");
         brasSummary.className = "bras-summary";
 
-        // Create span for the BRAS name
+        // Create span for the BRAS name (flex-grow to push right elements)
         const brasNameSpan = document.createElement("span");
+        brasNameSpan.style.flexGrow = '1';
         brasNameSpan.textContent = bras.toUpperCase();
         brasSummary.appendChild(brasNameSpan);
 
-        // Grouper les adresses par ville pour ce BRAS
+        // Grouper les adresses par ville pour ce BRAS et calculer le total
         const villesGroupes = {};
         brasGroupes[bras].forEach((item) => {
           const ville = item.Ville;
@@ -1426,6 +1478,20 @@ verifierAvertissementDonnees() {
           }
           villesGroupes[ville].push(item);
         });
+        const totalCount = Object.values(villesGroupes).reduce((sum, v) => sum + v.length, 0);
+
+        // Create right container for badge + button (stuck right)
+        const rightContainer = document.createElement('div');
+        rightContainer.style.display = 'flex';
+        rightContainer.style.alignItems = 'center';
+        rightContainer.style.gap = '4px';
+
+        // Create count badge
+        const countBadge = document.createElement("span");
+        countBadge.className = "bras-count-badge";
+        countBadge.textContent = totalCount;
+        countBadge.setAttribute('data-count', totalCount);
+        rightContainer.appendChild(countBadge);
 
         // Create PDF button - use villesGroupes for this bras
         const pdfBtn = document.createElement("button");
@@ -1437,7 +1503,9 @@ verifierAvertissementDonnees() {
           e.stopPropagation();
           gestionnaireInterface.afficherPopupPDF(bras, villesGroupes);
         };
-        brasSummary.appendChild(pdfBtn);
+        rightContainer.appendChild(pdfBtn);
+
+        brasSummary.appendChild(rightContainer);
 
         brasDetails.appendChild(brasSummary);
 
@@ -1451,11 +1519,20 @@ verifierAvertissementDonnees() {
 
         // Pour chaque ville (en ordre croissant), ajouter l'étiquette et les cartes
         villesTriees.forEach((ville) => {
-          // Ajouter l'étiquette de ville
+          // Ajouter l'étiquette de ville avec pastille
           const cityLabel = document.createElement("div");
           cityLabel.className = "bras-city-label";
-          cityLabel.textContent =
-            ville.charAt(0).toUpperCase() + ville.slice(1);
+          
+          const cityNameSpan = document.createElement("span");
+          cityNameSpan.style.flexGrow = '1';
+          cityNameSpan.textContent = ville.charAt(0).toUpperCase() + ville.slice(1);
+          
+          const cityCountBadge = document.createElement("span");
+          cityCountBadge.className = "bras-city-count-badge";
+          cityCountBadge.textContent = villesGroupes[ville].length;
+          
+          cityLabel.appendChild(cityNameSpan);
+          cityLabel.appendChild(cityCountBadge);
           cardsGrid.appendChild(cityLabel);
 
           // Ajouter les cartes pour cette ville
