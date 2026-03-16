@@ -356,13 +356,21 @@ class GestionnaireReconnaissanceVocale {
       this.afficherConfirmationRecherche();
     };
 
-    this.instance.onerror = (evenement) => {
+this.instance.onerror = (evenement) => {
       console.error("Erreur reconnaissance vocale", evenement);
+      
+      // ✅ FIX no-speech : message spécifique silencieux
+      if (evenement.error === 'no-speech') {
+        this.mettreAJourStatut("Parlez plus fort...");
+        return; // Pas d'alert intrusive
+      }
+      
       this.mettreAJourStatut("Erreur reconnaissance");
       alert(
         "Erreur reconnaissance vocale : " + (evenement.error || "inconnue"),
       );
     };
+
 
     this.instance.onnomatch = () => {
       this.mettreAJourStatut("Aucun résultat");

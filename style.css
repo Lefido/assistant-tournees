@@ -2,8 +2,12 @@
    VARIABLES CSS GLOBALES
    ===================================== */
 :root {
-
+  /**
+   * VARIABLES CSS THÈME CLAIR (Jour)
+   * Toutes couleurs/ombres globales de l'app
+   */
   --bg-dark: #f0f0f0;
+
   --bg-panel: #ffffff;
   --bg-input: #ffffff;
   --bg-btn: #0077ff;
@@ -17,12 +21,14 @@
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
   --shadow-color: rgba(0, 0, 0, 0.5);
-
 }
 
 :root.night-theme {
-
+  /**
+   * VARIABLES CSS THÈME SOMBRE (Nuit) - Mode dark activé
+   */
   --bg-dark: #1a1a2e;
+
   --bg-panel: #16213e;
   --bg-input: #16213e;
   --bg-btn: #0077ff;
@@ -42,9 +48,14 @@
 /* =====================================
    CLASSES UTILITAIRES
    ===================================== */
+/**
+ * UTILITAIRE : ÉLÉMENT INVISIBLE
+ * .hidden : display:none !important (modales fermées)
+ */
 .hidden {
   display: none !important;
 }
+
 
 /* Override pour les popups avec transition */
 .popup-overlay.hidden,
@@ -1358,7 +1369,6 @@ html.night-theme .form-input {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  /* border-left: 5px solid var(--bg-btn); */
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1912,7 +1922,6 @@ html.night-theme .pdf-city-item label {
   align-items: center;
   justify-content: center;
   line-height: 1;
-  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); */
 }
 
 .pdf-city-color:hover {

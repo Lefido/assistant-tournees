@@ -1,20 +1,20 @@
-# 🎉 PLAN INTÉGRATION TERMINÉ - Auto-focus adresse
+# TODO - Documentation Commentaires Français ✅
 
-## Modifications appliquées (7/7 ✅)
-1. ✅ DataManager.addAddress() → return index
-2. ✅ UIManager._scrollToAndFocusAddress(index) → open bras + scroll
-3. ✅ UIManager.refreshUI(newIndex) → auto-call focus
-4. ✅ saveAddressBtn.onclick → newIndex → refreshUI(newIndex)
-5. ✅ CSS tr.highlight → surlignage bleu + effets 3s  
-6. ✅ Tests : bras-summary ouvert + focus + highlight ✨
-7. ✅ Documentation JSDoc + TODO finalisé
+## 📋 Plan d'ajout commentaires **(4/8 ✅)**
 
-## Fonctionnement
-```
-Ajouter BRAS001 → popup ferme → bras-details BRAS001 OUVERT AUTO
-↓ Scroll fluide sur nouvelle ligne → HIGHLIGHT 3s ✨
-```
+**Statut : EN COURS (60%)**
 
-**Fonctionnalité 100% déployée** ✅ Testez maintenant !
+### [✅] 1. Créer TODO.md
+### [✅] 2. **script.js** (2600+ lignes) ← **PRÊT**
+### [✅] 3. src/App.js 
+### [✅] 4. src/data/DataManager.js  
+### [ ] 5. src/ui/UIManager.js
+### [ ] 6. src/utils/Utilities.js
+### [ ] 7. src/camera/CameraManager.js
+### [ ] 8. src/voice/VoiceRecognitionManager.js
 
-
+**Instructions :**
+- ✅ JSDoc FR classes/fonctions
+- ✅ Commentaires sections FR
+- ✅ Code 100% préservé
+- **Prochain** : src/ui/UIManager.js
