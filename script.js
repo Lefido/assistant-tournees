@@ -2555,14 +2555,12 @@ document.querySelector('.journal-btn').onclick = () => {
             <div class="journal-field journal-main"><i class="fas fa-building"></i> ${log.address.BRAS.replace(/\b\w/g, l => l.toUpperCase())}</div>
             <div class="journal-field journal-main"><i class="fas fa-city"></i> ${log.address.Ville.replace(/\b\w/g, l => l.toUpperCase())}</div>
             <div class="journal-field journal-main"><i class="fas fa-map-marker-alt"></i> ${log.address.Adresse.replace(/\b\w/g, l => l.toUpperCase())}</div>
-            <div class="journal-fields-row">
-              <div class="journal-field journal-right"><i class="fas fa-hashtag"></i> ${log.address.Numero}</div>
-              <div class="journal-field journal-right"><i class="fas fa-search"></i> ${log.address.TypeRecherche}</div>
+            <div class="journal-field journal-main"><i class="fas fa-hashtag"></i> ${log.address.Numero}</div>
+            <div class="journal-field journal-main"><i class="fas fa-search"></i> ${log.address.TypeRecherche}</div>
             `;
             if (log.index !== null) {
-              html += `<div class="journal-field journal-right"><i class="fas fa-list-ol"></i> ${log.index}</div>`;
+              html += `<div class="journal-field journal-main"><i class="fas fa-list-ol"></i> ${log.index}</div>`;
             }
-            html += `</div>`;
       html += '</div></div>';
     });
     html += '</div>';

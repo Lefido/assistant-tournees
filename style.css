@@ -1321,13 +1321,15 @@ html.night-theme .form-input {
   flex-wrap: wrap;
 }
 
-.journal-fields-row {
+.journal-fields-row .journal-field {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 8px;
+  font-size: 0.85rem;
+  justify-content: flex-start;
 }
+
+
 
 .journal-fields-row .journal-field {
   flex: 1;
@@ -1344,16 +1346,28 @@ html.night-theme .form-input {
 .journal-cards-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px;
+  gap: 5px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .journal-card {
   background: var(--bg-panel);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  /* border-left: 5px solid var(--bg-btn); */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.journal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 119, 255, 0.2);
 }
 
 .journal-card:hover {
@@ -1363,10 +1377,11 @@ html.night-theme .form-input {
 .journal-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  align-items: center;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+  position: relative;
 }
 
 .journal-date {
@@ -1376,9 +1391,10 @@ html.night-theme .form-input {
 }
 
 .journal-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 5px;
+  align-items: start;
 }
 
 .journal-field {
@@ -1396,6 +1412,7 @@ html.night-theme .form-input {
 
 .journal-main {
   justify-content: flex-start;
+  grid-row: span 1;
 }
 
 .journal-right {

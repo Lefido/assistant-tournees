@@ -2,7 +2,7 @@
  * =====================================
  * GESTIONNAIRE D'INTERFACE UTILISATEUR
  * =====================================
- * Classe responsable de la gestion de l'interface utilisateur
+ * Classe responsable de la gestion de l'interface utilisateur (non utilisée - script.js principal)
  */
 
 import { vibrateOnClick, showAlert, showConfirm, preventPWAInstall, APP_CONSTANTS, STORAGE_KEYS } from '../utils/Utilities.js';
@@ -12,13 +12,11 @@ export default class UIManager {
         this.dataManager = dataManager;
         this.voiceManager = voiceManager;
         this.cameraManager = cameraManager;
-        this.editingAddressIndex = -1; // -1 pour l'ajout, >= 0 pour la modification
+        this.editingAddressIndex = -1;
     }
 
     /**
      * Initialise l'application
-     * Charge les données depuis le stockage local, rafraîchit l'interface,
-     * configure les écouteurs d'événements et positionne les éléments
      */
     initializeApp() {
         this.dataManager.loadFromStorage();
@@ -33,12 +31,6 @@ export default class UIManager {
         this._initializeAddressManagement();
     }
 
-    /**
-     * Initialise les basculeurs (toggles) pour la caméra et le thème
-     * Configure les écouteurs d'événements pour les switches de caméra et thème,
-     * et restaure les paramètres enregistrés dans le localStorage
-     * @private
-     */
     _initializeToggles() {
         const cameraToggle = document.getElementById('cameraToggle');
         const cameraButton = document.getElementById('cameraBtn');
@@ -66,12 +58,6 @@ export default class UIManager {
         }
     }
 
-    /**
-     * Initialise la recherche en temps réel
-     * Configure l'écouteur d'événements pour le champ de recherche
-     * et le bouton Clear
-     * @private
-     */
     _initializeSearch() {
         const searchInput = document.getElementById('liveSearchInput');
         if (searchInput) {
@@ -83,12 +69,6 @@ export default class UIManager {
         }
     }
 
-    /**
-     * Gère la recherche en temps réel lors de la saisie
-     * Filtre les adresses en fonction du terme de recherche tapé par l'utilisateur
-     * et affiche les résultats dans une liste déroulante
-     * @private
-     */
     _handleRealTimeSearch(searchValue) {
         const normalizedValue = searchValue.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const resultsDiv = document.getElementById('liveSearchResults');
@@ -125,11 +105,6 @@ export default class UIManager {
         }
     }
 
-    /**
-     * Efface le champ de recherche et masque les résultats
-     * Réinitialise la zone de recherche à son état initial
-     * @private
-     -->
     _clearSearch() {
         const searchInput = document.getElementById('liveSearchInput');
         if (searchInput) searchInput.value = '';
@@ -168,10 +143,6 @@ export default class UIManager {
         document.getElementById('titleVille').classList.toggle('hidden', !hasSelectedArm);
     }
 
-    /**
-     * Rafraîchit l'UI avec focus optionnel sur nouvelle adresse
-     * @param {number|undefined} newIndex - Index pour auto-focus (optionnel)
-     */
     refreshUI(newIndex) {
         // Capture currently open bras-details before refresh
         const currentlyOpenBras = [];
@@ -253,10 +224,10 @@ export default class UIManager {
             });
         }, 100);
 
-        // NOUVEAU : Auto-focus sur nouvelle adresse ajoutée
-        if (newIndex !== undefined) {
-            setTimeout(() => this._scrollToAndFocusAddress(newIndex), 200);
-        }
+        // NOUVEAU : Auto-focus sur nouvelle adresse ajoutée (désactivé car script.js gère UI)
+        // if (newIndex !== undefined) {
+        //     setTimeout(() => this._scrollToAndFocusAddress(newIndex), 200);
+        // }
     }
 
     /**
@@ -361,7 +332,7 @@ export default class UIManager {
             };
 
             if (!address.BRAS || !address.Adresse) {
-                showAlert('Veuillez remplir au moins le BRAS et l\\'adresse.');
+                showAlert("Veuillez remplir au moins le BRAS et l'adresse.");
                 return;
             }
 
