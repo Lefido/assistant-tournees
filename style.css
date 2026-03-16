@@ -1389,7 +1389,7 @@ html.night-theme .form-input {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-bottom: 2px solid var(--border);
   position: relative;
 }
@@ -1578,9 +1578,9 @@ html.night-theme .bras-summary {
   margin: 4px 0 4px 0;
   text-align: center;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--bg-btn);
-  text-transform: capitalize;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
   height: 16px;
   position: sticky;
@@ -1750,7 +1750,7 @@ html.night-theme .no-data-msg {
   padding: 4px 6px;
   border-radius: 6px;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -1893,8 +1893,8 @@ html.night-theme .pdf-city-item label {
 
 /* Color picker styles */
 .pdf-city-color {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 2px solid #fff;
   cursor: pointer;
@@ -1912,12 +1912,12 @@ html.night-theme .pdf-city-item label {
   transform: translate(-50%, -50%);
   /* background: rgba(255, 255, 255, 0.9); */
   color: var(--text-white);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-shadow: 1px 1px 4px black;
   font-weight:bold;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  /* width: 12px;
+  height: 12px; */
+  /* border-radius: 50%; */
   display: flex;
   align-items: center;
   justify-content: center;
