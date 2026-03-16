@@ -1,17 +1,24 @@
 /**
  * =====================================
- * GESTIONNAIRE DE DONNÉES EXCEL
+ * GESTIONNAIRE DE DONNÉES EXCEL - FICHIER PRINCIPAL
  * =====================================
- * Classe responsable de la gestion des données Excel importées
+ * Classe principale gérant l'import Excel, localStorage, journal, PDF colors
+ * Toutes les données d'adresses et états UI passent par cette classe
  */
 class GestionnaireDonnees {
+  /**
+   * Constructeur - Initialise les propriétés principales de données
+   */
   constructor() {
-    this.donneesExcel = [];
-    this.brasSelectionne = "";
-    this.villeSelectionnee = "";
-    this.nomFichier = "";
+    this.donneesExcel = []; // Tableau principal des adresses
+    this.brasSelectionne = ""; // Bras actif pour recherche
+    this.villeSelectionnee = ""; // Ville filtrée dans bras
+    this.nomFichier = ""; // Nom du fichier Excel importé
   }
 
+  /**
+   * Charge toutes les données persistées depuis localStorage au démarrage
+   */
   chargerDepuisStockage() {
     const donneesSauvegardees = localStorage.getItem("tourneeData");
     if (donneesSauvegardees) {
@@ -21,7 +28,7 @@ class GestionnaireDonnees {
     if (nomFichierSauvegarde) {
       this.nomFichier = nomFichierSauvegarde;
     }
-    // Charger le bras sélectionné depuis localStorage
+    // ✅ Restaure le bras sélectionné
     const brasSauvegarde = localStorage.getItem("tourneeBrasSelectionne");
     if (brasSauvegarde) {
       this.brasSelectionne = brasSauvegarde;
@@ -147,6 +154,7 @@ class GestionnaireDonnees {
   }
 
   ajouterAdresse(adresse) {
+    const index = this.donneesExcel.length;
     const nouvelleAdresse = {
       BRAS: String(adresse.BRAS || "")
         .trim()
@@ -165,6 +173,8 @@ class GestionnaireDonnees {
     
     // Ajouter au journal
     this.ajouterLog('création', nouvelleAdresse);
+    
+    return index; // ← RETOURNE INDEX POUR AUTO-FOCUS
   }
 
   modifierAdresse(index, adresse) {
@@ -1083,15 +1093,15 @@ class GestionnaireInterface {
     }
 
     if (boutonEffacer) {
-      boutonEffacer.addEventListener("click", () => {
+          boutonEffacer.addEventListener("click", () => {
         if (champRecherche) {
           champRecherche.value = "";
           this.gererRechercheAdresses("");
           boutonEffacer.style.display = "none";
 
-          // Fermer tous les bras-details
+          // Close ALL bras-summary on clear search as requested
           document.querySelectorAll(".bras-details").forEach((details) => {
-            details.removeAttribute("open");
+            details.open = false;
           });
         }
       });
@@ -1407,16 +1417,17 @@ verifierAvertissementDonnees() {
     // Mettre à jour visibilité bouton journal
     this.gestionnaireDonnees.mettreAJourVisibiliteBoutonJournal();
 
-    // Sauvegarder l'état étendu des éléments details (seulement si données)
-    const brasElementsOuverts = aDonnees ? [] : [];
+    // Capture open bras-details bras names ONLY for reliable match
+    const brasElementsOuverts = [];
     if (aDonnees) {
       document.querySelectorAll(".bras-details[open]").forEach((details) => {
-        const summary = details.querySelector(".bras-summary");
-        if (summary) {
-          brasElementsOuverts.push(summary.textContent);
+        const brasNameSpan = details.querySelector(".bras-summary span:first-child");
+        if (brasNameSpan) {
+          brasElementsOuverts.push(brasNameSpan.textContent.trim().toUpperCase());
         }
       });
     }
+    console.log('📂 Captured open bras before rebuild:', brasElementsOuverts);
 
     // Afficher/masquer le titre "Fichier importé" - seulement si un fichier Excel a été importé
     const titreFichier = document.getElementById("importedFileTitle");
@@ -1455,7 +1466,7 @@ verifierAvertissementDonnees() {
         const brasDetails = document.createElement("details");
         brasDetails.className = "bras-details";
 
-        // Restaurer l'état étendu si ce BRAS était ouvert
+        // Restore open state - exact match on bras name
         if (brasElementsOuverts.includes(bras.toUpperCase())) {
           brasDetails.open = true;
         }
@@ -1736,72 +1747,102 @@ verifierAvertissementDonnees() {
         }
       });
 
-      // Réinitialiser le handler du bouton save pour le mode "ajout"
-      saveAddressBtn.onclick = () => {
-        const bras = document
-          .getElementById("addressBras")
-          .value.trim()
-          .toUpperCase();
-        const ville = document
-          .getElementById("addressVille")
-          .value.trim()
-          .toUpperCase();
-        const rue = document
-          .getElementById("addressRue")
-          .value.trim()
-          .toUpperCase();
-        const numero = document
-          .getElementById("addressNumero")
-          .value.trim()
-          .toUpperCase();
-        const typeRecherche = document.getElementById("addressType").value;
+        // Réinitialiser le handler du bouton save pour le mode "ajout"
+        saveAddressBtn.onclick = () => {
+          const bras = document
+            .getElementById("addressBras")
+            .value.trim()
+            .toUpperCase();
+          const ville = document
+            .getElementById("addressVille")
+            .value.trim()
+            .toUpperCase();
+          const rue = document
+            .getElementById("addressRue")
+            .value.trim()
+            .toUpperCase();
+          const numero = document
+            .getElementById("addressNumero")
+            .value.trim()
+            .toUpperCase();
+          const typeRecherche = document.getElementById("addressType").value;
 
-        if (!bras || !ville || !rue || !numero) {
-          alert(
-            "Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).",
-          );
-          return;
-        }
-
-        const nouvelleAdresse = {
-          BRAS: bras,
-          Ville: ville,
-          Adresse: rue,
-          Numero: numero,
-          TypeRecherche: typeRecherche,
-        };
-
-        // Sauvegarder la valeur de recherche avant le rafraîchissement
-        const addressSearchInput =
-          document.getElementById("addressSearchInput");
-        const valeurRecherche = addressSearchInput
-          ? addressSearchInput.value
-          : "";
-
-        // Sauvegarder le BRAS sélectionné avant le rafraîchissement
-        const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
-
-        this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
-        addressPopupOverlay.classList.add("hidden");
-        this.rafraichirInterface();
-        this.verifierAvertissementDonnees();
-
-        // Restaurer le BRAS sélectionné après le rafraîchissement
-        if (brasSelectionne) {
-          this.restaurerBrasSelectionne();
-        }
-
-        // Restaurer le filtre de recherche après le rafraîchissement
-        if (valeurRecherche) {
-          if (addressSearchInput) {
-            addressSearchInput.value = valeurRecherche;
+          if (!bras || !ville || !rue || !numero) {
+            alert(
+              "Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).",
+            );
+            return;
           }
-          this.gererRechercheAdresses(valeurRecherche);
-        }
 
-        alert("Adresse ajoutée avec succès !");
+          const nouvelleAdresse = {
+            BRAS: bras,
+            Ville: ville,
+            Adresse: rue,
+            Numero: numero,
+            TypeRecherche: typeRecherche,
+          };
+
+          // Sauvegarder la valeur de recherche avant le rafraîchissement
+          const addressSearchInput =
+            document.getElementById("addressSearchInput");
+          const valeurRecherche = addressSearchInput
+            ? addressSearchInput.value
+            : "";
+
+          // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+          const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+
+            const newIndex = this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
+            addressPopupOverlay.classList.add("hidden");
+            
+            // AUTO-FOCUS : Force rebuild + open bras + scroll
+            setTimeout(() => {
+              this.rafraichirInterface();
+              this.verifierAvertissementDonnees();
+              
+              // 1. Restaurer BRAS + recherche
+              if (brasSelectionne) {
+                this.restaurerBrasSelectionne();
+              }
+              if (valeurRecherche) {
+                if (addressSearchInput) {
+                  addressSearchInput.value = valeurRecherche;
+                }
+                this.gererRechercheAdresses(valeurRecherche);
+              }
+              
+              // 2. FORCE OPEN bras-summary du BRAS ajouté
+              setTimeout(() => {
+                const brasLower = bras.toLowerCase();
+                document.querySelectorAll('.bras-details').forEach(details => {
+                  const brasSpan = details.querySelector('.bras-summary span:first-child');
+                  if (brasSpan && brasSpan.textContent.toLowerCase().includes(brasLower)) {
+                    details.open = true;
+                    console.log('✅ bras-details ouvert:', brasSpan.textContent);
+                  }
+                });
+                
+                // 3. Focus nouvelle carte (.address-card dernier enfant du bras ouvert)
+                const brasDetails = Array.from(document.querySelectorAll('.bras-details[open]')).find(d => {
+                  const brasSpan = d.querySelector('.bras-summary span:first-child');
+                  return brasSpan && brasSpan.textContent.toLowerCase().includes(brasLower);
+                });
+                
+                if (brasDetails) {
+                  const newCard = brasDetails.querySelector('.address-card:last-child');
+                  if (newCard) {
+                    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    newCard.classList.add('highlight');
+                    console.log('✨ Nouvelle carte focus:', newCard);
+                    setTimeout(() => newCard.classList.remove('highlight'), 4000);
+                  }
+                }
+              }, 300);
+            }, 100);
+
+            alert("Adresse ajoutée avec succès.");
+        };
       };
-    };
 
     if (addAddressBtn) {
       addAddressBtn.onclick = () => {

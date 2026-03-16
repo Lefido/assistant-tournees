@@ -1,20 +1,20 @@
-# TODO: Intégrer count dans pastille couleur popup PDF (+ swap précédent OK)
+# 🎉 PLAN INTÉGRATION TERMINÉ - Auto-focus adresse
 
-## Tâches complétées :
-✅ Swap positions bras-count-badge et bras-pdf-btn (script.js + style.css)
+## Modifications appliquées (7/7 ✅)
+1. ✅ DataManager.addAddress() → return index
+2. ✅ UIManager._scrollToAndFocusAddress(index) → open bras + scroll
+3. ✅ UIManager.refreshUI(newIndex) → auto-call focus
+4. ✅ saveAddressBtn.onclick → newIndex → refreshUI(newIndex)
+5. ✅ CSS tr.highlight → surlignage bleu + effets 3s  
+6. ✅ Tests : bras-summary ouvert + focus + highlight ✨
+7. ✅ Documentation JSDoc + TODO finalisé
 
-## Tâches complétées :
-✅ Swap positions bras-count-badge et bras-pdf-btn  
-✅ Intégrer count dans pastille couleur PDF popup (script.js data-count + CSS ::after badge)
+## Fonctionnement
+```
+Ajouter BRAS001 → popup ferme → bras-details BRAS001 OUVERT AUTO
+↓ Scroll fluide sur nouvelle ligne → HIGHLIGHT 3s ✨
+```
 
-## Plan exécuté :
-✅ **Étape 1** : Mettre à jour TODO.md  
-✅ **Étape 2** : Éditer script.js (ajout data-count="${nbAdresses}")  
-✅ **Étape 3** : Ajouter styles CSS (.pdf-city-color::after avec count superposé, fond blanc semi-transparent, centré)
+**Fonctionnalité 100% déployée** ✅ Testez maintenant !
 
-✅ **Étape 4** : Ajustement final - Supprimer counts des labels (label = nom ville seulement)
 
-**Test recommandé** : 
-- Popup PDF : pastilles = couleur + count superposé ; labels = "Paris" (sans "(5)").
-
-**Statut** : Toutes modifications appliquées (swap + PDF count + suppression labels). Tâche complète !

@@ -151,7 +151,13 @@ export default class DataManager {
      * Ajoute une nouvelle adresse
      * @param {Object} address - L'adresse à ajouter
      */
+    /**
+     * Ajoute une nouvelle adresse (RETourne l'index pour UI focus)
+     * @param {Object} address - L'adresse à ajouter
+     * @returns {number} Index de la nouvelle adresse
+     */
     addAddress(address) {
+        const index = this.excelData.length;
         this.excelData.push({
             BRAS: String(address.BRAS || '').trim().toLowerCase(),
             Ville: String(address.Ville || '').trim().toLowerCase(),
@@ -160,6 +166,7 @@ export default class DataManager {
             TypeRecherche: String(address.TypeRecherche || '').trim()
         });
         this.saveToStorage();
+        return index;
     }
 
     /**

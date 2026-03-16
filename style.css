@@ -186,7 +186,7 @@ html.night-theme body {
   flex: 1;
   justify-content: center;
   text-align: center;
-  padding: 6px;
+  padding: 12px;
   padding-bottom: 40px;
   padding-top: 65px;
   width: 100%;
@@ -1428,6 +1428,23 @@ tr.editing td {
   cursor: text;
 }
 
+/* Highlight pour nouvelle adresse ajoutée */
+tr.highlight {
+    background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    transform: scale(1.02);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+tr.highlight td {
+    border-left: 4px solid #2196f3;
+}
+
+/* Smooth retour à l'état normal */
+tr.highlight {
+    transition: all 1s ease-out;
+}
+
 /* =====================================
    ADDRESS CARDS STYLES - STICKY CORRECTION
    ===================================== */
@@ -1530,7 +1547,7 @@ html.night-theme .bras-summary {
   background: var(--bg-dark);
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
-  padding: 8px 6px;
+  padding: 8px 8px;
   margin: 4px 0 4px 0;
   text-align: center;
   font-weight: bold;
@@ -1538,7 +1555,7 @@ html.night-theme .bras-summary {
   color: var(--bg-btn);
   text-transform: capitalize;
   letter-spacing: 0.5px;
-  height: 18px;
+  height: 16px;
   position: sticky;
   top: 99px;
   z-index: 8;
@@ -1553,14 +1570,14 @@ html.night-theme .bras-city-label {
   background: var(--bg-btn);
   color: var(--text-white);
   border-radius: 50%;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   border: 2px solid var(--bg-btn);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   flex-shrink: 0;
   margin-left: 0px;
 }
@@ -1869,6 +1886,7 @@ html.night-theme .pdf-city-item label {
   /* background: rgba(255, 255, 255, 0.9); */
   color: var(--text-white);
   font-size: 0.7rem;
+  text-shadow: 1px 1px 4px black;
   font-weight:bold;
   width: 12px;
   height: 12px;
@@ -1877,7 +1895,7 @@ html.night-theme .pdf-city-item label {
   align-items: center;
   justify-content: center;
   line-height: 1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); */
 }
 
 .pdf-city-color:hover {

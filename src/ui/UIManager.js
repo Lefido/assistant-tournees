@@ -129,7 +129,7 @@ export default class UIManager {
      * Efface le champ de recherche et masque les résultats
      * Réinitialise la zone de recherche à son état initial
      * @private
-     */
+     -->
     _clearSearch() {
         const searchInput = document.getElementById('liveSearchInput');
         if (searchInput) searchInput.value = '';
@@ -168,7 +168,17 @@ export default class UIManager {
         document.getElementById('titleVille').classList.toggle('hidden', !hasSelectedArm);
     }
 
-    refreshUI() {
+    /**
+     * Rafraîchit l'UI avec focus optionnel sur nouvelle adresse
+     * @param {number|undefined} newIndex - Index pour auto-focus (optionnel)
+     */
+    refreshUI(newIndex) {
+        // Capture currently open bras-details before refresh
+        const currentlyOpenBras = [];
+        document.querySelectorAll('.bras-details[open] .bras-summary span:first-child').forEach(span => {
+            currentlyOpenBras.push(span.textContent.trim());
+        });
+
         const tableBody = document.getElementById('adminTableBody');
         if (tableBody) {
             tableBody.innerHTML = '';
@@ -203,26 +213,78 @@ export default class UIManager {
             });
         }
 
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
-        if (fileNameDisplay) {
-            fileNameDisplay.textContent = this.dataManager.fileName || '';
-        }
-
-        const uniqueArms = this.dataManager.getUniqueArms();
-        const container = document.getElementById('brasBtnContainer');
-        if (container) {
-            container.innerHTML = '';
+        const addressesContent = document.getElementById('addressesCardsContent');
+        const brasBtnContainer = document.getElementById('brasBtnContainer');
+        
+        // Rebuild bras buttons and addresses cards if they exist (legacy script.js uses these)
+        if (brasBtnContainer) {
+            const uniqueArms = this.dataManager.getUniqueArms();
+            brasBtnContainer.innerHTML = '';
             uniqueArms.forEach((arm, index) => {
                 const button = document.createElement('button');
                 button.className = 'city-btn city-appear';
-                button.style.animationDelay = `${index * APP_CONSTANTS.ANIMATION_DELAY.CITY_BUTTON}s`;
+                button.style.animationDelay = `${index * 0.1}s`;
                 button.textContent = arm;
                 button.onclick = () => {
                     this.selectArm(arm, button);
                     vibrateOnClick();
                 };
-                container.appendChild(button);
+                brasBtnContainer.appendChild(button);
             });
+        }
+
+        if (addressesContent) {
+            // For legacy compatibility - minimal addresses rebuild logic
+            addressesContent.innerHTML = '<p class="no-data-msg">Use modular UI for addresses</p>';
+        }
+
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        if (fileNameDisplay) {
+            fileNameDisplay.textContent = this.dataManager.fileName || '';
+        }
+
+        // Post-refresh: Reopen previously open bras-details
+        setTimeout(() => {
+            currentlyOpenBras.forEach(brasName => {
+                const brasSummary = document.querySelector(`.bras-summary span:first-child`);
+                if (brasSummary && brasSummary.textContent.trim() === brasName) {
+                    brasSummary.closest('.bras-details').open = true;
+                }
+            });
+        }, 100);
+
+        // NOUVEAU : Auto-focus sur nouvelle adresse ajoutée
+        if (newIndex !== undefined) {
+            setTimeout(() => this._scrollToAndFocusAddress(newIndex), 200);
+        }
+    }
+
+    /**
+     * Scroll et focus sur une adresse spécifique après ajout
+     * Ouvre le bras-summary correspondant et centre la vue
+     * @param {number} index - Index de l'adresse
+     * @private
+     */
+    _scrollToAndFocusAddress(index) {
+        const address = this.dataManager.getAddressByIndex(index);
+        if (!address) return;
+
+        const bras = address.BRAS;
+
+        // 1. Ouvre bras-details du BRAS concerné
+        document.querySelectorAll('.bras-details').forEach(details => {
+            const brasSpan = details.querySelector('.bras-summary span:first-child');
+            if (brasSpan && brasSpan.textContent.trim().toLowerCase().includes(bras.toLowerCase())) {
+                details.open = true;
+            }
+        });
+
+        // 2. Focus + scroll smooth
+        const row = document.getElementById(`row-${index}`);
+        if (row) {
+            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            row.classList.add('highlight');
+            setTimeout(() => row.classList.remove('highlight'), 3000);
         }
     }
 
@@ -299,20 +361,20 @@ export default class UIManager {
             };
 
             if (!address.BRAS || !address.Adresse) {
-                showAlert('Veuillez remplir au moins le BRAS et l\'adresse.');
+                showAlert('Veuillez remplir au moins le BRAS et l\\'adresse.');
                 return;
             }
 
             if (this.editingAddressIndex === -1) {
-                this.dataManager.addAddress(address);
+                const newIndex = this.dataManager.addAddress(address);
                 showAlert('Adresse ajoutée avec succès !');
+                this.refreshUI(newIndex);
             } else {
                 this.dataManager.modifyAddress(this.editingAddressIndex, address);
                 showAlert('Adresse modifiée avec succès !');
             }
 
             addressPopupOverlay.classList.add('hidden');
-            this.refreshUI();
         };
 
         document.getElementById('addressPopupClose').onclick = () => addressPopupOverlay.classList.add('hidden');
@@ -371,3 +433,4 @@ export default class UIManager {
         }
     }
 }
+
