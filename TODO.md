@@ -1,20 +1,18 @@
-# TODO - Documentation Commentaires Français ✅
+# TODO - Tasks en cours
 
-## 📋 Plan d'ajout commentaires **(4/8 ✅)**
+## ✅ Tâches CSS terminées
+- ✅ Ajout effet pulsation à .result-item-danger (2.5s opacity pulse)
 
-**Statut : EN COURS (60%)**
+## 📋 Plan pulsation CSS **(100% ✅)**
 
-### [✅] 1. Créer TODO.md
-### [✅] 2. **script.js** (2600+ lignes) ← **PRÊT**
-### [✅] 3. src/App.js 
-### [✅] 4. src/data/DataManager.js  
-### [ ] 5. src/ui/UIManager.js
-### [ ] 6. src/utils/Utilities.js
-### [ ] 7. src/camera/CameraManager.js
-### [ ] 8. src/voice/VoiceRecognitionManager.js
+**Statut : TERMINÉ**
+
+### Étapes :
+- [✅] 1. Ajouter @keyframes pulseDanger
+- [✅] 2. Modifier .result-item-danger avec animation
+- [✅] 3. Tester effet (recharger page)
 
 **Instructions :**
-- ✅ JSDoc FR classes/fonctions
-- ✅ Commentaires sections FR
-- ✅ Code 100% préservé
-- **Prochain** : src/ui/UIManager.js
+- Pulse subtil 2.5s ease-in-out infinite sur opacité
+- Compatible thèmes jour/nuit
+
