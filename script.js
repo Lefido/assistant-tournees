@@ -474,7 +474,7 @@ afficherResultatsRecherche(resultats) {
       adressesTriees.forEach((r) => {
         const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
         const numero = String(r.Numero || "").toUpperCase();
-        const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+        const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
         const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
         html += `<div class="${itemClass}">`;
         html += `<span class="result-address">${adresseDisplay}</span>`;
@@ -805,7 +805,7 @@ _rechercherDepuisOCR(adresseAnalysée) {
         adressesTriees.forEach((r) => {
           const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
           const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
@@ -1061,7 +1061,7 @@ class GestionnaireInterface {
       adressesTriees.forEach((r) => {
           const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
           const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
@@ -1557,7 +1557,7 @@ verifierAvertissementDonnees() {
           // Ajouter les cartes pour cette ville
           villesGroupes[ville].forEach((item) => {
             const numero = String(item.Numero || "").toUpperCase();
-            const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX");
+            const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("REEX") || numero.startsWith("CI");
             const cardClass = estSpecial ? "address-card address-card-danger" : "address-card";
             const card = document.createElement("div");
             card.className = cardClass;
@@ -2268,7 +2268,8 @@ basculerMode(bouton) {
           numero.startsWith("CS") ||
           numero.startsWith("PICKUP") ||
           numero.startsWith("PPDC") ||
-          numero.startsWith("REEX");
+          numero.startsWith("REEX") ||
+          numero.startsWith("CI");
         const couleurLigne = estSpecial
           ? `background-color:${couleurVille}60;`
           : alterner
@@ -2399,7 +2400,8 @@ basculerMode(bouton) {
           numero.startsWith("CS") ||
           numero.startsWith("PICKUP") ||
           numero.startsWith("PPDC") ||
-          numero.startsWith("REEX");
+          numero.startsWith("REEX") ||
+          numero.startsWith("CI");
         const couleurLigne = estSpecial
           ? `background-color:${couleurLigneSpeciale};`
           : alterner
