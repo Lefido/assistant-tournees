@@ -1000,18 +1000,16 @@ class GestionnaireInterface {
       };
     }
 
-    // ✅ SCROLL au focus : Input sous header
+    // ✅ SCROLL au focus : Input à limite haut navigateur (0px)
     const inputLive = document.getElementById("liveSearchInput");
-    const header = document.querySelector('.app-header');
     
     inputLive.addEventListener('focus', () => {
-      const headerRect = header.getBoundingClientRect();
       const inputRect = inputLive.getBoundingClientRect();
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       
-      // Scroll pour placer input juste sous header (20px marge)
+      // Scroll pour placer input à Y=0 (limite haut viewport)
       window.scrollTo({
-        top: scrollTop + inputRect.top - headerRect.height - 20,
+        top: scrollTop + inputRect.top,
         behavior: 'smooth'
       });
     });
