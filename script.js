@@ -1000,17 +1000,16 @@ class GestionnaireInterface {
       };
     }
 
-    // ✅ SOLUTION MOBILE : Input LIMITE HAUT NAVIGATEUR (scrollTo(0))
     const inputLive = document.getElementById("liveSearchInput");
     
     inputLive.addEventListener('focus', () => {
-      // Force scroll TOP viewport (Y=0) - simple & efficace
+      // Force scroll to the top of the search wrapper
       setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }, 150);  // Délai clavier mobile
+        const searchWrapper = inputLive.closest('.search-wrapper');
+        if (searchWrapper) {
+          searchWrapper.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+      }, 300); // Increased delay for mobile keyboard
     });
   }
 
