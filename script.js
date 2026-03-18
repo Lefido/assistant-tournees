@@ -1007,6 +1007,9 @@ class GestionnaireInterface {
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
         if (searchWrapper) {
+          // Temporarily disable smooth scrolling to ensure instant positioning.
+          document.documentElement.style.scrollBehavior = 'auto';
+
           // This instantly brings the search bar to the top of the viewport.
           searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
 
@@ -1018,6 +1021,11 @@ class GestionnaireInterface {
           const verticalOffset = 0; // in pixels
           
           window.scrollBy(0, verticalOffset);
+
+          // Restore smooth scrolling after the operation is complete.
+          setTimeout(() => {
+            document.documentElement.style.scrollBehavior = 'smooth';
+          }, 100);
         }
       }, 500); 
     });
