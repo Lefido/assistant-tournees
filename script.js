@@ -1005,21 +1005,20 @@ class GestionnaireInterface {
     inputLive.addEventListener('focus', () => {
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
-        const header = document.querySelector('.app-header');
-
         if (searchWrapper) {
-          // Instantly scroll the element to the top of the viewport.
-          searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
-          
-          // Then, scroll up to account for the fixed header, if it exists.
-          if (header) {
-            const headerHeight = header.offsetHeight;
-            // This margin provides a little space below the header. You can adjust this value.
-            const margin = 10; // px
-            window.scrollBy(0, -(headerHeight + margin));
-          }
+            // This value adds a margin (in pixels) between the top of the viewport and the search bar.
+            // Increase the number to move the search bar further down.
+            const topMargin = 0; // in pixels
+
+            const elementTop = searchWrapper.getBoundingClientRect().top + window.pageYOffset;
+            const targetScrollPosition = elementTop - topMargin;
+    
+            window.scrollTo({
+                top: targetScrollPosition,
+                behavior: "smooth"
+            });
         }
-      }, 300); // Delay to allow the mobile keyboard to appear.
+      }, 300); // Delay for mobile keyboard to appear
     });
   }
 
