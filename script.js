@@ -1006,19 +1006,19 @@ class GestionnaireInterface {
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
         if (searchWrapper) {
-            // This value adds a margin (in pixels) between the top of the viewport and the search bar.
-            // Increase the number to move the search bar further down.
-            const topMargin = 0; // in pixels
+          // This instantly brings the search bar to the top of the viewport.
+          searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
 
-            const elementTop = searchWrapper.getBoundingClientRect().top + window.pageYOffset;
-            const targetScrollPosition = elementTop - topMargin;
-    
-            window.scrollTo({
-                top: targetScrollPosition,
-                behavior: "smooth"
-            });
+          // Then, we apply a manual offset.
+          // To move the search bar DOWN from the top edge, use a NEGATIVE value (e.g., -70).
+          // This effectively scrolls the page UP a little.
+          const verticalOffset = 0; // in pixels
+          
+          if (verticalOffset !== 0) {
+            window.scrollBy(0, verticalOffset);
+          }
         }
-      }, 300); // Delay for mobile keyboard to appear
+      }, 300); // Delay for mobile keyboard to appear.
     });
   }
 
