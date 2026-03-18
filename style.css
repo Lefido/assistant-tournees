@@ -15,8 +15,8 @@
   --text-light: #333333;
   --text-white: #ffffff;
   --border: #cccccc;
-  --danger: #ec5c5c;
-  --dangerCards: #ec5c5c8c;
+  --danger: #fd2f2f;
+  --dangerCards: #eb36368c;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -36,8 +36,8 @@
   --text-light: #eaeaea;
   --text-white: #ffffff;
   --border: #0f3460;
-  --danger: #ec5c5c;
-  --dangerCards: #ec5c5c8c;
+  --danger: #fd2f2f;
+  --dangerCards: #eb36368c;
   --success: #24a10b;
   --accent-cyan: #0077ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -382,8 +382,10 @@ html.night-theme .result-item {
 }
 
 .result-item-danger {
-  background-color: var(--dangerCards) !important;
-  animation: pulseDanger 1.5s ease-in-out infinite;
+  /* background-color: var(--dangerCards) !important; */
+  background-color: rgb(255, 44, 44) !important;
+  font-weight: 600;
+  animation: pulseDanger 1.2s ease-in-out infinite;
 }
 
 .result-item-danger .result-number,
