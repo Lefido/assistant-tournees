@@ -1006,25 +1006,20 @@ class GestionnaireInterface {
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
         const header = document.querySelector('.app-header');
-        
+
         if (searchWrapper) {
-          let headerHeight = 0;
+          // Instantly scroll the element to the top of the viewport.
+          searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
+          
+          // Then, scroll up to account for the fixed header, if it exists.
           if (header) {
-             headerHeight = header.offsetHeight;
+            const headerHeight = header.offsetHeight;
+            // This margin provides a little space below the header. You can adjust this value.
+            const margin = 10; // px
+            window.scrollBy(0, -(headerHeight + margin));
           }
-
-          // You can adjust this value. A positive value scrolls it further down from the top edge.
-          const additionalOffset = 5; // px
-
-          const elementTop = searchWrapper.getBoundingClientRect().top + window.pageYOffset;
-          const offsetPosition = elementTop - headerHeight - additionalOffset;
-    
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-          });
         }
-      }, 300); // Increased delay for mobile keyboard
+      }, 300); // Delay to allow the mobile keyboard to appear.
     });
   }
 
