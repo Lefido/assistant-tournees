@@ -1012,7 +1012,7 @@ class GestionnaireInterface {
           // Then, we apply a manual offset.
           // To move the search bar DOWN from the top edge, use a NEGATIVE value (e.g., -70).
           // This effectively scrolls the page UP a little.
-          const verticalOffset = -70; // in pixels
+          const verticalOffset = -100; // in pixels
           
           if (verticalOffset !== 0) {
             window.scrollBy(0, verticalOffset);
