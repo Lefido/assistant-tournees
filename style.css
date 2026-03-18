@@ -320,7 +320,7 @@ html.night-theme .city-btn.active {
    RECHERCHE - Styles groupés par ville (tous écrans)
    ===================================== */
 .live-search-results,
-.live-search-results .results-addresses {
+.live-search-results {
   /* ✅ Même largeur que liveSearchInput via classe commune */
   max-height: 60vh;
   width: 100%;

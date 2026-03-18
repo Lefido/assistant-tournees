@@ -1000,29 +1000,17 @@ class GestionnaireInterface {
       };
     }
 
-    // ✅ SCROLL FORCÉ au focus : Input + résultats VISIBLEs (mobile/desktop)
+    // ✅ SOLUTION MOBILE : Input LIMITE HAUT NAVIGATEUR (scrollTo(0))
     const inputLive = document.getElementById("liveSearchInput");
-    const resultsLive = document.getElementById("liveSearchResults");
     
     inputLive.addEventListener('focus', () => {
-      // Délai 100ms pour clavier mobile
+      // Force scroll TOP viewport (Y=0) - simple & efficace
       setTimeout(() => {
-        const inputRect = inputLive.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // Force input en haut + marge résultats visibles
         window.scrollTo({
-          top: scrollTop + inputRect.top - 50,  // 50px marge résultats
+          top: 0,
           behavior: 'smooth'
         });
-      }, 100);
-    });
-    
-    // Scroll sur résultats pour visibilité
-    resultsLive.addEventListener('DOMSubtreeModified', () => {
-      if (resultsLive.style.display !== 'none') {
-        resultsLive.scrollIntoView({ block: 'nearest' });
-      }
+      }, 150);  // Délai clavier mobile
     });
   }
 
