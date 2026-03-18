@@ -1,18 +1,7 @@
-# TODO - Tasks en cours
+# TODO - Désactiver décrochage liveSearchInput
 
-## ✅ Tâches CSS terminées
-- ✅ Ajout effet pulsation à .result-item-danger (2.5s opacity pulse)
-
-## 📋 Plan pulsation CSS **(100% ✅)**
-
-**Statut : TERMINÉ**
-
-### Étapes :
-- [✅] 1. Ajouter @keyframes pulseDanger
-- [✅] 2. Modifier .result-item-danger avec animation
-- [✅] 3. Tester effet (recharger page)
-
-**Instructions :**
-- Pulse subtil 2.5s ease-in-out infinite sur opacité
-- Compatible thèmes jour/nuit
-
+✅ **Étape 1 :** Créer TODO.md avec plan  
+✅ **Étape 2 :** Éditer script.js - Commenter focus/blur handlers  
+✅ **Étape 3 :** [À tester] Focus input → reste en place  
+✅ **Étape 4 :** [À tester] Recherche + clear fonctionnent  
+✅ **Étape 5 :** Completion

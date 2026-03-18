@@ -918,6 +918,8 @@ class GestionnaireInterface {
     const champRecherche = document.getElementById("liveSearchInput");
     const conteneurRecherche = document.getElementById("liveSearchContainer");
 
+    // ✅ DÉSACTIVÉ : Décrochage au focus (per request)
+    /*
     champRecherche.addEventListener("focus", () => {
       champRecherche.classList.add("fixed-input");
       conteneurRecherche.classList.add("focused");
@@ -941,7 +943,10 @@ class GestionnaireInterface {
         "calc(50% - " + champRecherche.offsetWidth / 2 + "px + 12px)";
       boutonEffacer.style.zIndex = "102";
     });
+    */
 
+    // ✅ DÉSACTIVÉ : Recrochage au blur (per request)
+    /*
     champRecherche.addEventListener("blur", () => {
       champRecherche.classList.remove("fixed-input");
       conteneurRecherche.classList.remove("focused");
@@ -966,6 +971,7 @@ class GestionnaireInterface {
       // Only hide the clear button if the input is empty
       boutonEffacer.style.display = champRecherche.value ? "flex" : "none";
     });
+    */
 
     document
       .getElementById("liveSearchInput")
@@ -993,6 +999,22 @@ class GestionnaireInterface {
         clearBtn.style.display = "none";
       };
     }
+
+    // ✅ SCROLL au focus : Input sous header
+    const inputLive = document.getElementById("liveSearchInput");
+    const header = document.querySelector('.app-header');
+    
+    inputLive.addEventListener('focus', () => {
+      const headerRect = header.getBoundingClientRect();
+      const inputRect = inputLive.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Scroll pour placer input juste sous header (20px marge)
+      window.scrollTo({
+        top: scrollTop + inputRect.top - headerRect.height - 20,
+        behavior: 'smooth'
+      });
+    });
   }
 
   gererRechercheTempsReel(valeurRecherche) {

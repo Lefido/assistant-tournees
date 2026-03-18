@@ -319,10 +319,14 @@ html.night-theme .city-btn.active {
 /* =====================================
    RECHERCHE - Styles groupés par ville (tous écrans)
    ===================================== */
-.live-search-results {
+.live-search-results,
+.live-search-results .results-addresses {
+  /* ✅ Même largeur que liveSearchInput via classe commune */
   max-height: 60vh;
-  width: 95%;
+  width: 100%;
   border: 2px solid var(--bg-btn);
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 /* Grouped results by city */
@@ -356,7 +360,7 @@ html.night-theme .city-btn.active {
 }
 
 .results-addresses {
-  padding: 4px 0;
+  padding: 0px 0;
 }
 
 .result-item {
@@ -385,7 +389,7 @@ html.night-theme .result-item {
   /* background-color: var(--dangerCards) !important; */
   background-color: rgb(255, 44, 44) !important;
   font-weight: 600;
-  animation: pulseDanger 1.2s ease-in-out infinite;
+  animation: pulseDanger 1s ease-in-out infinite;
 }
 
 .result-item-danger .result-number,
@@ -414,25 +418,22 @@ html.night-theme .result-item {
   padding-bottom: 0;
 }
 
-.search-section.focused .search-wrapper {
-  max-width: 430px;
-}
-
-.search-section.focused~.live-search-results {
-  max-width: 430px;
-}
+/* .search-section.focused règles supprimées (décrochage désactivé) */
 
 .search-wrapper {
   position: relative;
   width: 100%;
-  margin: 0;
+  margin: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px; /* ✅ Espace entre input et bouton clear */
 }
 
 .live-search-input {
+  /* ✅ MÊME largeur que search-wrapper */
   width: 100%;
-  padding: 14px 45px 14px 15px;
+  padding: 14px 16px;
   border-radius: 10px;
   background: var(--bg-panel);
   border: 2px solid var(--border);
@@ -441,12 +442,12 @@ html.night-theme .result-item {
   font-weight: bold;
   box-sizing: border-box;
   outline: none;
-  max-width: 100%;
 }
 
 .live-search-input:focus {
-  width: 90%;
-  max-width: 90%;
+  /* ✅ FIX : Taille stable au focus - plus de rétrécissement */
+  width: 100%;
+  max-width: 100%;
   border-color: var(--bg-btn);
   color: var(--text-light);
 }
@@ -464,19 +465,27 @@ html.night-theme .result-item {
 }
 
 .clear-search-btn {
+  /* ✅ INTÉGRÉ au flex wrapper - position correcte garantie */
   position: absolute;
   right: 12px;
   background: var(--danger);
   border: none;
   color: var(--text-white);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.clear-search-btn:hover {
+  transform: scale(1.1);
 }
 
 /* ZONE VOCALE & STATUT */
