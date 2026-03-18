@@ -1003,22 +1003,23 @@ class GestionnaireInterface {
     const inputLive = document.getElementById("liveSearchInput");
     
     inputLive.addEventListener('focus', () => {
+      // Increased delay to 500ms to better handle keyboard animation on all devices.
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
         if (searchWrapper) {
           // This instantly brings the search bar to the top of the viewport.
           searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
 
-          // Then, we apply a manual offset.
-          // To move the search bar DOWN from the top edge, use a NEGATIVE value (e.g., -70).
-          // This effectively scrolls the page UP a little.
-          const verticalOffset = -100; // in pixels
+          // --- ADJUSTABLE OFFSET ---
+          // To move the search bar DOWN from the top edge (e.g., to clear a header),
+          // use a NEGATIVE value like -70.
+          // To move it UP, use a POSITIVE value.
+          // Set to 0 to align perfectly with the top.
+          const verticalOffset = 0; // in pixels
           
-          if (verticalOffset !== 0) {
-            window.scrollBy(0, verticalOffset);
-          }
+          window.scrollBy(0, verticalOffset);
         }
-      }, 300); // Delay for mobile keyboard to appear.
+      }, 500); 
     });
   }
 
