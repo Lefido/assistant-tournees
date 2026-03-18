@@ -1003,11 +1003,26 @@ class GestionnaireInterface {
     const inputLive = document.getElementById("liveSearchInput");
     
     inputLive.addEventListener('focus', () => {
-      // Force scroll to the top of the search wrapper
       setTimeout(() => {
         const searchWrapper = inputLive.closest('.search-wrapper');
+        const header = document.querySelector('.app-header');
+        
         if (searchWrapper) {
-          searchWrapper.scrollIntoView({ block: 'start', behavior: 'smooth' });
+          let headerHeight = 0;
+          if (header) {
+             headerHeight = header.offsetHeight;
+          }
+
+          // You can adjust this value. A positive value scrolls it further down from the top edge.
+          const additionalOffset = 5; // px
+
+          const elementTop = searchWrapper.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementTop - headerHeight - additionalOffset;
+    
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
         }
       }, 300); // Increased delay for mobile keyboard
     });
