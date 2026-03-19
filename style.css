@@ -386,7 +386,6 @@ html.night-theme .result-item {
 }
 
 .result-item-danger {
-  /* background-color: var(--dangerCards) !important; */
   background-color: rgb(255, 44, 44) !important;
   font-weight: 600;
   animation: pulseDanger 1s ease-in-out infinite;
@@ -428,7 +427,6 @@ html.night-theme .result-item {
   align-items: center;
   background-color: #0077ff2a;
   border-radius: 12px;
-  /* gap: 8px; */
 }
 
 .voice-btn-wrapper {
@@ -1928,14 +1926,10 @@ html.night-theme .pdf-city-item label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* background: rgba(255, 255, 255, 0.9); */
   color: var(--text-white);
   font-size: 0.8rem;
   text-shadow: 1px 1px 4px black;
   font-weight:bold;
-  /* width: 12px;
-  height: 12px; */
-  /* border-radius: 50%; */
   display: flex;
   align-items: center;
   justify-content: center;
