@@ -422,12 +422,23 @@ html.night-theme .result-item {
 
 .search-wrapper {
   position: relative;
-  width: 100%;
+  width: 95%;
   margin: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px; /* ✅ Espace entre input et bouton clear */
+  background-color: #0077ff2a;
+  border-radius: 12px;
+  /* gap: 8px; */
+}
+
+.voice-btn-wrapper {
+  flex-shrink: 0;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
 }
 
 .live-search-input {
@@ -462,12 +473,20 @@ html.night-theme .result-item {
     max-width: 100%;
     width: 100%;
   }
+
+  .search-wrapper {
+  width: 100%;
+
+}
+
 }
 
 .clear-search-btn {
   /* ✅ INTÉGRÉ au flex wrapper - position correcte garantie */
   position: absolute;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   background: var(--danger);
   border: none;
   color: var(--text-white);
@@ -484,28 +503,10 @@ html.night-theme .result-item {
   transition: transform 0.2s;
 }
 
-.clear-search-btn:hover {
-  transform: scale(1.1);
-}
-
-/* ZONE VOCALE & STATUT */
-.voice-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
-  width: 100%;
-}
-
-.button-row {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
 
 .voice-btn {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   font-size: 1.5rem;
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -515,6 +516,9 @@ html.night-theme .result-item {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  margin: 8px;
+  
 }
 
 .voice-btn i {
@@ -561,14 +565,6 @@ html.night-theme .result-item {
     opacity: 1;
     transform: scale(1);
   }
-}
-
-.status-text {
-  font-weight: bold;
-  color: var(--bg-btn);
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 10px;
 }
 
 /* MODAL DE CONFIRMATION VOCALE */

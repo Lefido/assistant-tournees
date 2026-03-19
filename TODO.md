@@ -1,7 +1,15 @@
-# TODO - Désactiver décrochage liveSearchInput
+# TODOs: Nettoyage code mort JS
 
-✅ **Étape 1 :** Créer TODO.md avec plan  
-✅ **Étape 2 :** Éditer script.js - Commenter focus/blur handlers  
-✅ **Étape 3 :** [À tester] Focus input → reste en place  
-✅ **Étape 4 :** [À tester] Recherche + clear fonctionnent  
-✅ **Étape 5 :** Completion
+## Plan approuvé (Utilisateur: oui)
+1. [ ] ✅ Créer ce TODO.md (EN COURS)
+2. [x] Supprimer src/App.js (orphelin)
+3. [x] Supprimer src/data/DataManager.js (incomplet)
+4. [x] Supprimer src/ui/UIManager.js (legacy)
+5. [ ] Edit script.js: 
+   - Remplacer _analyserAdresseDepuisTexte par import analyzeAddressFromText de Utilities.js
+   - Supprimer console.logs debug (OCR, etc.)
+6. [ ] Test app: Ouvrir index.html, tester import/search/voice/camera/journal/PDF
+7. [ ] attempt_completion
+
+**Prochaine étape** : rm fichiers orphelins
+

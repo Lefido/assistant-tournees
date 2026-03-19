@@ -57,23 +57,41 @@
 
           <div id="liveSearchContainer" class="search-section">
             <div class="search-wrapper">
-              <label for="liveSearchInput" class="sr-only"
-                >Rechercher une adresse</label
-              >
-              <input
-                type="text"
-                id="liveSearchInput"
-                placeholder="Rechercher une adresse…"
-                class="live-search-input"
-                autocomplete="off"
-                aria-label="Rechercher une adresse"
-              />
+              <div class="voice-btn-wrapper">
+                <button
+                  id="voiceBtn"
+                  class="voice-btn"
+                  aria-label="Activer la recherche vocale"
+                >
+                  <i class="fas fa-microphone"></i>
+                </button>
+              </div>
+              <div class="search-input-wrapper">
+                <label for="liveSearchInput" class="sr-only"
+                  >Rechercher une adresse</label
+                >
+                <input
+                  type="text"
+                  id="liveSearchInput"
+                  placeholder="Rechercher une adresse…"
+                  class="live-search-input"
+                  autocomplete="off"
+                  aria-label="Rechercher une adresse"
+                />
+                <button
+                  id="clearSearchBtn"
+                  class="clear-search-btn"
+                  aria-label="Effacer la recherche"
+                >
+                  ✖
+                </button>
+              </div>
               <button
-                id="clearSearchBtn"
-                class="clear-search-btn"
-                aria-label="Effacer la recherche"
+                id="cameraBtn"
+                class="voice-btn hidden"
+                aria-label="Activer la caméra"
               >
-                ✖
+                <i class="fas fa-camera"></i>
               </button>
             </div>
             <div
@@ -85,33 +103,6 @@
           </div>
 
           <div id="cityBtnContainer" class="city-btn-container"></div>
-
-          <div class="voice-zone">
-            <div class="button-row">
-              <button
-                id="voiceBtn"
-                class="voice-btn"
-                aria-label="Activer la recherche vocale"
-              >
-                <i class="fas fa-microphone"></i>
-              </button>
-              <button
-                id="cameraBtn"
-                class="voice-btn hidden"
-                aria-label="Activer la caméra"
-              >
-                <i class="fas fa-camera"></i>
-              </button>
-            </div>
-            <div
-              id="statusText"
-              class="status-text"
-              role="status"
-              aria-live="polite"
-            >
-              Prêt.
-            </div>
-          </div>
 
           <div id="noFileWarning" class="warning-msg">
             Aucun fichier chargé. Allez dans Paramètres.

@@ -1,10 +1,4 @@
-/**
- * =====================================
- * GESTIONNAIRE DE DONNÉES EXCEL - FICHIER PRINCIPAL
- * =====================================
- * Classe principale gérant l'import Excel, localStorage, journal, PDF colors
- * Toutes les données d'adresses et états UI passent par cette classe
- */
+
 class GestionnaireDonnees {
   /**
    * Constructeur - Initialise les propriétés principales de données
@@ -361,11 +355,9 @@ this.instance.onerror = (evenement) => {
       
       // ✅ FIX no-speech : message spécifique silencieux
       if (evenement.error === 'no-speech') {
-        this.mettreAJourStatut("Parlez plus fort...");
         return; // Pas d'alert intrusive
       }
       
-      this.mettreAJourStatut("Erreur reconnaissance");
       alert(
         "Erreur reconnaissance vocale : " + (evenement.error || "inconnue"),
       );
@@ -373,12 +365,10 @@ this.instance.onerror = (evenement) => {
 
 
     this.instance.onnomatch = () => {
-      this.mettreAJourStatut("Aucun résultat");
     };
 
     this.instance.onend = () => {
       this.retirerClasseEcoute();
-      this.mettreAJourStatut("Prêt.");
     };
   }
 
@@ -390,7 +380,6 @@ this.instance.onerror = (evenement) => {
 
     this.jouerBip();
     this.ajouterClasseEcoute();
-    this.mettreAJourStatut("J'écoute...");
 
     try {
       this.instance.start();
@@ -399,7 +388,6 @@ this.instance.onerror = (evenement) => {
       alert(
         "Impossible de démarrer la reconnaissance vocale. Vérifiez les permissions du micro et le contexte (HTTPS).",
       );
-      this.mettreAJourStatut("Erreur micro");
     }
   }
 
@@ -424,7 +412,6 @@ this.instance.onerror = (evenement) => {
 
   annulerReconnaissance() {
     this.cacherPopupConfirmation();
-    this.mettreAJourStatut("Annulé.");
   }
 
   afficherConfirmationRecherche() {
@@ -493,13 +480,6 @@ afficherResultatsRecherche(resultats) {
       contenuPopup.innerHTML = html;
       titrePopup.textContent = "Résultats";
       popup.classList.remove("hidden");
-    }
-  }
-
-  mettreAJourStatut(texte) {
-    const elementStatut = document.getElementById("statusText");
-    if (elementStatut) {
-      elementStatut.textContent = texte;
     }
   }
 
@@ -676,13 +656,7 @@ class GestionnaireCamera {
         rectangle: rectangle,
       });
 
-      const texteReconnu = resultat.data.text;
-      console.log("Texte reconnu:", texteReconnu);
-
       const adresseAnalysée = this._analyserAdresseDepuisTexte(texteReconnu);
-      console.log("Adresse analysée:", adresseAnalysée);
-
-      this._rechercherDepuisOCR(adresseAnalysée);
     } catch (erreur) {
       console.error("Erreur OCR:", erreur);
       this._mettreAJourStatut("Erreur lors de l'analyse.");
@@ -871,8 +845,7 @@ class GestionnaireInterface {
     this.rafraichirInterface();
     this.restaurerBrasSelectionne();
     this.verifierAvertissementDonnees();
-    this.positionnerZoneVocale();
-    window.addEventListener("resize", () => this.positionnerZoneVocale());
+    window.addEventListener("resize", () => {});
     this.initialiserToggles();
     this.initialiserRecherche();
     this.initialiserRechercheAdresses();
@@ -1336,18 +1309,12 @@ class GestionnaireInterface {
 
   initialiserReconnaissanceVocale() {
     const boutonVocal = document.getElementById("voiceBtn");
-    const texteStatut = document.getElementById("statusText");
 
     if (!this.gestionnaireReconnaissance.estDisponible()) {
       if (boutonVocal) {
         boutonVocal.disabled = true;
         boutonVocal.setAttribute("aria-disabled", "true");
       }
-      if (texteStatut)
-        texteStatut.textContent = "Commande vocale non disponible";
-    } else {
-      if (texteStatut && texteStatut.textContent.trim() === "")
-        texteStatut.textContent = "Prêt.";
     }
 
     const popupVocale = document.getElementById("voicePopupOverlay");
@@ -1428,7 +1395,6 @@ verifierAvertissementDonnees() {
     const titreBras = document.querySelector("#userPanel h2:first-of-type");
     const conteneurBras = document.getElementById("brasBtnContainer");
     const conteneurRecherche = document.getElementById("liveSearchContainer");
-    const zoneVocale = document.querySelector(".voice-zone");
     const titreVille = document.getElementById("titleVille");
     const aSelectionne = this.gestionnaireDonnees.brasSelectionne !== "";
 
@@ -1436,8 +1402,6 @@ verifierAvertissementDonnees() {
     if (conteneurBras) conteneurBras.style.display = aDonnees ? "flex" : "none";
     if (conteneurRecherche)
       conteneurRecherche.style.display = aDonnees && aSelectionne ? "block" : "none";
-    if (zoneVocale)
-      zoneVocale.style.display = aDonnees && aSelectionne ? "flex" : "none";
     if (titreVille) {
       titreVille.classList.toggle("hidden", !(aDonnees && aSelectionne));
     }
@@ -1717,20 +1681,6 @@ verifierAvertissementDonnees() {
     }
 
     this.verifierAvertissementDonnees();
-  }
-
-  positionnerZoneVocale() {
-    const zoneVocale = document.querySelector(".voice-zone");
-    const piedPage = document.querySelector(".app-footer");
-    if (!zoneVocale || !piedPage) return;
-
-    const hauteurPiedPage = piedPage.offsetHeight;
-
-    zoneVocale.style.position = "fixed";
-    zoneVocale.style.bottom = hauteurPiedPage + "px";
-    zoneVocale.style.left = "50%";
-    zoneVocale.style.transform = "translateX(-50%)";
-    zoneVocale.style.zIndex = "10";
   }
 
   restaurerBrasSelectionne() {
@@ -2090,21 +2040,8 @@ basculerMode(bouton) {
         } else {
           document.getElementById("titleVille").classList.remove("hidden");
         }
-        if (this.gestionnaireDonnees.brasSelectionne) {
-          const boutonVocal = document.getElementById("voiceBtn");
-          const zoneVocale = document.querySelector(".voice-zone");
-          if (boutonVocal && zoneVocale) {
-            // Déplacer le bouton vocal si nécessaire
-            if (!zoneVocale.contains(boutonVocal)) {
-              boutonVocal.className = "voice-btn";
-              zoneVocale.appendChild(boutonVocal);
-            }
-            zoneVocale.style.display = "flex";
-          }
-        }
         // Positionner la zone vocale après l'animation
         setTimeout(() => {
-          this.positionnerZoneVocale();
         }, 50);
       }, 300); // Durée de la transition CSS
       
