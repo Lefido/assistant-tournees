@@ -319,14 +319,14 @@ html.night-theme .city-btn.active {
 /* =====================================
    RECHERCHE - Styles groupés par ville (tous écrans)
    ===================================== */
-.live-search-results,
 .live-search-results {
   /* ✅ Même largeur que liveSearchInput via classe commune */
   /* max-height: 60vh; */
-  width: 100%;
+  width: 95%;
   border: 2px solid var(--bg-btn);
   border-radius: 5px;
   box-sizing: border-box;
+  margin: auto;
 }
 
 /* Grouped results by city */
@@ -425,7 +425,7 @@ html.night-theme .result-item {
   margin: auto;
   display: flex;
   align-items: center;
-  background-color: #0077ff2a;
+  background-color: #0077ff65;
   border-radius: 12px;
 }
 
@@ -437,6 +437,7 @@ html.night-theme .result-item {
   position: relative;
   flex-grow: 1;
   display: flex;
+  margin : 4px;
 }
 
 .live-search-input {
@@ -473,24 +474,27 @@ html.night-theme .result-item {
   }
 
   .search-wrapper {
-  width: 100%;
+    width: 100%;
+  }
 
-}
+  .live-search-results {
+    width: 100%;
+  }
 
 }
 
 .clear-search-btn {
   /* ✅ INTÉGRÉ au flex wrapper - position correcte garantie */
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: var(--danger);
   border: none;
   color: var(--text-white);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   display: none;
   align-items: center;
@@ -515,7 +519,7 @@ html.night-theme .result-item {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin: 8px;
+  margin: 0px;
   
 }
 
@@ -527,6 +531,14 @@ html.night-theme .result-item {
   background: var(--success);
   animation: pulse 1.2s infinite;
   z-index: 1010;
+}
+
+.micro-btn {
+  margin-left: 8px;
+}
+
+.camera-btn {
+  margin-right: 8px;
 }
 
 @keyframes pulse {

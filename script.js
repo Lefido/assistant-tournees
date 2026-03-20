@@ -975,6 +975,17 @@ class GestionnaireInterface {
 
     const inputLive = document.getElementById("liveSearchInput");
     
+    // Fermer le clavier mobile lors de la validation (Entrée ou bouton Go)
+    inputLive.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        inputLive.blur();
+      }
+    });
+    
+    inputLive.addEventListener('search', () => {
+      inputLive.blur();
+    });
+    
     inputLive.addEventListener('focus', () => {
       // Increased delay to 500ms to better handle keyboard animation on all devices.
       setTimeout(() => {
