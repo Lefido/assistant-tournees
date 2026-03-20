@@ -436,6 +436,7 @@ html.night-theme .result-item {
   align-items: center;
    background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
   border-radius: 12px;
+  margin-top: 10px;
 }
 
 .voice-btn-wrapper {

@@ -987,31 +987,7 @@ class GestionnaireInterface {
     });
     
     inputLive.addEventListener('focus', () => {
-      // Increased delay to 500ms to better handle keyboard animation on all devices.
-      setTimeout(() => {
-        const searchWrapper = inputLive.closest('.search-wrapper');
-        if (searchWrapper) {
-          // Temporarily disable smooth scrolling to ensure instant positioning.
-          document.documentElement.style.scrollBehavior = 'auto';
-
-          // This instantly brings the search bar to the top of the viewport.
-          searchWrapper.scrollIntoView({ block: 'start', behavior: 'auto' });
-
-          // --- ADJUSTABLE OFFSET ---
-          // To move the search bar DOWN from the top edge (e.g., to clear a header),
-          // use a NEGATIVE value like -70.
-          // To move it UP, use a POSITIVE value.
-          // Set to 0 to align perfectly with the top.
-          const verticalOffset = 0; // in pixels
-          
-          window.scrollBy(0, verticalOffset);
-
-          // Restore smooth scrolling after the operation is complete.
-          setTimeout(() => {
-            document.documentElement.style.scrollBehavior = 'smooth';
-          }, 100);
-        }
-      }, 500); 
+      // Scroll automatique supprimé
     });
   }
 
@@ -1415,6 +1391,12 @@ verifierAvertissementDonnees() {
       conteneurRecherche.style.display = aDonnees && aSelectionne ? "block" : "none";
     if (titreVille) {
       titreVille.classList.toggle("hidden", !(aDonnees && aSelectionne));
+    }
+    
+    // ✅ Show city-btn-container only if Excel loaded AND Bras selected
+    const conteneurVilles = document.getElementById("cityBtnContainer");
+    if (conteneurVilles) {
+      conteneurVilles.style.display = (aDonnees && aSelectionne) ? "flex" : "none";
     }
     
     // Debug final
