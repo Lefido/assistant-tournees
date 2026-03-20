@@ -430,8 +430,8 @@ html.night-theme .result-item {
 
 .search-wrapper {
   position: relative;
-  width: 95%;
-  margin: auto;
+  width: 100%;
+  /* margin: auto; */
   display: flex;
   align-items: center;
    background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
@@ -1268,7 +1268,7 @@ html.night-theme .app-footer {
 }
 
 .form-input {
-  padding: 14px 16px;
+  padding: 14px 20px 14px 16px;
   border-radius: 10px;
   background: var(--bg-input);
   border: 2px solid var(--border);
@@ -1278,6 +1278,31 @@ html.night-theme .app-footer {
   text-transform: capitalize;
   outline: none;
   transition: border-color 0.2s;
+}
+
+#addressType {
+  padding-right: 50px !important;
+}
+
+#addressType {
+  padding-right: 55px !important;
+  background-position-x: 20px !important;
+}
+
+#addressType::-webkit-scrollbar {
+  display: none;
+}
+
+.form-input[type="select"],
+.form-input select {
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .form-input:focus {
