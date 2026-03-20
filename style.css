@@ -540,7 +540,7 @@ html.night-theme .result-item {
 .voice-btn.listening {
   background: var(--success);
   animation: pulse 1.2s infinite;
-  z-index: 1010;
+  z-index: 100;
 }
 
 .micro-btn {
@@ -748,7 +748,8 @@ html.night-theme .popup-window {
 .popup-scroll {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--bg-btn);
   max-height: 50vh;
   overflow-y: auto;
   margin: 0 0 15px 0;
