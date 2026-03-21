@@ -17,7 +17,7 @@
   --danger: #fd2f2f;
   --dangerCards: #eb36368c;
   --success: #24a10b;
-  --accent-cyan: #0077ff;
+  --accent-cyan: #00c3ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
   --shadow-color: rgba(0, 0, 0, 0.5);
 }
@@ -37,7 +37,7 @@
   --danger: #fd2f2f;
   --dangerCards: #eb36368c;
   --success: #24a10b;
-  --accent-cyan: #0077ff;
+  --accent-cyan: #00c3ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
   --shadow-color: rgba(0, 0, 0, 0.5);
 
@@ -255,7 +255,6 @@ html.night-theme body {
   margin-top: 8px;
   margin-bottom: 8pxpx;
   width: 100%;
-  /* background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%); */
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 12px;
@@ -274,7 +273,7 @@ html.night-theme body {
 
 .city-btn.active {
   background: var(--bg-btn);
-  border-color: #00c3ff;
+  border-color: var(--accent-cyan);
   color: var(--text-white);
   transform: scale(1.05);
 
@@ -282,7 +281,6 @@ html.night-theme body {
 
 html.night-theme .city-btn {
   background: var(--bg-input);
-  /*color: #000000;*/
   color: var(--text-light)
 }
 
@@ -949,7 +947,7 @@ td {
 td:last-child {
   text-align: right;
   font-weight: 800;
-  color: #00c3ff;
+  color: var(--accent-cyan);
   font-size: 1.2rem;
 }
 
@@ -958,7 +956,7 @@ html.night-theme td {
 }
 
 html.night-theme td:last-child {
-  color: #00c3ff;
+  color: var(--accent-cyan);
 }
 
 .admin-actions {
@@ -1532,7 +1530,7 @@ tr.highlight {
 }
 
 tr.highlight td {
-    border-left: 4px solid #2196f3;
+    border-left: 4px solid (var(--accent-cyan));
 }
 
 /* Smooth retour à l'état normal */
