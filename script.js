@@ -2271,8 +2271,7 @@ basculerMode(bouton) {
     } else {
       alert("Impossible d'ouvrir la fenêtre d'impression.");
     }
-
-    this.fermerPopupPDF();
+    // Popup reste ouvert après impression PDF
   }
 
   static hexToRgb(hex) {
@@ -2404,8 +2403,7 @@ basculerMode(bouton) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
-    this.fermerPopupPDF();
+    // Popup reste ouvert après génération DOCX
   }
 
   initialiserPopupPDF() {

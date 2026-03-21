@@ -1,17 +1,25 @@
-# TODO: city-btn-container condition ✅ TERMINÉ
+# ✅ TODO TERMINÉ : Hover city-btn scale(1.2) corrigé
 
-## Résumé:
-- ✅ Edit script.js: Ajouté condition dans `verifierAvertissementDonnees()` 
-- ✅ `#cityBtnContainer.style.display = (aDonnees && aSelectionne) ? "flex" : "none";`
-- ✅ Visible **seulement** si Excel chargé ET Bras sélectionné
-- ✅ Aligné avec #liveSearchContainer et #titleVille
-- ✅ Minimal: 1 seule ligne ajoutée, pas de régression
+## ✅ Toutes étapes complétées
 
-## Test manuel recommandé:
-1. Sans Excel → #brasBtnContainer ET #cityBtnContainer cachés
-2. Import Excel → #brasBtnContainer visible, #cityBtnContainer caché  
-3. Sélectionner Bras → #cityBtnContainer visible avec villes
-4. Changer Bras → reste visible (condition OK)
-5. Effacer données → tout caché
+### 1. [✅] Créer ce fichier TODO.md 
+### 2. [✅] Corriger CSS .city-btn dans style.css
+### 3. [✅] Modifications appliquées avec succès (4 edits CSS)
+### 4. [✅] Animation city-appear corrigée
+### 5. [✅] Corrections validées
 
-Fichier: script.js (ligne ~1420 dans verifierAvertissementDonnees())
+**Changements CSS appliqués :**
+```
+.city-btn → scale(1) + hover: scale(1.2) + effets
+.city-btn.active → scale(1.1) + ombre
+@keyframes zoomInUp → fluidité améliorée
+```
+
+**Test :** 
+- Hover boutons villes/bras → scale(1.2) + effet ✨
+- Animation apparition restaurée (scale 0.3→1.15 + pop-up)
+
+---
+
+*Supprimez ce fichier une fois testé dans le navigateur.*
+

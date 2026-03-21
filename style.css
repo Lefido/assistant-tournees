@@ -267,9 +267,15 @@ html.night-theme body {
   background: var(--bg-input);
   /* color: black; */
   cursor: pointer;
-  transition: 0.2s;
-  transform: scale(1.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
   text-transform: capitalize;
+}
+
+.city-btn:hover {
+  /* transform: scale(1.2) translateY(-2px); */
+  box-shadow: 0 0 30px var(--bg-btn);
+  z-index: 10;
 }
 
 
@@ -277,8 +283,8 @@ html.night-theme body {
   background: var(--bg-btn);
   border-color: var(--accent-cyan);
   color: var(--text-white);
-  transform: scale(1.05);
-
+  /* transform: scale(1.1); */
+  box-shadow: 0 0 15px var(--bg-btn);
 }
 
 html.night-theme .city-btn {
@@ -301,16 +307,16 @@ html.night-theme .city-btn.active {
 @keyframes zoomInUp {
   0% {
     opacity: 0;
-    transform: scale(0.2);
+    transform: scale(0.3) translateY(20px);
   }
 
   50% {
     opacity: 1;
-    transform: scale(1.06);
+    transform: scale(1.15);
   }
 
   75% {
-    transform: scale(0.94);
+    transform: scale(0.95);
   }
 
   100% {
