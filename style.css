@@ -254,10 +254,10 @@ html.night-theme body {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 8px;
+  margin-bottom: 8pxpx;
   width: 100%;
-  background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
+  /* background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%); */
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 12px;
@@ -437,6 +437,7 @@ html.night-theme .result-item {
    background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
   border-radius: 12px;
   margin-top: 10px;
+  margin-bottom: 18px;
 }
 
 .voice-btn-wrapper {
