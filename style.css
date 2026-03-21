@@ -422,8 +422,13 @@ html.night-theme .result-item {
   text-align: center;
 }
 
+.search-section {
+  margin-bottom: 18px;
+  
+}
+
 .search-section.focused {
-  padding-bottom: 0;
+  padding-bottom: 0; 
 }
 
 /* .search-section.focused règles supprimées (décrochage désactivé) */
@@ -437,7 +442,7 @@ html.night-theme .result-item {
    background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
   border-radius: 12px;
   margin-top: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 4px;
 }
 
 .voice-btn-wrapper {
