@@ -322,7 +322,7 @@ html.night-theme .city-btn.active {
 .live-search-results {
   /* ✅ Même largeur que liveSearchInput via classe commune */
   /* max-height: 60vh; */
-  width: 95%;
+  width: 100%;
   border: 2px solid var(--bg-btn);
   border-radius: 5px;
   box-sizing: border-box;
