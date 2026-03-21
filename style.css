@@ -8,12 +8,12 @@
    */
   --bg-dark: #e6e6e6;
   --bg-panel: #ffffff;
-  --bg-input: #aaaaaa;
+  --bg-input: #c4c4c4;
   --bg-btn: #0077ff;
   --bg-btn-clear: #444;
   --text-light: #333333;
   --text-white: #ffffff;
-  --border: #a8a8a8;
+  --border: #d6d6d6;
   --danger: #fd2f2f;
   --dangerCards: #eb36368c;
   --success: #24a10b;
@@ -437,7 +437,7 @@ html.night-theme .result-item {
   /* margin: auto; */
   display: flex;
   align-items: center;
-   background-color : color-mix(in srgb, var(--border), transparent 0%);
+   background-color : color-mix(in srgb, var(--bg-input), transparent 0%);
   border-radius: 12px;
   margin-top: 10px;
   margin-bottom: 4px;
