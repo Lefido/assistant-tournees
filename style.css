@@ -6,15 +6,14 @@
    * VARIABLES CSS THÈME CLAIR (Jour)
    * Toutes couleurs/ombres globales de l'app
    */
-  --bg-dark: #f0f0f0;
-
+  --bg-dark: #e6e6e6;
   --bg-panel: #ffffff;
-  --bg-input: #cacaca;
+  --bg-input: #aaaaaa;
   --bg-btn: #0077ff;
   --bg-btn-clear: #444;
   --text-light: #333333;
   --text-white: #ffffff;
-  --border: #cccccc;
+  --border: #a8a8a8;
   --danger: #fd2f2f;
   --dangerCards: #eb36368c;
   --success: #24a10b;
@@ -27,8 +26,7 @@
   /**
    * VARIABLES CSS THÈME SOMBRE (Nuit) - Mode dark activé
    */
-  --bg-dark: #1a1a2e;
-
+  --bg-dark: #161625;
   --bg-panel: #16213e;
   --bg-input: #16213e;
   --bg-btn: #0077ff;
@@ -439,7 +437,7 @@ html.night-theme .result-item {
   /* margin: auto; */
   display: flex;
   align-items: center;
-   background-color : color-mix(in srgb, var(--accent-cyan), transparent 80%);
+   background-color : color-mix(in srgb, var(--border), transparent 0%);
   border-radius: 12px;
   margin-top: 10px;
   margin-bottom: 4px;
