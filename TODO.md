@@ -1,25 +1,6 @@
-# ✅ TODO TERMINÉ : Hover city-btn scale(1.2) corrigé
+# TODO: Ajout ligne d'en-tête au-dessus de pdfCitiesList
 
-## ✅ Toutes étapes complétées
-
-### 1. [✅] Créer ce fichier TODO.md 
-### 2. [✅] Corriger CSS .city-btn dans style.css
-### 3. [✅] Modifications appliquées avec succès (4 edits CSS)
-### 4. [✅] Animation city-appear corrigée
-### 5. [✅] Corrections validées
-
-**Changements CSS appliqués :**
-```
-.city-btn → scale(1) + hover: scale(1.2) + effets
-.city-btn.active → scale(1.1) + ombre
-@keyframes zoomInUp → fluidité améliorée
-```
-
-**Test :** 
-- Hover boutons villes/bras → scale(1.2) + effet ✨
-- Animation apparition restaurée (scale 0.3→1.15 + pop-up)
-
----
-
-*Supprimez ce fichier une fois testé dans le navigateur.*
-
+- [ ] 1. Créer TODO.md (fait)
+- [x] 2. Éditer index.html : Insérer header statique à 3 colonnes dans #pdfCitiesList
+- [x] 3. Vérifier affichage (tester popup PDF)
+- [x] 4. Marquer comme complété et attempt_completion

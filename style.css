@@ -753,6 +753,7 @@ html.night-theme .popup-window {
 .popup-title {
   color: var(--bg-btn);
   margin-top: 0;
+  margin-bottom: 5px;
   text-align: center;
   width: 100%;
 }
@@ -1253,7 +1254,7 @@ html.night-theme .app-footer {
 #addressPopupOverlay .popup-window {
   gap: 20px;
   padding: 25px;
-  max-height: 85vh;
+  max-height: 86vh;
   overflow-y: auto;
 }
 
@@ -1868,7 +1869,7 @@ html.night-theme .no-data-msg {
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  margin: 15px 0;
+  margin: 0px 0;
 }
 
 .pdf-city-item {
@@ -1931,6 +1932,38 @@ html.night-theme .no-data-msg {
 .pdf-city-item input[type="checkbox"]:checked {
   background: var(--bg-btn);
   border-color: var(--bg-btn);
+}
+
+.pdf-cities-header {
+  background: var(--bg-btn);
+  color: var(--text-white);
+  width: 95%;
+  font-weight: bold;
+  text-transform: uppercase;
+  /* border-bottom: 1px solid var(--accent-cyan); */
+  margin-bottom: 0px;
+}
+
+.pdf-cities-header .pdf-header-cell {
+  text-transform: capitalize;
+  font-size: 0.8rem;
+  padding: 0px 0px;
+}
+
+.pdf-cities-header .pdf-header-cell:nth-child(1) {
+  flex: 0 0 10px;
+  text-align: center;
+}
+
+.pdf-cities-header .pdf-header-cell:nth-child(2) {
+  flex: 1;
+  text-align: left;
+  margin-left: 12px;
+}
+
+.pdf-cities-header .pdf-header-cell:nth-child(3) {
+  flex: 0 0 50px;
+  text-align: center;
 }
 
 .pdf-city-item input[type="checkbox"]:checked::after {
