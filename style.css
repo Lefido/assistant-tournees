@@ -421,7 +421,7 @@ html.night-theme .result-item {
 .result-number {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--accent-cyan);
+  color: var(--bg-btn);
   margin-left: 10px;
   min-width: 40px;
   text-align: center;
@@ -753,7 +753,7 @@ html.night-theme .popup-window {
 .popup-title {
   color: var(--bg-btn);
   margin-top: 0;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   text-align: center;
   width: 100%;
 }
@@ -761,7 +761,9 @@ html.night-theme .popup-window {
 .popup-scroll {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  /* border-radius: 8px 8px / 0px; */
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   border: 1px solid var(--bg-btn);
   max-height: 50vh;
   overflow-y: auto;
@@ -833,7 +835,7 @@ html.night-theme .popup-window {
 .popup-scroll .result-number {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--accent-cyan);
+  color: var(--bg-btn);
   margin-left: 10px;
   min-width: 40px;
   text-align: center;
