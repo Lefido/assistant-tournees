@@ -418,7 +418,7 @@ this.instance.onerror = (evenement) => {
     const popup = document.getElementById("voicePopupOverlay");
     const texteConfirmation = document.getElementById("voiceConfirmText");
     if (popup && texteConfirmation) {
-      texteConfirmation.textContent = `Chercher "${this.dernierReconnu}" ?`;
+      texteConfirmation.textContent = `Mot détecté "${this.dernierReconnu}". Lancer la recherche ?`;
       popup.classList.remove("hidden");
     }
   }
@@ -478,7 +478,7 @@ afficherResultatsRecherche(resultats) {
 
     if (contenuPopup && titrePopup && popup) {
       contenuPopup.innerHTML = html;
-      titrePopup.textContent = "Résultats";
+      titrePopup.textContent = "Résultats de la recherche vocale";
       popup.classList.remove("hidden");
     }
   }
