@@ -1,4 +1,3 @@
-
 class GestionnaireDonnees {
   /**
    * Constructeur - Initialise les propriétés principales de données
@@ -142,7 +141,7 @@ class GestionnaireDonnees {
     this.donneesExcel = [];
     this.brasSelectionne = "";
     this.villeSelectionnee = "";
-    this.nomFichier = "";  // ✅ Clear nomFichier
+    this.nomFichier = ""; // ✅ Clear nomFichier
     localStorage.removeItem("tourneeData");
     localStorage.removeItem("tourneeNomFichier");
   }
@@ -164,10 +163,10 @@ class GestionnaireDonnees {
     };
     this.donneesExcel.push(nouvelleAdresse);
     this.sauvegarderDansStockage();
-    
+
     // Ajouter au journal
-    this.ajouterLog('création', nouvelleAdresse);
-    
+    this.ajouterLog("création", nouvelleAdresse);
+
     return index; // ← RETOURNE INDEX POUR AUTO-FOCUS
   }
 
@@ -189,9 +188,9 @@ class GestionnaireDonnees {
       };
       this.donneesExcel[index] = adresseModifiee;
       this.sauvegarderDansStockage();
-      
+
       // Ajouter au journal
-      this.ajouterLog('modification', adresseModifiee, index);
+      this.ajouterLog("modification", adresseModifiee, index);
     }
   }
 
@@ -200,9 +199,9 @@ class GestionnaireDonnees {
       const adresseSupprimee = { ...this.donneesExcel[index] };
       this.donneesExcel.splice(index, 1);
       this.sauvegarderDansStockage();
-      
+
       // Ajouter au journal
-      this.ajouterLog('suppression', adresseSupprimee, index);
+      this.ajouterLog("suppression", adresseSupprimee, index);
     }
   }
 
@@ -210,68 +209,72 @@ class GestionnaireDonnees {
     const journal = this.obtenirJournal();
     const log = {
       type: type,
-      date: new Date().toLocaleString('fr-FR', { 
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+      date: new Date().toLocaleString("fr-FR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
       }),
       address: { ...adresse },
-      index: index
+      index: index,
     };
     journal.unshift(log); // Ajout en tête pour récence
-    localStorage.setItem('tourneeJournal', JSON.stringify(journal));
-    
+    localStorage.setItem("tourneeJournal", JSON.stringify(journal));
+
     // Mettre à jour visibilité bouton
     this.mettreAJourVisibiliteBoutonJournal();
   }
 
   obtenirJournal() {
-    const journal = localStorage.getItem('tourneeJournal');
+    const journal = localStorage.getItem("tourneeJournal");
     return journal ? JSON.parse(journal) : [];
   }
 
   viderJournal() {
-    localStorage.removeItem('tourneeJournal');
+    localStorage.removeItem("tourneeJournal");
     this.mettreAJourVisibiliteBoutonJournal();
   }
 
   exporterJournalExcel() {
     const journal = this.obtenirJournal();
     if (journal.length === 0) {
-      alert('Aucun élément dans le journal.');
+      alert("Aucun élément dans le journal.");
       return;
     }
 
-    const donneesExport = journal.map(log => {
-      let typeLabel = '';
-      if (log.type === 'création') typeLabel = 'Création';
-      else if (log.type === 'modification') typeLabel = 'Modification';
-      else if (log.type === 'suppression') typeLabel = 'Suppression';
-      
+    const donneesExport = journal.map((log) => {
+      let typeLabel = "";
+      if (log.type === "création") typeLabel = "Création";
+      else if (log.type === "modification") typeLabel = "Modification";
+      else if (log.type === "suppression") typeLabel = "Suppression";
+
       return {
         Type: typeLabel,
         Date: log.date,
-        'Index': log.index !== null ? log.index : '',
+        Index: log.index !== null ? log.index : "",
         BRAS: log.address.BRAS,
         Ville: log.address.Ville,
         Adresse: log.address.Adresse,
         Numero: log.address.Numero,
-        'Type Recherche': log.address.TypeRecherche
+        "Type Recherche": log.address.TypeRecherche,
       };
     });
 
     const feuille = XLSX.utils.json_to_sheet(donneesExport);
     const classeur = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(classeur, feuille, 'Journal');
-    XLSX.writeFile(classeur, 'journal_modifications.xlsx');
+    XLSX.utils.book_append_sheet(classeur, feuille, "Journal");
+    XLSX.writeFile(classeur, "journal_modifications.xlsx");
   }
 
   mettreAJourVisibiliteBoutonJournal() {
-    const boutonJournal = document.querySelector('.journal-btn');
+    const boutonJournal = document.querySelector(".journal-btn");
     if (boutonJournal) {
       const journal = this.obtenirJournal();
       const count = journal.length;
-      boutonJournal.innerHTML = `<i class="fas fa-book"></i>Journal des modifications ${count > 0 ? `(${count})` : ''}`;
-      boutonJournal.style.display = count > 0 ? '' : 'none';
+      boutonJournal.innerHTML = `<i class="fas fa-book"></i>Journal des modifications ${count > 0 ? `(${count})` : ""}`;
+      boutonJournal.style.display = count > 0 ? "" : "none";
     }
   }
 
@@ -284,13 +287,17 @@ class GestionnaireDonnees {
     // Trier les données par BRAS, Ville et Adresse (ordre croissant)
     const donneesTriees = [...this.donneesExcel].sort((a, b) => {
       // Trier par BRAS
-      const brasCompare = a.BRAS.localeCompare(b.BRAS, "fr", { sensitivity: "base" });
+      const brasCompare = a.BRAS.localeCompare(b.BRAS, "fr", {
+        sensitivity: "base",
+      });
       if (brasCompare !== 0) return brasCompare;
-      
+
       // Trier par Ville
-      const villeCompare = a.Ville.localeCompare(b.Ville, "fr", { sensitivity: "base" });
+      const villeCompare = a.Ville.localeCompare(b.Ville, "fr", {
+        sensitivity: "base",
+      });
       if (villeCompare !== 0) return villeCompare;
-      
+
       // Trier par Adresse
       return a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" });
     });
@@ -350,22 +357,20 @@ class GestionnaireReconnaissanceVocale {
       this.afficherConfirmationRecherche();
     };
 
-this.instance.onerror = (evenement) => {
+    this.instance.onerror = (evenement) => {
       console.error("Erreur reconnaissance vocale", evenement);
-      
+
       // ✅ FIX no-speech : message spécifique silencieux
-      if (evenement.error === 'no-speech') {
+      if (evenement.error === "no-speech") {
         return; // Pas d'alert intrusive
       }
-      
+
       alert(
         "Erreur reconnaissance vocale : " + (evenement.error || "inconnue"),
       );
     };
 
-
-    this.instance.onnomatch = () => {
-    };
+    this.instance.onnomatch = () => {};
 
     this.instance.onend = () => {
       this.retirerClasseEcoute();
@@ -418,7 +423,15 @@ this.instance.onerror = (evenement) => {
     const popup = document.getElementById("voicePopupOverlay");
     const texteConfirmation = document.getElementById("voiceConfirmText");
     if (popup && texteConfirmation) {
-      texteConfirmation.textContent = `Mot détecté "${this.dernierReconnu}". Lancer la recherche ?`;
+      // Variable pour transformer la première lettre en majuscule
+      const motFormate =
+        this.dernierReconnu.charAt(0).toUpperCase() +
+        this.dernierReconnu.slice(1);
+
+      // Insertion variable dans HTML
+      texteConfirmation.innerHTML = `Mot détecté "<span class="text-vocal-search">${motFormate}</span>"<br>Lancer la recherche ?`;
+
+      // texteConfirmation.innerHTML = `Mot détecté "<span class="danger-text">${this.dernierReconnu}</span>"<br>Lancer la recherche ?`;
       popup.classList.remove("hidden");
     }
   }
@@ -430,7 +443,7 @@ this.instance.onerror = (evenement) => {
     }
   }
 
-afficherResultatsRecherche(resultats) {
+  afficherResultatsRecherche(resultats) {
     // Grouper les résultats par ville
     const villesGroupes = {};
     resultats.forEach((r) => {
@@ -442,33 +455,41 @@ afficherResultatsRecherche(resultats) {
 
     // Trier les villes par ordre alphabétique
     const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-      a.localeCompare(b, "fr", { sensitivity: "base" })
+      a.localeCompare(b, "fr", { sensitivity: "base" }),
     );
 
     let html = "";
-    
+
     villesTriees.forEach((ville) => {
       const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
       html += `<div class="results-group">`;
       html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
       html += `<div class="results-addresses">`;
-      
+
       // Trier les adresses par ordre alphabétique
       const adressesTriees = villesGroupes[ville].sort((a, b) =>
-        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
       );
-      
+
       adressesTriees.forEach((r) => {
-        const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+        const adresseDisplay =
+          r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
         const numero = String(r.Numero || "").toUpperCase();
-        const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
-        const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+        const estSpecial =
+          numero.startsWith("CS") ||
+          numero.startsWith("PICKUP") ||
+          numero.startsWith("PPDC") ||
+          numero.startsWith("REEX") ||
+          numero.startsWith("CI");
+        const itemClass = estSpecial
+          ? "result-item result-item-danger"
+          : "result-item";
         html += `<div class="${itemClass}">`;
         html += `<span class="result-address">${adresseDisplay}</span>`;
         html += `<span class="result-number">${r.Numero}</span>`;
         html += `</div>`;
       });
-      
+
       html += `</div></div>`;
     });
 
@@ -734,7 +755,7 @@ class GestionnaireCamera {
     return { ville: ville, rue: rue, dernierMotRue: dernierMotRue };
   }
 
-_rechercherDepuisOCR(adresseAnalysée) {
+  _rechercherDepuisOCR(adresseAnalysée) {
     const termeRecherche =
       adresseAnalysée.dernierMotRue ||
       adresseAnalysée.rue ||
@@ -760,33 +781,41 @@ _rechercherDepuisOCR(adresseAnalysée) {
 
       // Trier les villes par ordre alphabétique
       const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-        a.localeCompare(b, "fr", { sensitivity: "base" })
+        a.localeCompare(b, "fr", { sensitivity: "base" }),
       );
 
       let html = "";
-      
+
       villesTriees.forEach((ville) => {
         const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
         html += `<div class="results-group">`;
         html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
         html += `<div class="results-addresses">`;
-        
+
         // Trier les adresses par ordre alphabétique
         const adressesTriees = villesGroupes[ville].sort((a, b) =>
-          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
         );
-        
+
         adressesTriees.forEach((r) => {
-          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+          const adresseDisplay =
+            r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
-          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          const estSpecial =
+            numero.startsWith("CS") ||
+            numero.startsWith("PICKUP") ||
+            numero.startsWith("PPDC") ||
+            numero.startsWith("REEX") ||
+            numero.startsWith("CI");
+          const itemClass = estSpecial
+            ? "result-item result-item-danger"
+            : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
         });
-        
+
         html += `</div></div>`;
       });
 
@@ -834,14 +863,15 @@ class GestionnaireInterface {
 
   initialiserApplication() {
     this.gestionnaireDonnees.chargerDepuisStockage();
-    
+
     // ✅ RESTAURER ONGLETS (Accueil/Paramètres)
-    const interfaceSaved = localStorage.getItem('tourneeInterfaceMode') || 'accueil';
-    if (interfaceSaved === 'parametres') {
-      this.basculerMode(document.getElementById('modeToggle'));
-      console.log('📋 Interface restaurée: Paramètres');
+    const interfaceSaved =
+      localStorage.getItem("tourneeInterfaceMode") || "accueil";
+    if (interfaceSaved === "parametres") {
+      this.basculerMode(document.getElementById("modeToggle"));
+      console.log("📋 Interface restaurée: Paramètres");
     }
-    
+
     this.rafraichirInterface();
     this.restaurerBrasSelectionne();
     this.verifierAvertissementDonnees();
@@ -974,19 +1004,19 @@ class GestionnaireInterface {
     }
 
     const inputLive = document.getElementById("liveSearchInput");
-    
+
     // Fermer le clavier mobile lors de la validation (Entrée ou bouton Go)
-    inputLive.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+    inputLive.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
         inputLive.blur();
       }
     });
-    
-    inputLive.addEventListener('search', () => {
+
+    inputLive.addEventListener("search", () => {
       inputLive.blur();
     });
-    
-    inputLive.addEventListener('focus', () => {
+
+    inputLive.addEventListener("focus", () => {
       // Scroll automatique supprimé
     });
   }
@@ -1022,7 +1052,7 @@ class GestionnaireInterface {
 
     if (resultatsFiltres.length > 0) {
       divResultats.style.display = "block";
-      
+
       // Format groupé par ville (pour tous les écrans)
       const villesGroupes = {};
       resultatsFiltres.forEach((r) => {
@@ -1031,43 +1061,52 @@ class GestionnaireInterface {
         }
         villesGroupes[r.Ville].push(r);
       });
-      
+
       // Trier les villes par ordre alphabétique
       const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
-        a.localeCompare(b, "fr", { sensitivity: "base" })
+        a.localeCompare(b, "fr", { sensitivity: "base" }),
       );
-      
+
       let html = "";
-      
+
       if (estAlternatif) {
-        html += '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-top: 6px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; min-height: 10px;">Aucun résultat trouvé. Résultats alternatifs</p>';
+        html +=
+          '<p style="color: #ff6b6b; font-weight: bold; text-align: center; margin-top: 6px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; min-height: 10px;">Aucun résultat trouvé. Résultats alternatifs</p>';
       }
-      
+
       villesTriees.forEach((ville) => {
         const villeDisplay = ville.charAt(0).toUpperCase() + ville.slice(1);
         html += `<div class="results-group">`;
         html += `<div class="results-city-header"><i class="fas fa-city"></i> ${villeDisplay}</div>`;
         html += `<div class="results-addresses">`;
-        
-      // Trier les adresses par ordre alphabétique
-      const adressesTriees = villesGroupes[ville].sort((a, b) =>
-        a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" })
-      );
-      
-      adressesTriees.forEach((r) => {
-          const adresseDisplay = r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
+
+        // Trier les adresses par ordre alphabétique
+        const adressesTriees = villesGroupes[ville].sort((a, b) =>
+          a.Adresse.localeCompare(b.Adresse, "fr", { sensitivity: "base" }),
+        );
+
+        adressesTriees.forEach((r) => {
+          const adresseDisplay =
+            r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
-          const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("CI");
-          const itemClass = estSpecial ? "result-item result-item-danger" : "result-item";
+          const estSpecial =
+            numero.startsWith("CS") ||
+            numero.startsWith("PICKUP") ||
+            numero.startsWith("PPDC") ||
+            numero.startsWith("REEX") ||
+            numero.startsWith("CI");
+          const itemClass = estSpecial
+            ? "result-item result-item-danger"
+            : "result-item";
           html += `<div class="${itemClass}">`;
           html += `<span class="result-address">${adresseDisplay}</span>`;
           html += `<span class="result-number">${r.Numero}</span>`;
           html += `</div>`;
         });
-        
+
         html += `</div></div>`;
       });
-      
+
       divResultats.innerHTML = html;
     } else {
       divResultats.style.display = "none";
@@ -1097,7 +1136,7 @@ class GestionnaireInterface {
     }
 
     if (boutonEffacer) {
-          boutonEffacer.addEventListener("click", () => {
+      boutonEffacer.addEventListener("click", () => {
         if (champRecherche) {
           champRecherche.value = "";
           this.gererRechercheAdresses("");
@@ -1131,27 +1170,30 @@ class GestionnaireInterface {
         label.style.display = "";
       });
       // Restaurer badges à total (bras + villes)
-      document.querySelectorAll('.bras-summary').forEach(summary => {
-        const brasDetails = summary.closest('.bras-details');
-        const totalCards = brasDetails.querySelectorAll('.address-card').length;
-        const badge = summary.querySelector('.bras-count-badge');
+      document.querySelectorAll(".bras-summary").forEach((summary) => {
+        const brasDetails = summary.closest(".bras-details");
+        const totalCards = brasDetails.querySelectorAll(".address-card").length;
+        const badge = summary.querySelector(".bras-count-badge");
         if (badge) {
           badge.textContent = totalCards;
-          badge.setAttribute('data-count', totalCards);
+          badge.setAttribute("data-count", totalCards);
         }
       });
-      
+
       // Restaurer badges villes
-      document.querySelectorAll('.bras-city-label').forEach(label => {
+      document.querySelectorAll(".bras-city-label").forEach((label) => {
         const cardsInCity = [];
         let sibling = label.nextElementSibling;
-        while (sibling && !sibling.classList.contains('bras-city-label')) {
-          if (sibling.classList.contains('address-card') && sibling.style.display !== 'none') {
+        while (sibling && !sibling.classList.contains("bras-city-label")) {
+          if (
+            sibling.classList.contains("address-card") &&
+            sibling.style.display !== "none"
+          ) {
             cardsInCity.push(sibling);
           }
           sibling = sibling.nextElementSibling;
         }
-        const cityBadge = label.querySelector('.bras-city-count-badge');
+        const cityBadge = label.querySelector(".bras-city-count-badge");
         if (cityBadge) {
           cityBadge.textContent = cardsInCity.length;
         }
@@ -1168,19 +1210,28 @@ class GestionnaireInterface {
 
     cards.forEach((card) => {
       // Extraire les champs individuels de la carte
-      const villeElement = card.querySelector('.card-field:nth-child(1) span');
-      const adresseElement = card.querySelector('.card-field:nth-child(2) span');
-      const numeroElement = card.querySelector('.card-field:nth-child(3) span');
-      
-      const ville = villeElement ? this.gestionnaireDonnees.normaliserTexte(villeElement.textContent) : "";
-      const adresse = adresseElement ? this.gestionnaireDonnees.normaliserTexte(adresseElement.textContent) : "";
-      const numero = numeroElement ? this.gestionnaireDonnees.normaliserTexte(numeroElement.textContent) : "";
-      
+      const villeElement = card.querySelector(".card-field:nth-child(1) span");
+      const adresseElement = card.querySelector(
+        ".card-field:nth-child(2) span",
+      );
+      const numeroElement = card.querySelector(".card-field:nth-child(3) span");
+
+      const ville = villeElement
+        ? this.gestionnaireDonnees.normaliserTexte(villeElement.textContent)
+        : "";
+      const adresse = adresseElement
+        ? this.gestionnaireDonnees.normaliserTexte(adresseElement.textContent)
+        : "";
+      const numero = numeroElement
+        ? this.gestionnaireDonnees.normaliserTexte(numeroElement.textContent)
+        : "";
+
       // Vérifier si un des champs commence par le terme de recherche
-      const correspond = ville.startsWith(valeurNormalisee) || 
-                        adresse.startsWith(valeurNormalisee) || 
-                        numero.startsWith(valeurNormalisee);
-      
+      const correspond =
+        ville.startsWith(valeurNormalisee) ||
+        adresse.startsWith(valeurNormalisee) ||
+        numero.startsWith(valeurNormalisee);
+
       if (correspond) {
         card.style.display = "";
         // Trouver le parent bras-details
@@ -1243,24 +1294,27 @@ class GestionnaireInterface {
 
       // Mettre à jour badge bras + villes
       const visibleCount = cardsVisibles.length;
-      const badge = summary.querySelector('.bras-count-badge');
+      const badge = summary.querySelector(".bras-count-badge");
       if (badge) {
         badge.textContent = visibleCount;
-        badge.setAttribute('data-count-visible', visibleCount);
+        badge.setAttribute("data-count-visible", visibleCount);
       }
-      
+
       // Mettre à jour badges villes dans ce bras
-      const cityLabels = details.querySelectorAll('.bras-city-label');
-      cityLabels.forEach(label => {
+      const cityLabels = details.querySelectorAll(".bras-city-label");
+      cityLabels.forEach((label) => {
         const cardsInCity = [];
         let sibling = label.nextElementSibling;
-        while (sibling && !sibling.classList.contains('bras-city-label')) {
-          if (sibling.classList.contains('address-card') && sibling.style.display !== 'none') {
+        while (sibling && !sibling.classList.contains("bras-city-label")) {
+          if (
+            sibling.classList.contains("address-card") &&
+            sibling.style.display !== "none"
+          ) {
             cardsInCity.push(sibling);
           }
           sibling = sibling.nextElementSibling;
         }
-        const cityBadge = label.querySelector('.bras-city-count-badge');
+        const cityBadge = label.querySelector(".bras-city-count-badge");
         if (cityBadge) {
           cityBadge.textContent = cardsInCity.length;
         }
@@ -1325,10 +1379,10 @@ class GestionnaireInterface {
     });
   }
 
-verifierAvertissementDonnees() {
+  verifierAvertissementDonnees() {
     const aDonnees = this.gestionnaireDonnees.aDesDonnees();
-    const adminActions = document.querySelector('.admin-actions');
-    
+    const adminActions = document.querySelector(".admin-actions");
+
     const avertissement = document.getElementById("noFileWarning");
     if (avertissement)
       avertissement.style.display = aDonnees ? "none" : "block";
@@ -1348,7 +1402,7 @@ verifierAvertissementDonnees() {
     // Boutons Excel - FIX 50%
     const importExcelBtn = document.getElementById("importExcelBtn");
     const exportExcelBtn = document.getElementById("exportExcelBtn");
-    
+
     if (importExcelBtn) {
       importExcelBtn.style.width = aDonnees ? "" : "100%";
       importExcelBtn.style.display = ""; // Reset
@@ -1357,20 +1411,22 @@ verifierAvertissementDonnees() {
       exportExcelBtn.style.display = aDonnees ? "inline-block" : "none";
       exportExcelBtn.style.width = ""; // Reset
     }
-    
+
     // Toggle classe pour 50/50 robuste
     if (adminActions) {
       if (aDonnees) {
-        adminActions.classList.add('buttons-50');
-        console.log('✅ Données présentes: boutons Excel 50/50 activé');
+        adminActions.classList.add("buttons-50");
+        console.log("✅ Données présentes: boutons Excel 50/50 activé");
       } else {
-        adminActions.classList.remove('buttons-50');
-        console.log('❌ Pas de données: import 100%, export caché');
+        adminActions.classList.remove("buttons-50");
+        console.log("❌ Pas de données: import 100%, export caché");
       }
     }
 
     // Champ recherche adresses
-    const addressSearchWrapper = document.getElementById("addressSearchWrapper");
+    const addressSearchWrapper = document.getElementById(
+      "addressSearchWrapper",
+    );
     if (addressSearchWrapper) {
       addressSearchWrapper.style.display = aDonnees ? "flex" : "none";
     }
@@ -1388,31 +1444,33 @@ verifierAvertissementDonnees() {
     if (titreBras) titreBras.style.display = aDonnees ? "block" : "none";
     if (conteneurBras) conteneurBras.style.display = aDonnees ? "flex" : "none";
     if (conteneurRecherche)
-      conteneurRecherche.style.display = aDonnees && aSelectionne ? "block" : "none";
+      conteneurRecherche.style.display =
+        aDonnees && aSelectionne ? "block" : "none";
     if (titreVille) {
       titreVille.classList.toggle("hidden", !(aDonnees && aSelectionne));
     }
-    
+
     // ✅ Show city-btn-container only if Excel loaded AND Bras selected
     const conteneurVilles = document.getElementById("cityBtnContainer");
     if (conteneurVilles) {
-      conteneurVilles.style.display = (aDonnees && aSelectionne) ? "flex" : "none";
+      conteneurVilles.style.display =
+        aDonnees && aSelectionne ? "flex" : "none";
     }
-    
+
     // Debug final
-    console.log('📐 Buttons debug:', {
+    console.log("📐 Buttons debug:", {
       hasData: aDonnees,
       importWidth: importExcelBtn?.style.width,
       exportDisplay: exportExcelBtn?.style.display,
-      adminActionsClass: adminActions?.className
+      adminActionsClass: adminActions?.className,
     });
   }
 
   rafraichirInterface() {
     // ✅ CLEAR CACHES avant rebuild (fix villes fantômes après clearStorage)
-    document.getElementById('brasBtnContainer').innerHTML = '';
-    document.getElementById('cityBtnContainer').innerHTML = '';
-    
+    document.getElementById("brasBtnContainer").innerHTML = "";
+    document.getElementById("cityBtnContainer").innerHTML = "";
+
     const aDonnees = this.gestionnaireDonnees.aDesDonnees();
 
     // Mettre à jour visibilité bouton journal
@@ -1422,13 +1480,17 @@ verifierAvertissementDonnees() {
     const brasElementsOuverts = [];
     if (aDonnees) {
       document.querySelectorAll(".bras-details[open]").forEach((details) => {
-        const brasNameSpan = details.querySelector(".bras-summary span:first-child");
+        const brasNameSpan = details.querySelector(
+          ".bras-summary span:first-child",
+        );
         if (brasNameSpan) {
-          brasElementsOuverts.push(brasNameSpan.textContent.trim().toUpperCase());
+          brasElementsOuverts.push(
+            brasNameSpan.textContent.trim().toUpperCase(),
+          );
         }
       });
     }
-    console.log('📂 Captured open bras before rebuild:', brasElementsOuverts);
+    console.log("📂 Captured open bras before rebuild:", brasElementsOuverts);
 
     // Afficher/masquer le titre "Fichier importé" - seulement si un fichier Excel a été importé
     const titreFichier = document.getElementById("importedFileTitle");
@@ -1477,7 +1539,7 @@ verifierAvertissementDonnees() {
 
         // Create span for the BRAS name (flex-grow to push right elements)
         const brasNameSpan = document.createElement("span");
-        brasNameSpan.style.flexGrow = '1';
+        brasNameSpan.style.flexGrow = "1";
         brasNameSpan.textContent = bras.toUpperCase();
         brasSummary.appendChild(brasNameSpan);
 
@@ -1490,13 +1552,16 @@ verifierAvertissementDonnees() {
           }
           villesGroupes[ville].push(item);
         });
-        const totalCount = Object.values(villesGroupes).reduce((sum, v) => sum + v.length, 0);
+        const totalCount = Object.values(villesGroupes).reduce(
+          (sum, v) => sum + v.length,
+          0,
+        );
 
         // Create right container for badge + button (stuck right)
-        const rightContainer = document.createElement('div');
-        rightContainer.style.display = 'flex';
-        rightContainer.style.alignItems = 'center';
-        rightContainer.style.gap = '4px';
+        const rightContainer = document.createElement("div");
+        rightContainer.style.display = "flex";
+        rightContainer.style.alignItems = "center";
+        rightContainer.style.gap = "4px";
 
         // Create PDF button - use villesGroupes for this bras (moved first)
         const pdfBtn = document.createElement("button");
@@ -1514,7 +1579,7 @@ verifierAvertissementDonnees() {
         const countBadge = document.createElement("span");
         countBadge.className = "bras-count-badge";
         countBadge.textContent = totalCount;
-        countBadge.setAttribute('data-count', totalCount);
+        countBadge.setAttribute("data-count", totalCount);
         rightContainer.appendChild(countBadge);
 
         brasSummary.appendChild(rightContainer);
@@ -1534,15 +1599,16 @@ verifierAvertissementDonnees() {
           // Ajouter l'étiquette de ville avec pastille
           const cityLabel = document.createElement("div");
           cityLabel.className = "bras-city-label";
-          
+
           const cityNameSpan = document.createElement("span");
-          cityNameSpan.style.flexGrow = '1';
-          cityNameSpan.textContent = ville.charAt(0).toUpperCase() + ville.slice(1);
-          
+          cityNameSpan.style.flexGrow = "1";
+          cityNameSpan.textContent =
+            ville.charAt(0).toUpperCase() + ville.slice(1);
+
           const cityCountBadge = document.createElement("span");
           cityCountBadge.className = "bras-city-count-badge";
           cityCountBadge.textContent = villesGroupes[ville].length;
-          
+
           cityLabel.appendChild(cityNameSpan);
           cityLabel.appendChild(cityCountBadge);
           cardsGrid.appendChild(cityLabel);
@@ -1550,8 +1616,16 @@ verifierAvertissementDonnees() {
           // Ajouter les cartes pour cette ville
           villesGroupes[ville].forEach((item) => {
             const numero = String(item.Numero || "").toUpperCase();
-            const estSpecial = numero.startsWith("CS") || numero.startsWith("PICKUP") || numero.startsWith("PPDC") || numero.startsWith("REEX") || numero.startsWith("REEX") || numero.startsWith("CI");
-            const cardClass = estSpecial ? "address-card address-card-danger" : "address-card";
+            const estSpecial =
+              numero.startsWith("CS") ||
+              numero.startsWith("PICKUP") ||
+              numero.startsWith("PPDC") ||
+              numero.startsWith("REEX") ||
+              numero.startsWith("REEX") ||
+              numero.startsWith("CI");
+            const cardClass = estSpecial
+              ? "address-card address-card-danger"
+              : "address-card";
             const card = document.createElement("div");
             card.className = cardClass;
             card.style.cursor = "pointer";
@@ -1576,11 +1650,11 @@ verifierAvertissementDonnees() {
                         `;
             // Ajouter un écouteur d'événement click sur la carte pour l'édition
             card.addEventListener("click", (e) => {
-                // Ne pas déclencher l'édition si on clique sur le bouton supprimer
-                if (!e.target.closest(".delete-btn")) {
-                    vibrerAuClic();
-                    gestionnaireInterface.modifierAdresse(item.index);
-                }
+              // Ne pas déclencher l'édition si on clique sur le bouton supprimer
+              if (!e.target.closest(".delete-btn")) {
+                vibrerAuClic();
+                gestionnaireInterface.modifierAdresse(item.index);
+              }
             });
             cardsGrid.appendChild(card);
           });
@@ -1724,112 +1798,129 @@ verifierAvertissementDonnees() {
             const start = e.target.selectionStart;
             const end = e.target.selectionEnd;
             // addressNumero reste en majuscule, les autres en capitalize
-            if (id === 'addressNumero') {
+            if (id === "addressNumero") {
               e.target.value = e.target.value.toUpperCase();
             } else {
-              e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+              e.target.value =
+                e.target.value.charAt(0).toUpperCase() +
+                e.target.value.slice(1).toLowerCase();
             }
             e.target.setSelectionRange(start, end);
           };
         }
       });
 
-        // Réinitialiser le handler du bouton save pour le mode "ajout"
-        saveAddressBtn.onclick = () => {
-          const bras = document
-            .getElementById("addressBras")
-            .value.trim()
-            .toUpperCase();
-          const ville = document
-            .getElementById("addressVille")
-            .value.trim()
-            .toUpperCase();
-          const rue = document
-            .getElementById("addressRue")
-            .value.trim()
-            .toUpperCase();
-          const numero = document
-            .getElementById("addressNumero")
-            .value.trim()
-            .toUpperCase();
-          const typeRecherche = document.getElementById("addressType").value;
+      // Réinitialiser le handler du bouton save pour le mode "ajout"
+      saveAddressBtn.onclick = () => {
+        const bras = document
+          .getElementById("addressBras")
+          .value.trim()
+          .toUpperCase();
+        const ville = document
+          .getElementById("addressVille")
+          .value.trim()
+          .toUpperCase();
+        const rue = document
+          .getElementById("addressRue")
+          .value.trim()
+          .toUpperCase();
+        const numero = document
+          .getElementById("addressNumero")
+          .value.trim()
+          .toUpperCase();
+        const typeRecherche = document.getElementById("addressType").value;
 
-          if (!bras || !ville || !rue || !numero) {
-            alert(
-              "Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).",
-            );
-            return;
+        if (!bras || !ville || !rue || !numero) {
+          alert(
+            "Veuillez remplir tous les champs (BRAS, Ville, Rue et Numéro).",
+          );
+          return;
+        }
+
+        const nouvelleAdresse = {
+          BRAS: bras,
+          Ville: ville,
+          Adresse: rue,
+          Numero: numero,
+          TypeRecherche: typeRecherche,
+        };
+
+        // Sauvegarder la valeur de recherche avant le rafraîchissement
+        const addressSearchInput =
+          document.getElementById("addressSearchInput");
+        const valeurRecherche = addressSearchInput
+          ? addressSearchInput.value
+          : "";
+
+        // Sauvegarder le BRAS sélectionné avant le rafraîchissement
+        const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
+
+        const newIndex =
+          this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
+        addressPopupOverlay.classList.add("hidden");
+
+        // AUTO-FOCUS : Force rebuild + open bras + scroll
+        setTimeout(() => {
+          this.rafraichirInterface();
+          this.verifierAvertissementDonnees();
+
+          // 1. Restaurer BRAS + recherche
+          if (brasSelectionne) {
+            this.restaurerBrasSelectionne();
+          }
+          if (valeurRecherche) {
+            if (addressSearchInput) {
+              addressSearchInput.value = valeurRecherche;
+            }
+            this.gererRechercheAdresses(valeurRecherche);
           }
 
-          const nouvelleAdresse = {
-            BRAS: bras,
-            Ville: ville,
-            Adresse: rue,
-            Numero: numero,
-            TypeRecherche: typeRecherche,
-          };
-
-          // Sauvegarder la valeur de recherche avant le rafraîchissement
-          const addressSearchInput =
-            document.getElementById("addressSearchInput");
-          const valeurRecherche = addressSearchInput
-            ? addressSearchInput.value
-            : "";
-
-          // Sauvegarder le BRAS sélectionné avant le rafraîchissement
-          const brasSelectionne = this.gestionnaireDonnees.brasSelectionne;
-
-            const newIndex = this.gestionnaireDonnees.ajouterAdresse(nouvelleAdresse);
-            addressPopupOverlay.classList.add("hidden");
-            
-            // AUTO-FOCUS : Force rebuild + open bras + scroll
-            setTimeout(() => {
-              this.rafraichirInterface();
-              this.verifierAvertissementDonnees();
-              
-              // 1. Restaurer BRAS + recherche
-              if (brasSelectionne) {
-                this.restaurerBrasSelectionne();
+          // 2. FORCE OPEN bras-summary du BRAS ajouté
+          setTimeout(() => {
+            const brasLower = bras.toLowerCase();
+            document.querySelectorAll(".bras-details").forEach((details) => {
+              const brasSpan = details.querySelector(
+                ".bras-summary span:first-child",
+              );
+              if (
+                brasSpan &&
+                brasSpan.textContent.toLowerCase().includes(brasLower)
+              ) {
+                details.open = true;
+                console.log("✅ bras-details ouvert:", brasSpan.textContent);
               }
-              if (valeurRecherche) {
-                if (addressSearchInput) {
-                  addressSearchInput.value = valeurRecherche;
-                }
-                this.gererRechercheAdresses(valeurRecherche);
-              }
-              
-              // 2. FORCE OPEN bras-summary du BRAS ajouté
-              setTimeout(() => {
-                const brasLower = bras.toLowerCase();
-                document.querySelectorAll('.bras-details').forEach(details => {
-                  const brasSpan = details.querySelector('.bras-summary span:first-child');
-                  if (brasSpan && brasSpan.textContent.toLowerCase().includes(brasLower)) {
-                    details.open = true;
-                    console.log('✅ bras-details ouvert:', brasSpan.textContent);
-                  }
-                });
-                
-                // 3. Focus nouvelle carte (.address-card dernier enfant du bras ouvert)
-                const brasDetails = Array.from(document.querySelectorAll('.bras-details[open]')).find(d => {
-                  const brasSpan = d.querySelector('.bras-summary span:first-child');
-                  return brasSpan && brasSpan.textContent.toLowerCase().includes(brasLower);
-                });
-                
-                if (brasDetails) {
-                  const newCard = brasDetails.querySelector('.address-card:last-child');
-                  if (newCard) {
-                    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    newCard.classList.add('highlight');
-                    console.log('✨ Nouvelle carte focus:', newCard);
-                    setTimeout(() => newCard.classList.remove('highlight'), 4000);
-                  }
-                }
-              }, 300);
-            }, 100);
+            });
 
-            alert("Adresse ajoutée avec succès.");
-        };
+            // 3. Focus nouvelle carte (.address-card dernier enfant du bras ouvert)
+            const brasDetails = Array.from(
+              document.querySelectorAll(".bras-details[open]"),
+            ).find((d) => {
+              const brasSpan = d.querySelector(
+                ".bras-summary span:first-child",
+              );
+              return (
+                brasSpan &&
+                brasSpan.textContent.toLowerCase().includes(brasLower)
+              );
+            });
+
+            if (brasDetails) {
+              const newCard = brasDetails.querySelector(
+                ".address-card:last-child",
+              );
+              if (newCard) {
+                newCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                newCard.classList.add("highlight");
+                console.log("✨ Nouvelle carte focus:", newCard);
+                setTimeout(() => newCard.classList.remove("highlight"), 4000);
+              }
+            }
+          }, 300);
+        }, 100);
+
+        alert("Adresse ajoutée avec succès.");
       };
+    };
 
     if (addAddressBtn) {
       addAddressBtn.onclick = () => {
@@ -1890,10 +1981,12 @@ verifierAvertissementDonnees() {
           const start = e.target.selectionStart;
           const end = e.target.selectionEnd;
           // addressNumero reste en majuscule, les autres en capitalize
-          if (id === 'addressNumero') {
+          if (id === "addressNumero") {
             e.target.value = e.target.value.toUpperCase();
           } else {
-            e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
+            e.target.value =
+              e.target.value.charAt(0).toUpperCase() +
+              e.target.value.slice(1).toLowerCase();
           }
           e.target.setSelectionRange(start, end);
         };
@@ -1997,35 +2090,35 @@ verifierAvertissementDonnees() {
     }
   }
 
-basculerMode(bouton) {
+  basculerMode(bouton) {
     const panneauAdmin = document.getElementById("adminPanel");
     const panneauUtilisateur = document.getElementById("userPanel");
 
     const panneauAdminCache = panneauAdmin.classList.contains("hidden");
-    
+
     // Ajouter l'animation de rotation au bouton
-    bouton.classList.remove('rotating');
+    bouton.classList.remove("rotating");
     void bouton.offsetWidth; // Force reflow
-    bouton.classList.add('rotating');
-    
+    bouton.classList.add("rotating");
+
     if (!panneauAdminCache) {
       // Passage de Paramètres vers Accueil (admin visible → aller vers user)
       // Étape 1 : Masquer admin avec transition
-      panneauAdmin.classList.remove('fade-in');
-      panneauAdmin.classList.add('fade-out');
-      
+      panneauAdmin.classList.remove("fade-in");
+      panneauAdmin.classList.add("fade-out");
+
       // Étape 2 : Après transition, afficher user
       setTimeout(() => {
-        panneauAdmin.classList.add('hidden');
+        panneauAdmin.classList.add("hidden");
         panneauAdmin.style.display = "none";
-        panneauAdmin.classList.remove('fade-out');
-        
-        panneauUtilisateur.classList.remove('hidden');
+        panneauAdmin.classList.remove("fade-out");
+
+        panneauUtilisateur.classList.remove("hidden");
         panneauUtilisateur.style.display = "block";
         // Force reflow pour redémarrer l'animation
-        panneauUtilisateur.offsetHeight; 
-        panneauUtilisateur.classList.add('fade-in');
-        
+        panneauUtilisateur.offsetHeight;
+        panneauUtilisateur.classList.add("fade-in");
+
         // Logique supplémentaire pour userPanel
         const aDonnees = this.gestionnaireDonnees.aDesDonnees();
         if (!this.gestionnaireDonnees.brasSelectionne || !aDonnees) {
@@ -2034,37 +2127,36 @@ basculerMode(bouton) {
           document.getElementById("titleVille").classList.remove("hidden");
         }
         // Positionner la zone vocale après l'animation
-        setTimeout(() => {
-        }, 50);
+        setTimeout(() => {}, 50);
       }, 300); // Durée de la transition CSS
-      
+
       bouton.innerHTML = '<i class="fas fa-cog"></i>';
-      localStorage.setItem('tourneeInterfaceMode', 'accueil');
-      console.log('🔄 Mode changé → Accueil sauvegardé');
+      localStorage.setItem("tourneeInterfaceMode", "accueil");
+      console.log("🔄 Mode changé → Accueil sauvegardé");
     } else {
       // Passage de Accueil vers Paramètres (admin caché → aller vers admin)
       // Étape 1 : Masquer user avec transition
-      panneauUtilisateur.classList.remove('fade-in');
-      panneauUtilisateur.classList.add('fade-out');
-      
+      panneauUtilisateur.classList.remove("fade-in");
+      panneauUtilisateur.classList.add("fade-out");
+
       // Étape 2 : Après transition, afficher admin
       setTimeout(() => {
-        panneauUtilisateur.classList.add('hidden');
+        panneauUtilisateur.classList.add("hidden");
         panneauUtilisateur.style.display = "none";
-        panneauUtilisateur.classList.remove('fade-out');
-        
-        panneauAdmin.classList.remove('hidden');
+        panneauUtilisateur.classList.remove("fade-out");
+
+        panneauAdmin.classList.remove("hidden");
         panneauAdmin.style.display = "block";
         // Force reflow pour redémarrer l'animation
         panneauAdmin.offsetHeight;
-        panneauAdmin.classList.add('fade-in');
-        
+        panneauAdmin.classList.add("fade-in");
+
         this.verifierAvertissementDonnees();
       }, 300); // Durée de la transition CSS
-      
+
       bouton.innerHTML = '<i class="fas fa-home"></i>';
-      localStorage.setItem('tourneeInterfaceMode', 'parametres');
-      console.log('🔄 Mode changé → Paramètres sauvegardé');
+      localStorage.setItem("tourneeInterfaceMode", "parametres");
+      console.log("🔄 Mode changé → Paramètres sauvegardé");
     }
   }
 
@@ -2074,12 +2166,23 @@ basculerMode(bouton) {
 
   // Les 16 couleurs les plus utilisées
   static COULEURS = [
-    '#1F4E79', '#2E75B6', '#5B9BD5', '#9CC3E5',
-    '#2F7F2F', '#4DB6AC', '#A5D6A7', '#80CBC4',
-    '#FFD966', '#FFEB99', '#F4B183', '#FFCC80',
-    '#E74C3C', '#F1948A', '#f11919', '#e9b117'
-];
-
+    "#1F4E79",
+    "#2E75B6",
+    "#5B9BD5",
+    "#9CC3E5",
+    "#2F7F2F",
+    "#4DB6AC",
+    "#A5D6A7",
+    "#80CBC4",
+    "#FFD966",
+    "#FFEB99",
+    "#F4B183",
+    "#FFCC80",
+    "#E74C3C",
+    "#F1948A",
+    "#f11919",
+    "#e9b117",
+  ];
 
   afficherPopupPDF(bras, villesGroupes) {
     this.brasSelectionnePDF = bras;
@@ -2344,9 +2447,17 @@ basculerMode(bouton) {
         this.brasSelectionnePDF,
         ville,
       );
-      
-      const couleurLigneSpeciale = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.37);
-      const couleurLigneAlternee = GestionnaireInterface.blendColors(couleurVille, '#FFFFFF', 0.12);
+
+      const couleurLigneSpeciale = GestionnaireInterface.blendColors(
+        couleurVille,
+        "#FFFFFF",
+        0.37,
+      );
+      const couleurLigneAlternee = GestionnaireInterface.blendColors(
+        couleurVille,
+        "#FFFFFF",
+        0.12,
+      );
 
       contenuImpression += `<table><tr><th colspan="2" style="background-color:${couleurVille};color:#fff;padding:12pt;margin:0;font-size:45pt;text-align:center;border:1px solid #ccc;">${villeTitre}</th></tr>`;
       const adressesVille = this.villesGroupesPDF[ville] || [];
@@ -2414,7 +2525,8 @@ basculerMode(bouton) {
 
     if (pdfPopupClose) pdfPopupClose.onclick = () => this.fermerPopupPDF();
     if (printPdfBtn) printPdfBtn.onclick = () => this.imprimerSelectionPDF();
-    if (generateDocxBtn) generateDocxBtn.onclick = () => this.genererSelectionDOCX();
+    if (generateDocxBtn)
+      generateDocxBtn.onclick = () => this.genererSelectionDOCX();
     if (pdfPopupOverlay) {
       pdfPopupOverlay.addEventListener("click", (e) => {
         if (e.target === pdfPopupOverlay) this.fermerPopupPDF();
@@ -2475,12 +2587,12 @@ window.addEventListener("DOMContentLoaded", () => {
     if (confirm("Voulez-vous vraiment effacer toutes les données chargées ?")) {
       gestionnaireDonnees.viderJournal();
       gestionnaireDonnees.effacerDonnees();
-      
+
       // ✅ RESTER SUR INTERFACE PARAMÈTRES
       gestionnaireInterface.rafraichirInterface();
       gestionnaireInterface.verifierAvertissementDonnees();
-      
-      console.log('🗑️ Données effacées - Interface Paramètres conservée');
+
+      console.log("🗑️ Données effacées - Interface Paramètres conservée");
       alert("Données effacées !");
     }
   };
@@ -2491,86 +2603,87 @@ window.addEventListener("DOMContentLoaded", () => {
       gestionnaireReconnaissance.demarrerReconnaissance();
   }
 
-// Journal events
-document.querySelector('.journal-btn').onclick = () => {
-  const journal = gestionnaireDonnees.obtenirJournal();
-  const content = document.getElementById('journalContent');
-  const popup = document.getElementById('journalPopupOverlay');
-  const popupTitle = document.querySelector('#journalPopupTitle');
-  
-  const count = journal.length;
-  if (count === 0) {
-    content.innerHTML = '<p style="text-align: center; color: var(--text-light);">Aucun élément dans le journal.</p>';
-    if (popupTitle) popupTitle.textContent = 'Journal des modifications';
-  } else {
-    if (popupTitle) popupTitle.textContent = `Journal des modifications (${count})`;
+  // Journal events
+  document.querySelector(".journal-btn").onclick = () => {
+    const journal = gestionnaireDonnees.obtenirJournal();
+    const content = document.getElementById("journalContent");
+    const popup = document.getElementById("journalPopupOverlay");
+    const popupTitle = document.querySelector("#journalPopupTitle");
 
-    let html = '<div class="journal-cards-container">';
-    
-    journal.forEach(log => {
-      let typeClass, typeLabel;
-      if (log.type === 'création') {
-        typeClass = 'journal-type-creation';
-        typeLabel = 'Création';
-      } else if (log.type === 'modification') {
-        typeClass = 'journal-type-modification';
-        typeLabel = 'Modification';
-      } else if (log.type === 'suppression') {
-        typeClass = 'journal-type-suppression';
-        typeLabel = 'Suppression';
-      }
-      html += `
+    const count = journal.length;
+    if (count === 0) {
+      content.innerHTML =
+        '<p style="text-align: center; color: var(--text-light);">Aucun élément dans le journal.</p>';
+      if (popupTitle) popupTitle.textContent = "Journal des modifications";
+    } else {
+      if (popupTitle)
+        popupTitle.textContent = `Journal des modifications (${count})`;
+
+      let html = '<div class="journal-cards-container">';
+
+      journal.forEach((log) => {
+        let typeClass, typeLabel;
+        if (log.type === "création") {
+          typeClass = "journal-type-creation";
+          typeLabel = "Création";
+        } else if (log.type === "modification") {
+          typeClass = "journal-type-modification";
+          typeLabel = "Modification";
+        } else if (log.type === "suppression") {
+          typeClass = "journal-type-suppression";
+          typeLabel = "Suppression";
+        }
+        html += `
         <div class="journal-card">
           <div class="journal-card-header">
             <span class="journal-date">${log.date}</span>
             <span class="journal-type ${typeClass}">${typeLabel}</span>
           </div>
           <div class="journal-card-body">
-            <div class="journal-field journal-main"><i class="fas fa-building"></i> ${log.address.BRAS.replace(/\b\w/g, l => l.toUpperCase())}</div>
-            <div class="journal-field journal-main"><i class="fas fa-city"></i> ${log.address.Ville.replace(/\b\w/g, l => l.toUpperCase())}</div>
-            <div class="journal-field journal-main"><i class="fas fa-map-marker-alt"></i> ${log.address.Adresse.replace(/\b\w/g, l => l.toUpperCase())}</div>
+            <div class="journal-field journal-main"><i class="fas fa-building"></i> ${log.address.BRAS.replace(/\b\w/g, (l) => l.toUpperCase())}</div>
+            <div class="journal-field journal-main"><i class="fas fa-city"></i> ${log.address.Ville.replace(/\b\w/g, (l) => l.toUpperCase())}</div>
+            <div class="journal-field journal-main"><i class="fas fa-map-marker-alt"></i> ${log.address.Adresse.replace(/\b\w/g, (l) => l.toUpperCase())}</div>
             <div class="journal-field journal-main"><i class="fas fa-hashtag"></i> ${log.address.Numero}</div>
             <div class="journal-field journal-main"><i class="fas fa-search"></i> ${log.address.TypeRecherche}</div>
             `;
-            if (log.index !== null) {
-              html += `<div class="journal-field journal-main"><i class="fas fa-list-ol"></i> ${log.index}</div>`;
-            }
-      html += '</div></div>';
-    });
-    html += '</div>';
-    content.innerHTML = html;
-  }
-  
-  popup.classList.remove('hidden');
-};
+        if (log.index !== null) {
+          html += `<div class="journal-field journal-main"><i class="fas fa-list-ol"></i> ${log.index}</div>`;
+        }
+        html += "</div></div>";
+      });
+      html += "</div>";
+      content.innerHTML = html;
+    }
 
-// Journal popup controls
-document.getElementById('exportJournalBtn').onclick = () => {
-  gestionnaireDonnees.exporterJournalExcel();
-};
+    popup.classList.remove("hidden");
+  };
 
-document.getElementById('clearJournalBtn').onclick = () => {
-  if (confirm('Voulez-vous vraiment vider tout le journal ?')) {
-    gestionnaireDonnees.viderJournal();
-    document.getElementById('journalPopupOverlay').classList.add('hidden');
-  }
-};
+  // Journal popup controls
+  document.getElementById("exportJournalBtn").onclick = () => {
+    gestionnaireDonnees.exporterJournalExcel();
+  };
 
-document.getElementById('journalPopupClose').onclick = () => {
-  document.getElementById('journalPopupOverlay').classList.add('hidden');
-};
+  document.getElementById("clearJournalBtn").onclick = () => {
+    if (confirm("Voulez-vous vraiment vider tout le journal ?")) {
+      gestionnaireDonnees.viderJournal();
+      document.getElementById("journalPopupOverlay").classList.add("hidden");
+    }
+  };
 
-document.getElementById('journalPopupOverlay').onclick = (e) => {
-  if (e.target.id === 'journalPopupOverlay') {
-    e.target.classList.add('hidden');
-  }
-};
+  document.getElementById("journalPopupClose").onclick = () => {
+    document.getElementById("journalPopupOverlay").classList.add("hidden");
+  };
 
-// Export Excel
-document.getElementById("exportExcelBtn").onclick = () => {
-  gestionnaireDonnees.exporterVersExcel();
-};
+  document.getElementById("journalPopupOverlay").onclick = (e) => {
+    if (e.target.id === "journalPopupOverlay") {
+      e.target.classList.add("hidden");
+    }
+  };
 
+  // Export Excel
+  document.getElementById("exportExcelBtn").onclick = () => {
+    gestionnaireDonnees.exporterVersExcel();
+  };
 });
 
 function gererImportExcel(e) {

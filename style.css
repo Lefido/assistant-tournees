@@ -654,6 +654,10 @@ html.night-theme .voice-confirm-msg {
   background: var(--success);
 }
 
+.text-vocal-search {
+  color : var(--success);
+}
+
 .retry-action-btn {
   background: var(--danger);
 }
@@ -1812,13 +1816,13 @@ html.night-theme .no-data-msg {
   border: none;
   color: var(--text-white);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 /* PDF Button in bras-summary */
