@@ -92,7 +92,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: var(--bg-dark);
+  background: var(--bg-dark) url('./assets/bg_app_blue.png') center/cover no-repeat fixed;
   color: var(--text-light);
   font-family: sans-serif;
   overflow-x: hidden;
@@ -101,7 +101,7 @@ body {
 }
 
 html.night-theme body {
-  background: var(--bg-dark);
+  background: var(--bg-dark) url('./assets/bg_app_blue.png') center/cover no-repeat fixed;
   color: var(--text-light);
 }
 
