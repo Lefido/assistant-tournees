@@ -1790,8 +1790,9 @@ html.night-theme .no-data-msg {
   width: 100%;
   max-width: 100%;
   margin: 12px 0;
-  background: var(--bg-dark);
+  /* background: var(--bg-dark); */
   padding: 0 0;
+
   z-index: 20;
 }
 
@@ -1803,6 +1804,7 @@ html.night-theme .no-data-msg {
   border: 2px solid var(--border);
   color: var(--text-light);
   font-size: 1rem;
+  /* border-radius: 50px; */
   outline: none;
 
 }
