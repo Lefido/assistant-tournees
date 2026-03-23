@@ -14,8 +14,8 @@
   --text-light: #333333;
   --text-white: #ffffff;
   --border: #d6d6d6;
-  --danger: #fd2f2f;
-  --dangerCards: #eb36368c;
+  --danger: #ec1111;
+  --dangerCards: #bb4141;
   --success: #24a10b;
   --accent-cyan: #00c3ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -34,8 +34,8 @@
   --text-light: #eaeaea;
   --text-white: #ffffff;
   --border: #0f3460;
-  --danger: #fd2f2f;
-  --dangerCards: #eb36368c;
+  --danger: #ec1111;
+  --dangerCards: #bb4141;
   --success: #24a10b;
   --accent-cyan: #00c3ff;
   --bg-overlay: rgba(255, 255, 255, 0.85);
@@ -378,6 +378,7 @@ html.night-theme .city-btn.active {
   align-items: center;
   padding: 4px 12px;
   border-bottom: 1px solid var(--border);
+  background-color: var(--bg-input);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -1657,6 +1658,8 @@ html.night-theme .bras-summary {
   justify-content: center;
   grid-column: 1 / -1;
   background: var(--bg-dark);
+  background: var(--border);
+  
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
   padding: 8px 8px;
@@ -1700,7 +1703,7 @@ html.night-theme .bras-city-count-badge {
 }
 
 .address-card {
-  background: var(--bg-panel);
+  background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px;
@@ -1803,6 +1806,11 @@ html.night-theme .no-data-msg {
   background: var(--bg-input);
   border: 2px solid var(--border);
   color: var(--text-light);
+
+  background: var(--border);
+  border: 2px solid var(--bg-input);
+  color: var(--text-light);
+
   font-size: 1rem;
   /* border-radius: 50px; */
   outline: none;
