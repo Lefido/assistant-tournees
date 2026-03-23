@@ -411,19 +411,21 @@ html.night-theme .result-item {
 }
 
 .result-address {
+  flex: 1;
+  width: 80%;
   font-size: 0.9rem;
   color: var(--text-light);
   text-align: left;
-  flex: 1;
   text-transform: capitalize;
 }
 
 .result-number {
+  width: 20%;
   font-size: 1.1rem;
   font-weight: bold;
   color: var(--bg-btn);
-  margin-left: 10px;
-  min-width: 40px;
+  /* margin-left: 10px; */
+  /* min-width: 40px; */
   text-align: center;
 }
 
@@ -736,7 +738,7 @@ html.night-theme .voice-popup-window {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 70vh;
+  max-height: 75vh;
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
@@ -1873,7 +1875,7 @@ html.night-theme .no-data-msg {
 
 .pdf-cities-list {
   width: 100%;
-  max-height: 400px;
+  max-height: 412px;
   overflow-y: auto;
   margin: 0px 0;
 }
