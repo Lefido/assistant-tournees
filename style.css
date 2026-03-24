@@ -1657,8 +1657,7 @@ html.night-theme .bras-summary {
   align-items: center;
   justify-content: center;
   grid-column: 1 / -1;
-  background: var(--bg-dark);
-  background: var(--border);
+  background: var(--bg-input);
   
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
@@ -1703,7 +1702,7 @@ html.night-theme .bras-city-count-badge {
 }
 
 .address-card {
-  background: var(--bg-input);
+  background: var(--bg-dark);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px;
@@ -1803,11 +1802,7 @@ html.night-theme .no-data-msg {
   width: 100%;
   padding: 12px 10px;
   border-radius: 10px;
-  background: var(--bg-input);
-  border: 2px solid var(--border);
-  color: var(--text-light);
-
-  background: var(--border);
+  background: var(--bg-panel);
   border: 2px solid var(--bg-input);
   color: var(--text-light);
 
