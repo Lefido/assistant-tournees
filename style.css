@@ -1607,7 +1607,7 @@ tr.highlight {
 .bras-count-badge {
   background: var(--text-white);
   color: var(--bg-btn);
-  border-radius: 50%;
+  border-radius: 8px 8px 8px 8px;
   width: 24px;
   height: 24px;
   display: flex;
@@ -1683,7 +1683,7 @@ html.night-theme .bras-city-label {
 .bras-city-count-badge {
   background: var(--bg-btn);
   color: var(--text-white);
-  border-radius: 50%;
+  border-radius: 8px 8px 8px 8px;
   width: 22px;
   height: 22px;
   display: flex;
@@ -1892,12 +1892,10 @@ html.night-theme .no-data-msg {
   padding: 12px 15px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
+  border-radius: 5px 5px 0 0;
   transition: background 0.2s ease;
 }
 
-.pdf-city-item:hover {
-  background: rgba(0, 119, 255, 0.08);
-}
 
 .pdf-city-item:last-child {
   border-bottom: none;
