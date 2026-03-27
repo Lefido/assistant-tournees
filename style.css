@@ -332,6 +332,7 @@ html.night-theme .city-btn.active {
   /* ✅ Même largeur que liveSearchInput via classe commune */
   /* max-height: 60vh; */
   width: 100%;
+  background-color: var(--bg-input);
   border: 2px solid var(--bg-btn);
   border-radius: 5px;
   box-sizing: border-box;
@@ -399,7 +400,7 @@ html.night-theme .result-item {
   background-color: var(--danger) !important;
   color: var(--text-white) !important;
   font-weight: 600;
-  animation: pulseDanger 1s ease-in-out infinite;
+  animation: pulseDanger 0.7s ease-in-out infinite;
 }
 
 .result-item-danger * {
@@ -432,11 +433,11 @@ html.night-theme .result-item {
 
 .search-section {
   margin-bottom: 18px;
-  
+
 }
 
 .search-section.focused {
-  padding-bottom: 0; 
+  padding-bottom: 0;
 }
 
 /* .search-section.focused règles supprimées (décrochage désactivé) */
@@ -447,7 +448,7 @@ html.night-theme .result-item {
   /* margin: auto; */
   display: flex;
   align-items: center;
-   background-color : color-mix(in srgb, var(--bg-input), transparent 0%);
+  background-color: color-mix(in srgb, var(--bg-input), transparent 0%);
   border-radius: 12px;
   margin-top: 10px;
   margin-bottom: 4px;
@@ -462,7 +463,7 @@ html.night-theme .result-item {
   position: relative;
   flex-grow: 1;
   display: flex;
-  margin : 6px;
+  margin: 6px;
 }
 
 .live-search-input {
@@ -506,6 +507,29 @@ html.night-theme .result-item {
     width: 100%;
   }
 
+  .journal-fields-row {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .journal-popup-window {
+    width: 85%;
+    max-width: 95vw;
+  }
+
+  .journal-card {
+    padding: 10px;
+  }
+
+  .journal-field {
+    font-size: 0.8rem;
+  }
+
+  .micro-btn, .camera-btn {
+   width: 46px !important;
+   height: 46px !important;
+  }
+
 }
 
 .clear-search-btn {
@@ -526,16 +550,16 @@ html.night-theme .result-item {
   justify-content: center;
   font-size: 16px;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s;
 }
 
 
 .voice-btn {
-  width: 40px;
-  height: 40px;
+  width: 54px;
+  height: 54px;
   font-size: 1.5rem;
-  border-radius: 50%;
+  border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--bg-btn);
   color: var(--text-white);
@@ -545,7 +569,7 @@ html.night-theme .result-item {
   justify-content: center;
   flex-shrink: 0;
   margin: 0px;
-  
+
 }
 
 .voice-btn i {
@@ -581,13 +605,16 @@ html.night-theme .result-item {
 }
 
 @keyframes pulseDanger {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.7;
   }
-  
+
 }
 
 @keyframes zoomIn {
@@ -658,7 +685,7 @@ html.night-theme .voice-confirm-msg {
 }
 
 .text-vocal-search {
-  color : var(--success);
+  color: var(--success);
 }
 
 .retry-action-btn {
@@ -1433,13 +1460,6 @@ html.night-theme .form-input {
   min-width: 80px;
 }
 
-@media (max-width: 480px) {
-  .journal-fields-row {
-    flex-direction: row;
-    gap: 6px;
-  }
-}
-
 .journal-cards-container {
   display: flex;
   flex-direction: column;
@@ -1515,21 +1535,6 @@ html.night-theme .form-input {
   justify-content: center;
 }
 
-@media (max-width: 480px) {
-  .journal-popup-window {
-    width: 85%;
-    max-width: 95vw;
-  }
-
-  .journal-card {
-    padding: 10px;
-  }
-
-  .journal-field {
-    font-size: 0.8rem;
-  }
-}
-
 .form-buttons .confirm-action-btn,
 .form-buttons .cancel-action-btn {
   padding: 14px 28px;
@@ -1543,19 +1548,19 @@ tr.editing td {
 
 /* Highlight pour nouvelle adresse ajoutée */
 tr.highlight {
-    background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%) !important;
-    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-    transform: scale(1.02);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  transform: scale(1.02);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tr.highlight td {
-    border-left: 4px solid (var(--accent-cyan));
+  border-left: 4px solid (var(--accent-cyan));
 }
 
 /* Smooth retour à l'état normal */
 tr.highlight {
-    transition: all 1s ease-out;
+  transition: all 1s ease-out;
 }
 
 /* =====================================
@@ -1616,7 +1621,7 @@ tr.highlight {
   font-weight: bold;
   font-size: 0.7rem;
   border: 2px solid var(--text-white);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
 }
 
@@ -1658,7 +1663,7 @@ html.night-theme .bras-summary {
   justify-content: center;
   grid-column: 1 / -1;
   background: var(--bg-input);
-  
+
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
   padding: 8px 8px;
@@ -1851,7 +1856,7 @@ html.night-theme .no-data-msg {
   margin-right: 4px;
 }
 
-.bras-summary .bras-pdf-btn + .bras-count-badge {
+.bras-summary .bras-pdf-btn+.bras-count-badge {
   margin-left: 0 !important;
 }
 
@@ -2033,7 +2038,7 @@ html.night-theme .pdf-city-item label {
   color: var(--text-white);
   font-size: 0.8rem;
   text-shadow: 1px 1px 4px black;
-  font-weight:bold;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
