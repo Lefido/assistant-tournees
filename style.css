@@ -1745,7 +1745,7 @@ html.night-theme .address-card {
 }
 
 .address-card-danger .card-field i {
-  color: var(--bg-btn) !important;
+  color: var(--orange) !important;
 }
 
 .card-field {
