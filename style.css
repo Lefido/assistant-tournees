@@ -79,7 +79,7 @@
 }
 
 .danger-text {
-  color: var(--danger);
+  color: var(--dangerCards);
 }
 
 .mt-20 {
@@ -241,10 +241,11 @@ html.night-theme body {
   width: 90%;
   text-align: center;
   font-size: 1.1rem;
+  letter-spacing: 1px;
   padding: 6px;
   margin: 8px auto 6px;
   color: var(--text-light);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
   display: block;
 }
 
@@ -1192,7 +1193,7 @@ html.night-theme td:last-child {
   bottom: 0;
   background-color: #ccc;
   transition: .4s;
-  border-radius: 24px;
+  border-radius: 12px;
 }
 
 .toggle-slider:before {
@@ -1606,9 +1607,10 @@ tr.highlight {
   gap: 8px;
   border-radius: 10px;
   position: sticky;
-  top: 55px;
+  top: 52px;
   z-index: 10;
   margin: 5px 0;
+  letter-spacing: 1px;
 }
 
 .bras-count-badge {
@@ -1637,15 +1639,29 @@ html.night-theme .bras-count-badge {
 }
 
 .bras-summary::before {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
   content: '\f078';
   font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
+  font-weight:bold;
   transition: transform 0.2s;
+  background: var(--text-white);
+  color: var(--bg-btn);
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
 }
 
 .bras-details[open] .bras-summary::before {
   transform: rotate(180deg);
 }
+
+
+
+
 
 html.night-theme .bras-summary {
   color: var(--text-white);
@@ -1654,8 +1670,9 @@ html.night-theme .bras-summary {
 .address-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-  margin: 5px 2px 2px 2px;
+  gap: 4px;
+  margin: 2px 2px 2px 2px;
+
 }
 
 /* City labels for separation */
@@ -1669,16 +1686,16 @@ html.night-theme .bras-summary {
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
   padding: 8px 8px;
-  margin: 4px 0 4px 0;
+  margin: 2px 0 2px 0;
   text-align: center;
   font-weight: bold;
   font-size: 0.9rem;
   color: var(--bg-btn);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   height: 16px;
   position: sticky;
-  top: 99px;
+  top: 95px;
   z-index: 8;
 }
 
@@ -1799,7 +1816,7 @@ html.night-theme .no-data-msg {
   align-items: center;
   width: 100%;
   max-width: 100%;
-  margin: 12px 0;
+  margin: 8px 0;
   /* background: var(--bg-dark); */
   padding: 0 0;
 

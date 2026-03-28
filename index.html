@@ -40,7 +40,7 @@
             />
           </div>
           <h1 class="site-title">Assistant Tournées</h1>
-<button id="modeToggle" class="mode-toggle" aria-label="Paramètres">
+          <button id="modeToggle" class="mode-toggle" aria-label="Paramètres">
             <i class="fas fa-cog"></i>
           </button>
         </div>
@@ -101,9 +101,6 @@
             Sélectionnez une ville (optionnel)
           </h2>
 
-          
-
-          
           <div id="cityBtnContainer" class="city-btn-container"></div>
 
           <div id="noFileWarning" class="warning-msg">
@@ -112,72 +109,86 @@
         </section>
 
         <section id="adminPanel" class="hidden">
-          
           <div class="addresses-cards-container" id="addressesCardsContainer">
             <h2 class="section-title">Réglages</h2>
-          <div class="toggle-row">
-            <span class="toggle-text">Thème sombre</span>
-            <label class="toggle-label">
-              <input type="checkbox" id="themeToggle" checked />
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
             <div class="toggle-row">
-            <span class="toggle-text">Reconnaissance visuelle</span>
-            <label class="toggle-label">
-              <input type="checkbox" id="cameraToggle" />
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
+              <span class="toggle-text">Thème sombre</span>
+              <label class="toggle-label">
+                <input type="checkbox" id="themeToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-text">Reconnaissance visuelle</span>
+              <label class="toggle-label">
+                <input type="checkbox" id="cameraToggle" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
             <h2 class="section-title">Gestion des données</h2>
             <div class="admin-actions">
-            <label id="importExcelBtn" for="excelFile" class="file-btn"
-              ><i class="fas fa-file-excel"></i>Importation Excel</label
-            >
-            <input
-              type="file"
-              id="excelFile"
-              accept=".xlsx, .xls"
-              style="display: none"
-            />
-            <button id="exportExcelBtn" class="file-btn">
-              <i class="fas fa-file-export"></i>Exportation Excel
-            </button>
-          </div>
-            <h2 id="importedFileTitle" class="section-title">Fichier d'exploitation</h2>
-          <div id="fileNameDisplay" class="file-name-display"></div>
-            <h3 id="importedAddressesTitle" class="section-title">Gestion des adresses</h3>
-            <button class="file-btn journal-btn" style="width: 100%; margin-bottom: 12px;"><i class="fas fa-book"></i>Journal des modifications</button>
-            <div class="admin-actions">
-            <button id="addAddressBtn" class="file-btn">
-              <i class="fas fa-plus"></i>Ajouter une adresse
-            </button>
-            <button id="clearStorageBtn" class="danger-btn">
-              <i class="fas fa-trash"></i>Effacer les adresses
-            </button>
-          </div>
-          <div class="address-search-wrapper" id="addressSearchWrapper" style="display: none;">
-            <input
-              type="text"
-              id="addressSearchInput"
-              placeholder="Rechercher dans les adresses..."
-              class="address-search-input"
-              autocomplete="off"
-            />
+              <label id="importExcelBtn" for="excelFile" class="file-btn"
+                ><i class="fas fa-file-excel"></i>Importer Excel</label
+              >
+              <input
+                type="file"
+                id="excelFile"
+                accept=".xlsx, .xls"
+                style="display: none"
+              />
+              <button id="exportExcelBtn" class="file-btn">
+                <i class="fas fa-file-export"></i>Exporter Excel
+              </button>
+            </div>
+            <h2 id="importedFileTitle" class="section-title">
+              Source de données
+            </h2>
+            <div id="fileNameDisplay" class="file-name-display"></div>
+            <h3 id="importedAddressesTitle" class="section-title">
+              Gestion des adresses
+            </h3>
             <button
-              id="clearAddressSearchBtn"
-              class="clear-address-search-btn"
-              aria-label="Effacer la recherche"
+              class="file-btn journal-btn"
+              style="width: 100%; margin-bottom: 12px"
             >
-              ✖
+              <i class="fas fa-book"></i>Journal des modifications
             </button>
-          </div>
+            <div class="admin-actions">
+              <button id="addAddressBtn" class="file-btn">
+                <i class="fas fa-plus"></i>Ajouter une adresse
+              </button>
+              <button id="clearStorageBtn" class="danger-btn">
+                <i class="fas fa-trash"></i>Effacer les adresses
+              </button>
+            </div>
+            <div
+              class="address-search-wrapper"
+              id="addressSearchWrapper"
+              style="display: none"
+            >
+              <input
+                type="text"
+                id="addressSearchInput"
+                placeholder="Rechercher dans les adresses..."
+                class="address-search-input"
+                autocomplete="off"
+              />
+              <button
+                id="clearAddressSearchBtn"
+                class="clear-address-search-btn"
+                aria-label="Effacer la recherche"
+              >
+                ✖
+              </button>
+            </div>
             <div id="addressesCardsContent"></div>
           </div>
         </section>
       </main>
 
-      <footer class="app-footer">&copy; 2026 - Frederic Boussemart @RicFid</footer>
+      <footer class="app-footer">
+        &copy; 2026 - Frederic Boussemart @RicFid
+      </footer>
     </div>
 
     <div
@@ -209,11 +220,7 @@
       <div class="popup-window">
         <h3 id="popupTitle" class="popup-title">Résultats</h3>
         <div id="popupContent" class="popup-scroll"></div>
-        <button
-          id="popupClose"
-          class="file-btn"
-          aria-label="Fermer la fenêtre"
-        >
+        <button id="popupClose" class="file-btn" aria-label="Fermer la fenêtre">
           Fermer
         </button>
       </div>
@@ -264,22 +271,49 @@
         <div class="address-form">
           <div class="form-group">
             <label for="addressBras">Bras de distribution</label>
-            <input type="text" id="addressBras" class="form-input" placeholder="Ex: Bras 1" />
+            <input
+              type="text"
+              id="addressBras"
+              class="form-input"
+              placeholder="Ex: Bras 1"
+            />
           </div>
           <div class="form-group">
             <label for="addressVille">Ville</label>
-            <input type="text" id="addressVille" class="form-input" placeholder="Ex: Paris" />
+            <input
+              type="text"
+              id="addressVille"
+              class="form-input"
+              placeholder="Ex: Paris"
+            />
           </div>
           <div class="form-group">
             <label for="addressRue">Adresse</label>
-            <input type="text" id="addressRue" class="form-input" placeholder="Ex: Rue De La Paix" />
+            <input
+              type="text"
+              id="addressRue"
+              class="form-input"
+              placeholder="Ex: Rue De La Paix"
+            />
           </div>
           <div class="form-group">
-            <label for="addressNumero">Numéro <span class="danger-text">(CS, PICKUP, PPDC, REEX, CI)</span></label>
-            <input type="text" id="addressNumero" class="form-input" placeholder="Ex: 10 à 25, CS, PICKUP, PPDC, REEX, CI" />
+            <label for="addressNumero"
+              >Numéro
+              <span class="danger-text"
+                >(CS, PICKUP, PPDC, REEX, CI)</span
+              ></label
+            >
+            <input
+              type="text"
+              id="addressNumero"
+              class="form-input"
+              placeholder="Ex: 10 à 25, CS, PICKUP, PPDC, REEX, CI"
+            />
           </div>
           <div class="form-group">
-            <label for="addressType">Type Recherche : (T1: Réelle, T2: Approx)</label>
+            <label for="addressType"
+              >Type Recherche : (T1: Réelle, T2: Approx)</label
+            >
             <select id="addressType" class="form-input">
               <option value="1">Type 1</option>
               <option value="2">Type 2</option>
@@ -287,7 +321,9 @@
           </div>
         </div>
         <div class="form-buttons">
-          <button id="saveAddressBtn" class="confirm-action-btn">Enregistrer</button>
+          <button id="saveAddressBtn" class="confirm-action-btn">
+            Enregistrer
+          </button>
           <button
             id="addressPopupClose"
             class="cancel-action-btn"
@@ -309,7 +345,9 @@
       aria-labelledby="journalPopupTitle"
     >
       <div class="popup-window journal-popup-window">
-        <h3 id="journalPopupTitle" class="popup-title">Journal des modifications</h3>
+        <h3 id="journalPopupTitle" class="popup-title">
+          Journal des modifications
+        </h3>
         <div id="journalContent" class="journal-content"></div>
         <div class="journal-actions">
           <button id="exportJournalBtn" class="file-btn confirm-action-btn">
@@ -335,7 +373,9 @@
       aria-labelledby="pdfPopupTitle"
     >
       <div class="popup-window pdf-popup-window">
-        <h3 id="pdfPopupTitle" class="popup-title">Sélection des villes - BRAS</h3>
+        <h3 id="pdfPopupTitle" class="popup-title">
+          Sélection des villes - BRAS
+        </h3>
         <div class="pdf-cities-header pdf-city-item">
           <div class="pdf-header-cell">Equipe</div>
           <div class="pdf-header-cell">Ville</div>
@@ -370,10 +410,14 @@
       aria-labelledby="colorPickerTitle"
     >
       <div class="color-picker-window">
-        <h3 id="colorPickerTitle" class="color-picker-title">Choisir une couleur</h3>
+        <h3 id="colorPickerTitle" class="color-picker-title">
+          Choisir une couleur
+        </h3>
         <div id="colorGrid" class="color-grid"></div>
         <div class="color-picker-buttons">
-          <button id="colorPickerCancel" class="cancel-action-btn">Annuler</button>
+          <button id="colorPickerCancel" class="cancel-action-btn">
+            Annuler
+          </button>
         </div>
       </div>
     </div>
