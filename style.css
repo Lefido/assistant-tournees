@@ -1684,7 +1684,7 @@ html.night-theme .bras-summary {
 
 html.night-theme .bras-city-label {
   background: var(--bg-dark);
-  color: var(--accent-cyan);
+  color: var(--bg-btn);
 }
 
 .bras-city-count-badge {
@@ -1724,8 +1724,8 @@ html.night-theme .bras-city-count-badge {
 
 .address-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
-  border-color: var(--bg-btn);
+  box-shadow: 0 0 12px rgba(0, 119, 255, 0.4);
+  border-color: var(--accent-cyan);
   z-index: 0;
 }
 
