@@ -1228,6 +1228,12 @@ input:checked+.toggle-slider:before {
   border: 1px solid var(--danger);
 }
 
+html.night-theme .warning-msg {
+  background: rgba(204, 75, 75, 0.1);
+  color: var(--orange);
+  border: 1px solid var(--orange);
+}
+
 .app-footer {
   text-align: center;
   padding: 10px;
