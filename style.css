@@ -1607,7 +1607,7 @@ tr.highlight {
   gap: 8px;
   border-radius: 10px;
   position: sticky;
-  top: 52px;
+  top: 54px;
   z-index: 10;
   margin: 5px 0;
   letter-spacing: 1px;
@@ -1695,7 +1695,7 @@ html.night-theme .bras-summary {
   letter-spacing: 1px;
   height: 16px;
   position: sticky;
-  top: 95px;
+  top: 101px;
   z-index: 8;
 }
 
@@ -1828,7 +1828,7 @@ html.night-theme .no-data-msg {
   padding: 12px 10px;
   border-radius: 10px;
   background: var(--bg-panel);
-  border: 2px solid var(--bg-input);
+  border: 1px solid var(--bg-btn);
   color: var(--text-light);
 
   font-size: 1rem;
@@ -1838,7 +1838,8 @@ html.night-theme .no-data-msg {
 }
 
 .address-search-input:focus {
-  border-color: var(--bg-btn);
+  border-color: var(--accent-cyan);
+
 }
 
 .clear-address-search-btn {
