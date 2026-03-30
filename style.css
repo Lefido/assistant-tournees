@@ -1463,8 +1463,6 @@ html.night-theme .form-input {
   justify-content: flex-start;
 }
 
-
-
 .journal-fields-row .journal-field {
   flex: 1;
   min-width: 80px;
@@ -1614,7 +1612,7 @@ tr.highlight {
   gap: 8px;
   border-radius: 10px;
   position: sticky;
-  top: 54px;
+  top: 53px;
   z-index: 10;
   margin: 5px 0;
   letter-spacing: 1px;
@@ -1666,10 +1664,6 @@ html.night-theme .bras-count-badge {
   transform: rotate(180deg);
 }
 
-
-
-
-
 html.night-theme .bras-summary {
   color: var(--text-white);
 }
@@ -1702,7 +1696,7 @@ html.night-theme .bras-summary {
   letter-spacing: 1px;
   height: 16px;
   position: sticky;
-  top: 101px;
+  top: 99px;
   z-index: 8;
 }
 
@@ -1759,8 +1753,8 @@ html.night-theme .address-card {
 
 /* Address-card danger - pour les numéros spéciaux */
 .address-card-danger {
-  background-color: var(--dangerCards) !important;
-  border: 2px solid var(--danger) !important;
+  background-color: var(--danger) !important;
+  /* border: 2px solid var(--bg-btn-clear) !important; */
 }
 
 .address-card-danger .card-field,
@@ -1768,11 +1762,16 @@ html.night-theme .address-card {
   color: var(--text-white) !important;
 }
 
-/* Icons Cards */
+/* Icons Cards-danger */
 
 .address-card-danger .card-field i {
+  color: var(--bg-btn) !important;
+  text-shadow: 0 0 8px var(--bg-btn-clear); 
+}
+
+.address-card-danger .delete-btn {
   color: var(--danger) !important;
-  text-shadow: 0 0 8px var(--text-white);
+  background-color: var(--text-white) !important;
 }
 
 .card-field {
