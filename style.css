@@ -15,7 +15,7 @@
   --text-white: #ffffff;
   --border: #d6d6d6;
   --danger: #ec1111;
-  --dangerCards: #bb4141;
+  --dangerCards: #be5353;
   --success: #24a10b;
   --accent-cyan: #00c3ff;
   --bg-overlay: rgba(0, 0, 0, 0.85);
@@ -36,7 +36,7 @@
   --text-white: #ffffff;
   --border: #0f3460;
   --danger: #ec1111;
-  --dangerCards: #bb4141;
+  --dangerCards: #be5353;
   --success: #24a10b;
   --accent-cyan: #00c3ff;
   --bg-overlay: rgba(255, 255, 255, 0.85);
@@ -79,7 +79,7 @@
 }
 
 .danger-text {
-  color: var(--dangerCards);
+  color: var(--bg-btn);
 }
 
 .mt-20 {
@@ -1330,7 +1330,7 @@ html.night-theme .app-footer {
 .form-input {
   padding: 14px 20px 14px 16px;
   border-radius: 10px;
-  background: var(--bg-input);
+  background: var(--bg-panel);
   border: 2px solid var(--border);
   color: var(--text-light);
   font-size: 1rem;
@@ -1376,6 +1376,7 @@ html.night-theme .app-footer {
 
 html.night-theme .form-input {
   color: var(--text-light);
+  background: var(--bg-input);
 }
 
 .form-buttons {
@@ -1767,8 +1768,11 @@ html.night-theme .address-card {
   color: var(--text-white) !important;
 }
 
+/* Icons Cards */
+
 .address-card-danger .card-field i {
-  color: var(--orange) !important;
+  color: var(--danger) !important;
+  text-shadow: 0 0 8px var(--text-white);
 }
 
 .card-field {
