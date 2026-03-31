@@ -2576,10 +2576,32 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("popupOverlay").classList.add("hidden");
   };
 
+  // Bouton ? (Mode d'utilisation)
+  document.getElementById("informations").onclick = function () {
+    const popup = document.getElementById("usagePopupOverlay");
+    if (popup) {
+      vibrerAuClic();
+      popup.classList.remove("hidden");
+    }
+  };
+
   // Bouton mode (utilisateur/admin)
   document.getElementById("modeToggle").onclick = function () {
     gestionnaireInterface.basculerMode(this);
   };
+
+  // Close usage popup
+  document.getElementById("usagePopupClose").onclick = function () {
+    const popup = document.getElementById("usagePopupOverlay");
+    if (popup) popup.classList.add("hidden");
+  };
+
+  document.getElementById("usagePopupOverlay").onclick = function (e) {
+    if (e.target.id === "usagePopupOverlay") {
+      this.classList.add("hidden");
+    }
+  };
+
 
   // Bouton effacer stockage - RESTE SUR PARAMÈTRES + RESTAURE ONGLETS
   document.getElementById("clearStorageBtn").onclick = () => {

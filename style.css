@@ -79,7 +79,7 @@
 }
 
 .danger-text {
-  color: var(--bg-btn);
+  color: var(--danger);
 }
 
 .mt-20 {
@@ -137,7 +137,7 @@ html.night-theme body {
 .header-inner {
   width: 100%;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
   gap: 10px;
   max-width: 800px;
@@ -170,7 +170,7 @@ html.night-theme body {
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 119, 255, 0.3);
   font-weight: 800;
-  font-size: clamp(1.2rem, 4vw, 1.4rem);
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
   color: var(--text-light);
   text-transform: uppercase;
 }
@@ -1064,6 +1064,17 @@ html.night-theme td:last-child {
   transition: transform 0.3s ease-in-out;
 }
 
+#informations {
+
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  color: var(--text-white);
+  background-color: var(--danger);
+  border-radius: 50%;
+
+}
+
 .mode-toggle.rotating {
   animation: scaleIcon 0.4s ease-in-out;
 }
@@ -1911,6 +1922,8 @@ html.night-theme .no-data-msg {
 
 #generateDocxBtn {
   background-color: var(--bg-btn);
+  display: none;
+  
 }
 
 .pdf-cities-list {
@@ -1924,7 +1937,7 @@ html.night-theme .no-data-msg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 15px;
+  padding: 12px 8px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-panel);
   border-radius: 5px 5px 0 0;
@@ -1983,11 +1996,16 @@ html.night-theme .no-data-msg {
 .pdf-cities-header {
   background: var(--bg-btn);
   color: var(--text-white);
-  width: 95%;
+  width: 100%;
   font-weight: bold;
   text-transform: uppercase;
   /* border-bottom: 1px solid var(--accent-cyan); */
   margin-bottom: 0px;
+}
+
+.html.night-theme, .pdf-cities-header {
+  background: var(--bg-btn) !important;
+  color: var(--text-white) !important;
 }
 
 .pdf-cities-header .pdf-header-cell {
@@ -2161,4 +2179,122 @@ html.night-theme .pdf-city-item label {
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* 🎯 NOUVEAU : Styles Popup Mode d'Utilisation */
+.usage-popup-window {
+  max-height: 90vh;
+  width: 90%;
+  max-width: 480px;
+  padding: 20px;
+}
+
+.usage-guide-scroll {
+  width: 100%;
+  max-height: 65vh;
+  overflow-y: auto;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.usage-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(0, 119, 255, 0.05);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--bg-btn);
+  border-radius: 8px;
+}
+
+.usage-section:last-child {
+  margin-bottom: 0;
+}
+
+.usage-section h4 {
+  margin: 0 0 12px 0;
+  color: var(--bg-btn);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usage-section h4 i {
+  font-size: 1.2rem;
+  width: 24px;
+}
+
+.usage-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.usage-section li {
+  margin-bottom: 8px;
+  color: var(--text-light);
+  position: relative;
+}
+
+.usage-section li strong {
+  color: var(--bg-btn);
+}
+
+.highlight-section {
+  background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  border-left-color: var(--success) !important;
+  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+}
+
+.usage-footer {
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.usage-footer .file-btn {
+  background: var(--danger);
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .usage-popup-window {
+    width: 98%;
+    padding: 20px 15px;
+  }
+  
+  .usage-guide-scroll {
+    max-height: 70vh;
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .usage-section {
+    padding: 12px;
+  }
+  
+  .usage-section h4 {
+    font-size: 1rem;
+  }
+
+.usage-popup-window {
+  max-height: 90vh;
+  width: 90%;
+  max-width: 360px;
+  padding: 20px;
+}
+
+}
+
+html.night-theme .usage-guide-scroll {
+  background: rgba(22, 33, 62, 0.8);
+  color: var(--text-light);
+}
+
+html.night-theme .usage-section {
+  background: rgba(0, 119, 255, 0.1);
 }

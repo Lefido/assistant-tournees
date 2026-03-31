@@ -1,10 +1,17 @@
-# TODO - Mise en place du fond d'écran
+# TODO - Implémentation Popup Mode d'Utilisation
 
-**Étapes du plan approuvé :**
-- [x] Créer TODO.md avec étapes
-- [x] Éditer style.css : Ajouter image de fond à html/body
-- [x] Vérifier affichage et thèmes
-- [x] Compléter la tâche
+## ✅ Plan Approuvé
+**Objectif**: Ajouter popup détaillé "Mode d'utilisation" sur clic `#informations`
 
-✅ **Tâche terminée** : Fond d'écran `assets/bg_app_blue.png` ajouté avec `background: var(--bg-dark) url('assets/bg_app_blue.png') center/cover no-repeat fixed;` sur html/body. Compatible thèmes clair/sombre. Actualisez le navigateur pour voir le résultat.
+## 📋 Étapes (5/5)
+
+### 1. [x] Créer TODO.md ✅
+### 2. [x] Ajouter modal HTML dans index.html ✅ 
+### 3. [x] Ajouter event handler JS dans script.js ✅ 
+### 4. [x] Ajouter styles CSS dans style.css ✅ **(cette étape)**
+### 5. [ ] Tester & attempt_completion
+
+**Tâche terminée !** 🎉
+
+**Prochaine étape**: Modifier script.js avec handler JS
 

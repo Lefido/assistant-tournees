@@ -1,430 +1,396 @@
 <!-- Assistant Tournées - Application Web pour la gestion des tournées -->
 <!doctype html>
 <html lang="fr">
-  <head>
-    <!-- Métadonnées de base -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Assistant Tournées — outil d'aide à la gestion et à la recherche d'adresses pour vos tournées."
-    />
-    <link rel="icon" href="assets/snipers.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="assets/snipers.png" />
-    <link rel="manifest" href="manifest.json" />
-    <title>Assistant Tournées</title>
-    <!-- Métadonnées Open Graph pour le partage -->
-    <meta property="og:title" content="Assistant Tournées" />
-    <meta
-      property="og:description"
-      content="Assistant Tournées — outil d'aide à la gestion et à la recherche d'adresses pour vos tournées."
-    />
-    <meta property="og:type" content="website" />
-    <!-- Feuilles de style -->
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="app-container">
-      <header class="app-header">
-        <div class="header-inner">
-          <div class="logo">
-            <img
-              src="assets/snipers.png"
-              class="logo-img"
-              alt="Logo Assistant Tournées"
-              loading="lazy"
-            />
-          </div>
-          <h1 class="site-title">Assistant Tournées</h1>
-          <button id="modeToggle" class="mode-toggle" aria-label="Paramètres">
-            <i class="fas fa-cog"></i>
-          </button>
+
+<head>
+  <!-- Métadonnées de base -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Assistant Tournées — outil d'aide à la gestion et à la recherche d'adresses pour vos tournées." />
+  <link rel="icon" href="assets/snipers.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/snipers.png" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Assistant Tournées</title>
+  <!-- Métadonnées Open Graph pour le partage -->
+  <meta property="og:title" content="Assistant Tournées" />
+  <meta property="og:description"
+    content="Assistant Tournées — outil d'aide à la gestion et à la recherche d'adresses pour vos tournées." />
+  <meta property="og:type" content="website" />
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="logo">
+          <img src="assets/snipers.png" class="logo-img" alt="Logo Assistant Tournées" loading="lazy" />
         </div>
-      </header>
+        <h1 class="site-title">Assistant Tournées</h1>
+        <button id="informations" class="mode-toggle" aria-label="Question">
+          <i class="fa-solid fa-question"></i>
+        </button>
+        <button id="modeToggle" class="mode-toggle" aria-label="Paramètres">
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
+    </header>
 
-      <main class="main-content">
-        <section id="userPanel">
-          <div id="liveSearchContainer" class="search-section">
-            <div class="search-wrapper">
-              <div class="voice-btn-wrapper">
-                <button
-                  id="voiceBtn"
-                  class="voice-btn micro-btn"
-                  aria-label="Activer la recherche vocale"
-                >
-                  <i class="fas fa-microphone"></i>
-                </button>
-              </div>
-              <div class="search-input-wrapper">
-                <label for="liveSearchInput" class="sr-only"
-                  >Rechercher une adresse</label
-                >
-                <input
-                  type="text"
-                  id="liveSearchInput"
-                  placeholder="Rechercher mot directeur…"
-                  class="live-search-input"
-                  autocomplete="off"
-                  aria-label="Rechercher une adresse"
-                />
-                <button
-                  id="clearSearchBtn"
-                  class="clear-search-btn"
-                  aria-label="Effacer la recherche"
-                >
-                  ✖
-                </button>
-              </div>
-              <button
-                id="cameraBtn"
-                class="voice-btn camera-btn hidden"
-                aria-label="Activer la caméra"
-              >
-                <i class="fas fa-camera"></i>
+    <main class="main-content">
+      <section id="userPanel">
+        <div id="liveSearchContainer" class="search-section">
+          <div class="search-wrapper">
+            <div class="voice-btn-wrapper">
+              <button id="voiceBtn" class="voice-btn micro-btn" aria-label="Activer la recherche vocale">
+                <i class="fas fa-microphone"></i>
               </button>
             </div>
-            <div
-              id="liveSearchResults"
-              class="live-search-results"
-              aria-live="polite"
-              role="list"
-            ></div>
-          </div>
-          <h2 class="section-title">Sélectionnez un bras de distribution</h2>
-          <div id="brasBtnContainer" class="city-btn-container"></div>
-
-          <h2 id="titleVille" class="section-title hidden">
-            Sélectionnez une ville (optionnel)
-          </h2>
-
-          <div id="cityBtnContainer" class="city-btn-container"></div>
-
-          <div id="noFileWarning" class="warning-msg">
-            Aucun fichier chargé. Allez dans Paramètres.
-          </div>
-        </section>
-
-        <section id="adminPanel" class="hidden">
-          <div class="addresses-cards-container" id="addressesCardsContainer">
-            <h2 class="section-title">Paramètres</h2>
-            <div class="toggle-row">
-              <span class="toggle-text">Thème sombre</span>
-              <label class="toggle-label">
-                <input type="checkbox" id="themeToggle" checked />
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-            <div class="toggle-row">
-              <span class="toggle-text">Reconnaissance visuelle</span>
-              <label class="toggle-label">
-                <input type="checkbox" id="cameraToggle" />
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-            <h2 class="section-title">Gestion des données</h2>
-            <div class="admin-actions">
-              <label id="importExcelBtn" for="excelFile" class="file-btn"
-                ><i class="fas fa-file-excel"></i>Importer Excel</label
-              >
-              <input
-                type="file"
-                id="excelFile"
-                accept=".xlsx, .xls"
-                style="display: none"
-              />
-              <button id="exportExcelBtn" class="file-btn">
-                <i class="fas fa-file-export"></i>Exporter Excel
+            <div class="search-input-wrapper">
+              <label for="liveSearchInput" class="sr-only">Rechercher une adresse</label>
+              <input type="text" id="liveSearchInput" placeholder="Rechercher mot directeur…" class="live-search-input"
+                autocomplete="off" aria-label="Rechercher une adresse" />
+              <button id="clearSearchBtn" class="clear-search-btn" aria-label="Effacer la recherche"><i class="fas fa-times"></i>
               </button>
             </div>
-            <h2 id="importedFileTitle" class="section-title">
-              Source de données
-            </h2>
-            <div id="fileNameDisplay" class="file-name-display"></div>
-            <h3 id="importedAddressesTitle" class="section-title">
-              Gestion des adresses
-            </h3>
-            <button
-              class="file-btn journal-btn"
-              style="width: 100%; margin-bottom: 12px"
-            >
-              <i class="fas fa-book"></i>Journal des modifications
+            <button id="cameraBtn" class="voice-btn camera-btn hidden" aria-label="Activer la caméra">
+              <i class="fas fa-camera"></i>
             </button>
-            <div class="admin-actions">
-              <button id="addAddressBtn" class="file-btn">
-                <i class="fas fa-plus"></i>Ajouter une adresse
-              </button>
-              <button id="clearStorageBtn" class="danger-btn">
-                <i class="fas fa-trash"></i>Effacer les adresses
-              </button>
-            </div>
-            <div
-              class="address-search-wrapper"
-              id="addressSearchWrapper"
-              style="display: none"
-            >
-              <input
-                type="text"
-                id="addressSearchInput"
-                placeholder="Rechercher dans les adresses..."
-                class="address-search-input"
-                autocomplete="off"
-              />
-              <button
-                id="clearAddressSearchBtn"
-                class="clear-address-search-btn"
-                aria-label="Effacer la recherche"
-              >
-                ✖
-              </button>
-            </div>
-            <div id="addressesCardsContent"></div>
           </div>
-        </section>
-      </main>
-
-      <footer class="app-footer">
-        &copy; 2026 - Frederic Boussemart @RicFid
-      </footer>
-    </div>
-
-    <div
-      id="voicePopupOverlay"
-      class="voice-popup-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="voiceConfirmText"
-    >
-      <div class="voice-popup-window">
-        <div id="voiceConfirmText" class="voice-confirm-msg"></div>
-        <div class="voice-confirm-btns">
-          <button id="confirmBtn" class="confirm-action-btn">Confirmer</button>
-          <button id="retryBtn" class="retry-action-btn">Réessayer</button>
-          <button id="cancelBtn" class="cancel-action-btn">Annuler</button>
+          <div id="liveSearchResults" class="live-search-results" aria-live="polite" role="list"></div>
         </div>
+        <h2 class="section-title">Sélectionnez un bras de distribution</h2>
+        <div id="brasBtnContainer" class="city-btn-container"></div>
+
+        <h2 id="titleVille" class="section-title hidden">
+          Sélectionnez une ville (optionnel)
+        </h2>
+
+        <div id="cityBtnContainer" class="city-btn-container"></div>
+
+        <div id="noFileWarning" class="warning-msg">
+          Aucun fichier chargé. Allez dans Paramètres.
+        </div>
+      </section>
+
+      <section id="adminPanel" class="hidden">
+        <div class="addresses-cards-container" id="addressesCardsContainer">
+          <h2 class="section-title">Paramètres</h2>
+          <div class="toggle-row">
+            <span class="toggle-text">Thème sombre</span>
+            <label class="toggle-label">
+              <input type="checkbox" id="themeToggle" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <span class="toggle-text">Reconnaissance visuelle</span>
+            <label class="toggle-label">
+              <input type="checkbox" id="cameraToggle" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <h2 class="section-title">Gestion des données</h2>
+          <div class="admin-actions">
+            <label id="importExcelBtn" for="excelFile" class="file-btn"><i class="fas fa-file-excel"></i>Importer
+              Excel</label>
+            <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none" />
+            <button id="exportExcelBtn" class="file-btn">
+              <i class="fas fa-file-export"></i>Exporter Excel
+            </button>
+          </div>
+          <h2 id="importedFileTitle" class="section-title">
+            Source de données
+          </h2>
+          <div id="fileNameDisplay" class="file-name-display"></div>
+          <h3 id="importedAddressesTitle" class="section-title">
+            Gestion des adresses
+          </h3>
+          <button class="file-btn journal-btn" style="width: 100%; margin-bottom: 12px">
+            <i class="fas fa-book"></i>Journal des modifications
+          </button>
+          <div class="admin-actions">
+            <button id="addAddressBtn" class="file-btn">
+              <i class="fas fa-plus"></i>Ajouter une adresse
+            </button>
+            <button id="clearStorageBtn" class="danger-btn">
+              <i class="fas fa-trash"></i>Effacer les adresses
+            </button>
+          </div>
+          <div class="address-search-wrapper" id="addressSearchWrapper" style="display: none">
+            <input type="text" id="addressSearchInput" placeholder="Rechercher dans les adresses…"
+              class="address-search-input" autocomplete="off" />
+            <button id="clearAddressSearchBtn" class="clear-address-search-btn" aria-label="Effacer la recherche"><i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div id="addressesCardsContent"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      &copy; 2026 - Frederic Boussemart @RicFid
+    </footer>
+  </div>
+
+  <div id="voicePopupOverlay" class="voice-popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="voiceConfirmText">
+    <div class="voice-popup-window">
+      <div id="voiceConfirmText" class="voice-confirm-msg"></div>
+      <div class="voice-confirm-btns">
+        <button id="confirmBtn" class="confirm-action-btn">Confirmer</button>
+        <button id="retryBtn" class="retry-action-btn">Réessayer</button>
+        <button id="cancelBtn" class="cancel-action-btn">Annuler</button>
       </div>
     </div>
+  </div>
 
-    <div
-      id="popupOverlay"
-      class="popup-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="popupTitle"
-    >
-      <div class="popup-window">
-        <h3 id="popupTitle" class="popup-title">Résultats</h3>
-        <div id="popupContent" class="popup-scroll"></div>
-        <button id="popupClose" class="file-btn" aria-label="Fermer la fenêtre">
+  <div id="popupOverlay" class="popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="popupTitle">
+    <div class="popup-window">
+      <h3 id="popupTitle" class="popup-title">Résultats</h3>
+      <div id="popupContent" class="popup-scroll"></div>
+      <button id="popupClose" class="file-btn" aria-label="Fermer la fenêtre">
+        Fermer
+      </button>
+    </div>
+  </div>
+
+  <div id="cameraPopupOverlay" class="popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="cameraPopupTitle">
+    <div class="popup-window">
+      <h3 id="cameraPopupTitle" class="popup-title">Capturer une adresse</h3>
+      <div id="cameraContainer" class="camera-container">
+        <video id="cameraFeed" playsinline autoplay></video>
+        <div id="scanRegion" class="scan-region"></div>
+        <canvas id="captureCanvas" class="hidden"></canvas>
+        <div id="cameraStatus" class="status-text">
+          Démarrage de la caméra...
+        </div>
+      </div>
+      <div class="camera-buttons-row">
+        <button id="captureBtn" class="confirm-action-btn">Capturer</button>
+        <button id="cameraPopupClose" class="cancel-action-btn" aria-label="Fermer la fenêtre">
           Fermer
         </button>
       </div>
     </div>
+  </div>
 
-    <div
-      id="cameraPopupOverlay"
-      class="popup-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="cameraPopupTitle"
-    >
-      <div class="popup-window">
-        <h3 id="cameraPopupTitle" class="popup-title">Capturer une adresse</h3>
-        <div id="cameraContainer" class="camera-container">
-          <video id="cameraFeed" playsinline autoplay></video>
-          <div id="scanRegion" class="scan-region"></div>
-          <canvas id="captureCanvas" class="hidden"></canvas>
-          <div id="cameraStatus" class="status-text">
-            Démarrage de la caméra...
-          </div>
+  <!-- Modal pour ajouter/modifier une adresse -->
+  <div id="addressPopupOverlay" class="popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="addressPopupTitle">
+    <div class="popup-window">
+      <h3 id="addressPopupTitle" class="popup-title">Ajouter une adresse</h3>
+      <div class="address-form">
+        <div class="form-group">
+          <label for="addressBras">Bras de distribution</label>
+          <input type="text" id="addressBras" class="form-input" placeholder="Ex: Bras 1" />
         </div>
-        <div class="camera-buttons-row">
-          <button id="captureBtn" class="confirm-action-btn">Capturer</button>
-          <button
-            id="cameraPopupClose"
-            class="cancel-action-btn"
-            aria-label="Fermer la fenêtre"
-          >
-            Fermer
-          </button>
+        <div class="form-group">
+          <label for="addressVille">Ville</label>
+          <input type="text" id="addressVille" class="form-input" placeholder="Ex: Paris" />
+        </div>
+        <div class="form-group">
+          <label for="addressRue">Adresse</label>
+          <input type="text" id="addressRue" class="form-input" placeholder="Ex: Rue De La Paix" />
+        </div>
+        <div class="form-group">
+          <label for="addressNumero">Numéro ou
+            <span class="danger-text">(CS, PICKUP, PPDC, REEX, CI)</span></label>
+          <input type="text" id="addressNumero" class="form-input"
+            placeholder="Ex: 10 à 25, CS, PICKUP, PPDC, REEX, CI" />
+        </div>
+        <div class="form-group">
+          <label for="addressType">Type Recherche : (T1: Réelle, T2: Approx)</label>
+          <select id="addressType" class="form-input">
+            <option value="1">Type 1</option>
+            <option value="2">Type 2</option>
+          </select>
         </div>
       </div>
-    </div>
-
-    <!-- Modal pour ajouter/modifier une adresse -->
-    <div
-      id="addressPopupOverlay"
-      class="popup-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="addressPopupTitle"
-    >
-      <div class="popup-window">
-        <h3 id="addressPopupTitle" class="popup-title">Ajouter une adresse</h3>
-        <div class="address-form">
-          <div class="form-group">
-            <label for="addressBras">Bras de distribution</label>
-            <input
-              type="text"
-              id="addressBras"
-              class="form-input"
-              placeholder="Ex: Bras 1"
-            />
-          </div>
-          <div class="form-group">
-            <label for="addressVille">Ville</label>
-            <input
-              type="text"
-              id="addressVille"
-              class="form-input"
-              placeholder="Ex: Paris"
-            />
-          </div>
-          <div class="form-group">
-            <label for="addressRue">Adresse</label>
-            <input
-              type="text"
-              id="addressRue"
-              class="form-input"
-              placeholder="Ex: Rue De La Paix"
-            />
-          </div>
-          <div class="form-group">
-            <label for="addressNumero"
-              >Numéro
-              <span class="danger-text"
-                >(CS, PICKUP, PPDC, REEX, CI)</span
-              ></label
-            >
-            <input
-              type="text"
-              id="addressNumero"
-              class="form-input"
-              placeholder="Ex: 10 à 25, CS, PICKUP, PPDC, REEX, CI"
-            />
-          </div>
-          <div class="form-group">
-            <label for="addressType"
-              >Type Recherche : (T1: Réelle, T2: Approx)</label
-            >
-            <select id="addressType" class="form-input">
-              <option value="1">Type 1</option>
-              <option value="2">Type 2</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-buttons">
-          <button id="saveAddressBtn" class="confirm-action-btn">
-            Enregistrer
-          </button>
-          <button
-            id="addressPopupClose"
-            class="cancel-action-btn"
-            aria-label="Fermer la fenêtre"
-          >
-            Annuler
-          </button>
-        </div>
+      <div class="form-buttons">
+        <button id="saveAddressBtn" class="confirm-action-btn">
+          Enregistrer
+        </button>
+        <button id="addressPopupClose" class="cancel-action-btn" aria-label="Fermer la fenêtre">
+          Annuler
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Modal Journal des modifications -->
-    <div
-      id="journalPopupOverlay"
-      class="popup-overlay hidden journal-popup-overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="journalPopupTitle"
-    >
-      <div class="popup-window journal-popup-window">
-        <h3 id="journalPopupTitle" class="popup-title">
-          Journal des modifications
-        </h3>
-        <div id="journalContent" class="journal-content"></div>
-        <div class="journal-actions">
-          <button id="exportJournalBtn" class="file-btn confirm-action-btn">
-            <i class="fas fa-file-excel"></i>Excel
-          </button>
-          <button id="clearJournalBtn" class="danger-btn">
-            <i class="fas fa-trash"></i>Supprimer
-          </button>
-          <button id="journalPopupClose" class="cancel-action-btn">
-            Fermer
-          </button>
-        </div>
+  <!-- Modal Journal des modifications -->
+  <div id="journalPopupOverlay" class="popup-overlay hidden journal-popup-overlay" role="dialog" aria-modal="true"
+    aria-hidden="true" aria-labelledby="journalPopupTitle">
+    <div class="popup-window journal-popup-window">
+      <h3 id="journalPopupTitle" class="popup-title">
+        Journal des modifications
+      </h3>
+      <div id="journalContent" class="journal-content"></div>
+      <div class="journal-actions">
+        <button id="exportJournalBtn" class="file-btn confirm-action-btn">
+          <i class="fas fa-file-excel"></i>Excel
+        </button>
+        <button id="clearJournalBtn" class="danger-btn">
+          <i class="fas fa-trash"></i>Supprimer
+        </button>
+        <button id="journalPopupClose" class="cancel-action-btn">
+          Fermer
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Modal pour la sélection des villes et impression PDF -->
-    <div
-      id="pdfPopupOverlay"
-      class="popup-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="pdfPopupTitle"
-    >
-      <div class="popup-window pdf-popup-window">
-        <h3 id="pdfPopupTitle" class="popup-title">
-          Sélection des villes - BRAS
-        </h3>
-        <div class="pdf-cities-header pdf-city-item">
-          <div class="pdf-header-cell">Equipe</div>
-          <div class="pdf-header-cell">Ville</div>
-          <div class="pdf-header-cell">Sélection</div>
-        </div>
-        <div id="pdfCitiesList" class="pdf-cities-list"></div>
-        <div class="pdf-popup-buttons">
-          <button id="printPdfBtn" class="confirm-action-btn">
-            <i class="fas fa-print"></i> PDF
-          </button>
-          <button id="generateDocxBtn" class="confirm-action-btn">
-            <i class="fas fa-file-word"></i> Word
-          </button>
-          <button
-            id="pdfPopupClose"
-            class="cancel-action-btn"
-            aria-label="Fermer la fenêtre"
-          >
-            Fermer
-          </button>
-        </div>
+  <!-- Modal pour la sélection des villes et impression PDF -->
+  <div id="pdfPopupOverlay" class="popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="pdfPopupTitle">
+    <div class="popup-window pdf-popup-window">
+      <h3 id="pdfPopupTitle" class="popup-title">
+        Sélection des villes - BRAS
+      </h3>
+      <div class="pdf-cities-header pdf-city-item">
+        <div class="pdf-header-cell">Equipe</div>
+        <div class="pdf-header-cell">Ville</div>
+        <div class="pdf-header-cell">Sélection</div>
+      </div>
+      <div id="pdfCitiesList" class="pdf-cities-list"></div>
+      <div class="pdf-popup-buttons">
+        <button id="printPdfBtn" class="confirm-action-btn">
+          <i class="fas fa-print"></i> PDF
+        </button>
+        <button id="generateDocxBtn" class="confirm-action-btn">
+          <i class="fas fa-file-word"></i> Word
+        </button>
+        <button id="pdfPopupClose" class="cancel-action-btn" aria-label="Fermer la fenêtre">
+          Fermer
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Color Picker Popup -->
-    <div
-      id="colorPickerOverlay"
-      class="color-picker-overlay hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-hidden="true"
-      aria-labelledby="colorPickerTitle"
-    >
-      <div class="color-picker-window">
-        <h3 id="colorPickerTitle" class="color-picker-title">
-          Choisir une couleur
-        </h3>
-        <div id="colorGrid" class="color-grid"></div>
-        <div class="color-picker-buttons">
-          <button id="colorPickerCancel" class="cancel-action-btn">
-            Annuler
-          </button>
-        </div>
+  <!-- Color Picker Popup -->
+  <div id="colorPickerOverlay" class="color-picker-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="colorPickerTitle">
+    <div class="color-picker-window">
+      <h3 id="colorPickerTitle" class="color-picker-title">
+        Choisir une couleur
+      </h3>
+      <div id="colorGrid" class="color-grid"></div>
+      <div class="color-picker-buttons">
+        <button id="colorPickerCancel" class="cancel-action-btn">
+          Annuler
+        </button>
       </div>
     </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <!-- 🎯 NOUVEAU : Modal Mode d'Utilisation détaillé -->
+  <div id="usagePopupOverlay" class="popup-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="usagePopupTitle">
+    <div class="popup-window usage-popup-window">
+      <h3 id="usagePopupTitle" class="popup-title">📖 Mode d'utilisation détaillé</h3>
+      
+      <div id="usagePopupContent" class="usage-guide-scroll">
+        <div class="usage-section">
+          <h4><i class="fas fa-home"></i> 1. ACCUEIL (Recherche rapide)</h4>
+          <ul>
+            <li><strong>Sélectionnez un BRAS</strong> → boutons bleus apparaissent</li>
+            <li><strong>Ville (optionnel)</strong> → affinez votre recherche</li>
+            <li><strong>Recherchez</strong> par mot directeur (ex: "paix", "republique")</li>
+            <li>Résultats <strong>groupés par ville</strong> + Type2 si pas de Type1</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-microphone"></i> 2. RECHERCHE VOCALE</h4>
+          <ul>
+          <li><strong>🎤 Micro</strong> → Dites “RUE DE LA PAIX” et seul le mot directeur sera conservé : “PAIX”.</li>
+          <li>Popup confirme → <strong>Confirmer</strong> lance recherche</li>
+          <li><strong>Réessayer</strong> si erreur, <strong>Annuler</strong> pour arrêter</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-camera"></i> 3. RECONNAISSANCE CAMERA (OCR)</h4>
+          <ul>
+          <li><strong>Activer</strong> toggle "Reconnaissance visuelle" (⚙️)</li>
+          <li><strong>📷 Caméra</strong> → viser numéro + nom rue</li>
+          <li>Région verte → <strong>Capturer</strong> → recherche automatique</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-cog"></i> 4. PARAMÈTRES (⚙️)</h4>
+          <ul>
+            <li><strong>📥 Importer Excel</strong> → fichier adresses (.xlsx/.xls)</li>
+            <li><strong>📤 Exporter Excel</strong> → sauvegarde complète</li>
+            <li><strong>+ Ajouter adresse</strong> → CRUD complet (ajout/modif/suppr)</li>
+            <li><strong>📓 Journal</strong> → trace toutes modifications (export Excel)</li>
+            <li><strong>🗑️ Effacer</strong> → reset données locales</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-print"></i> 5. IMPRESSION (PDF/Word)</h4>
+          <ul>
+            <li>Dans chaque <strong>BRAS</strong> → bouton <strong>🖨️ Imprimer</strong></li>
+            <li>Sélectionnez <strong>villes</strong> → couleurs personnalisables</li>
+            <li><strong>PDF</strong> (A4 paysage) ou <strong>Word</strong> (.docx)</li>
+            <li><strong>Numéros spéciaux</strong> (CS/PPDC...) en rouge/surlignés</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-search"></i> 6. TYPES DE RECHERCHE</h4>
+          <ul>
+            <li><strong>Type 1 (T1)</strong> → adresses exactes/réelles</li>
+            <li><strong>Type 2 (T2)</strong> → alternatives/approximatives (fallback)</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-palette"></i> 7. PERSONNALISATION</h4>
+          <ul>
+            <li><strong>Thème sombre</strong> → toggle en haut ⚙️</li>
+            <li><strong>Couleurs villes</strong> → pastilles dans popup Impression</li>
+          </ul>
+        </div>
+
+        <div class="usage-section highlight-section">
+          <h4><i class="fas fa-lightbulb"></i>ASTUCES PRO</h4>
+          <ul>
+            <li><strong>Recherche floue</strong> → 2-3 lettres suffisent</li>
+            <li><strong>Numéros spéciaux</strong> → <span class="danger-text">ROUGE</span> (CS, PICKUP, PPDC, REEX, CI)</li>
+            <li><strong>Sauvegarde auto</strong> → localStorage persiste entre sessions</li>
+            <li><strong>Responsive</strong> → tactile + clavier OK</li>
+            <li><strong>Permissions</strong> → Micro/Caméra HTTPS requis</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4><i class="fas fa-exclamation-triangle"></i>NOTES</h4>
+          <ul>
+            <li>Fichiers Excel: colonnes BRAS, Ville, Adresse, "Numéro de tournée", "Type Recherche"</li>
+            <li>Recherche <strong>insensible accents/majuscules</strong></li>
+            <li><strong>HTTPS obligatoire</strong> pour micro/caméra</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="usage-footer">
+        <button id="usagePopupClose" class="file-btn" style="width: 100%;">Fermer ce guide
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+  <script src="script.js"></script>
+</body>
+
 </html>
+
