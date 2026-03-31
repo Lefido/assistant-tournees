@@ -1065,14 +1065,18 @@ html.night-theme td:last-child {
 }
 
 #informations {
-
   width: 30px;
   height: 30px;
   font-size: 1rem;
   color: var(--text-white);
   background-color: var(--danger);
   border-radius: 50%;
+  box-shadow: 0 0 12px var(--bg-btn);
+  /* text-shadow: 0 0 8px var(--bg-btn-clear); */
+}
 
+#informations:active {
+  animation: scaleIcon 0.4s ease-in-out;
 }
 
 .mode-toggle.rotating {
@@ -2183,7 +2187,7 @@ html.night-theme .pdf-city-item label {
 
 /* 🎯 NOUVEAU : Styles Popup Mode d'Utilisation */
 .usage-popup-window {
-  max-height: 90vh;
+  max-height: 85vh;
   width: 90%;
   max-width: 480px;
   padding: 20px;
@@ -2215,11 +2219,11 @@ html.night-theme .pdf-city-item label {
 }
 
 .usage-section h4 {
+  display: flex;
+  align-items: center;
   margin: 0 0 12px 0;
   color: var(--bg-btn);
   font-size: 1.1rem;
-  display: flex;
-  align-items: center;
   gap: 10px;
 }
 
@@ -2249,6 +2253,18 @@ html.night-theme .pdf-city-item label {
   box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
 }
 
+.highlight-section2 {
+  background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  border-left-color: var(--orange) !important;
+  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+}
+
+.highlight-section3 {
+  background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  border-left-color: var(--danger) !important;
+  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+}
+
 .usage-footer {
   width: 100%;
   padding-top: 10px;
@@ -2263,8 +2279,10 @@ html.night-theme .pdf-city-item label {
 /* Responsive */
 @media (max-width: 480px) {
   .usage-popup-window {
-    width: 98%;
     padding: 20px 15px;
+    max-height: 90vh;
+    width: 85%;
+    max-width: 360px;
   }
   
   .usage-guide-scroll {
@@ -2280,13 +2298,6 @@ html.night-theme .pdf-city-item label {
   .usage-section h4 {
     font-size: 1rem;
   }
-
-.usage-popup-window {
-  max-height: 90vh;
-  width: 90%;
-  max-width: 360px;
-  padding: 20px;
-}
 
 }
 
