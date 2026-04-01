@@ -1036,6 +1036,10 @@ html.night-theme td:last-child {
   color: var(--text-white);
 }
 
+#usagePopupClose {
+  background-color: var(--bg-btn);
+}
+
 .file-btn,
 .danger-btn,
 .mode-toggle {
@@ -1072,7 +1076,6 @@ html.night-theme td:last-child {
   background-color: var(--danger);
   border-radius: 50%;
   box-shadow: 0 0 12px var(--bg-btn);
-  /* text-shadow: 0 0 8px var(--bg-btn-clear); */
 }
 
 #informations:active {
@@ -1926,7 +1929,7 @@ html.night-theme .no-data-msg {
 
 #generateDocxBtn {
   background-color: var(--bg-btn);
-  display: none;
+  /* display: none; */
   
 }
 
@@ -2187,10 +2190,10 @@ html.night-theme .pdf-city-item label {
 
 /* 🎯 NOUVEAU : Styles Popup Mode d'Utilisation */
 .usage-popup-window {
-  max-height: 85vh;
-  width: 90%;
+  max-height: 80vh;
+  width: 95%;
   max-width: 480px;
-  padding: 20px;
+  padding: 20px 0 10px 0;
 }
 
 .usage-guide-scroll {
@@ -2199,9 +2202,9 @@ html.night-theme .pdf-city-item label {
   overflow-y: auto;
   background: var(--bg-panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 15px;
+  /* border-radius: 12px; */
+  padding: 5px;
+  margin-bottom: 10px;
   line-height: 1.6;
 }
 
@@ -2250,25 +2253,31 @@ html.night-theme .pdf-city-item label {
 .highlight-section {
   background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
   border-left-color: var(--success) !important;
-  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.31);
 }
 
 .highlight-section2 {
-  background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(207, 156, 14, 0.1), rgba(0, 119, 255, 0.1)) !important;
   border-left-color: var(--orange) !important;
-  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+  box-shadow: 0 4px 12px rgba(216, 136, 17, 0.31);
 }
 
 .highlight-section3 {
-  background: linear-gradient(135deg, rgba(36, 161, 11, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  background: linear-gradient(135deg, rgba(233, 18, 18, 0.1), rgba(0, 119, 255, 0.1)) !important;
   border-left-color: var(--danger) !important;
-  box-shadow: 0 4px 12px rgba(36, 161, 11, 0.2);
+  box-shadow: 0 4px 12px rgba(202, 34, 12, 0.31);
+}
+
+.highlight-section4 {
+  background: linear-gradient(135deg, rgba(18, 86, 233, 0.1), rgba(0, 119, 255, 0.1)) !important;
+  border-left-color: var(--bg-btn) !important;
+  box-shadow: 0 4px 12px rgba(12, 88, 202, 0.31);
 }
 
 .usage-footer {
   width: 100%;
   padding-top: 10px;
-  border-top: 1px solid var(--border);
+  /* border-top: 1px solid var(--border); */
 }
 
 .usage-footer .file-btn {
@@ -2280,7 +2289,7 @@ html.night-theme .pdf-city-item label {
 @media (max-width: 480px) {
   .usage-popup-window {
     padding: 20px 15px;
-    max-height: 90vh;
+    max-height: 85vh;
     width: 85%;
     max-width: 360px;
   }
