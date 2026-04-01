@@ -1038,6 +1038,8 @@ html.night-theme td:last-child {
 
 #usagePopupClose {
   background-color: var(--bg-btn);
+  width: 80% !important;
+  margin: auto;
 }
 
 .file-btn,
@@ -2197,13 +2199,13 @@ html.night-theme .pdf-city-item label {
 }
 
 .usage-guide-scroll {
-  width: 100%;
+  width: 90%;
   max-height: 65vh;
   overflow-y: auto;
   background: var(--bg-panel);
   border: 1px solid var(--border);
   /* border-radius: 12px; */
-  padding: 5px;
+  padding: 10px;
   margin-bottom: 10px;
   line-height: 1.6;
 }
@@ -2295,6 +2297,7 @@ html.night-theme .pdf-city-item label {
   }
   
   .usage-guide-scroll {
+    width: 95% !important;
     max-height: 70vh;
     padding: 15px;
     font-size: 0.95rem;
