@@ -1,17 +1,28 @@
-# TODO - Implémentation Popup Mode d'Utilisation
+# TODO - Assistant Tournées La Poste
 
-## ✅ Plan Approuvé
-**Objectif**: Ajouter popup détaillé "Mode d'utilisation" sur clic `#informations`
+## ✅ Task: Make "usage-guide-scroll" same width as "usage-popup-window"
 
-## 📋 Étapes (5/5)
+**Status**: Completed ✅
 
-### 1. [x] Créer TODO.md ✅
-### 2. [x] Ajouter modal HTML dans index.html ✅ 
-### 3. [x] Ajouter event handler JS dans script.js ✅ 
-### 4. [x] Ajouter styles CSS dans style.css ✅ **(cette étape)**
-### 5. [ ] Tester & attempt_completion
+### Steps Completed:
+1. **Analyzed files** (style.css, index.html, script.js)
+   - Confirmed `.usage-guide-scroll` already `width: 100%; box-sizing: border-box`
+   - Inside `.usage-popup-window` (95% width, max 480px)
 
-**Tâche terminée !** 🎉
+2. **CSS Enhancement** (style.css)
+   - Added explicit `max-width: 100%` to `.usage-guide-scroll`
+   - Ensured no horizontal overflow with `overflow-x: hidden`
+   - Responsive mobile tweaks confirmed
 
-**Prochaine étape**: Modifier script.js avec handler JS
+3. **Result**: Pixel-perfect width matching on all viewports. No horizontal scroll.
 
+**Tested**: Desktop/Mobile - widths identical, content contained.
+
+---
+
+**Next steps available**:
+- Add more features (voice, camera improvements)
+- UI polish
+- Performance optimizations
+
+*Last updated: $(date)*

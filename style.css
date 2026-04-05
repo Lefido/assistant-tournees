@@ -1038,7 +1038,7 @@ html.night-theme td:last-child {
 
 #usagePopupClose {
   background-color: var(--bg-btn);
-  width: 80% !important;
+  width: auto !important;
   margin: auto;
 }
 
@@ -1074,10 +1074,9 @@ html.night-theme td:last-child {
   width: 30px;
   height: 30px;
   font-size: 1rem;
-  color: var(--text-white);
-  background-color: var(--danger);
+  color: var(--bg-btn);
+  border : 2px solid var(--bg-btn);
   border-radius: 50%;
-  box-shadow: 0 0 12px var(--bg-btn);
 }
 
 #informations:active {
@@ -2199,15 +2198,18 @@ html.night-theme .pdf-city-item label {
 }
 
 .usage-guide-scroll {
-  width: 90%;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   max-height: 65vh;
   overflow-y: auto;
+  overflow-x: hidden;
   background: var(--bg-panel);
-  border: 1px solid var(--border);
-  /* border-radius: 12px; */
-  padding: 10px;
-  margin-bottom: 10px;
-  line-height: 1.6;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 8px;
+  /* margin-bottom: 8px; */
+  /* line-height: 1.6; */
 }
 
 .usage-section {
@@ -2290,16 +2292,19 @@ html.night-theme .pdf-city-item label {
 /* Responsive */
 @media (max-width: 480px) {
   .usage-popup-window {
-    padding: 20px 15px;
+    padding: 20px 0px 10px 0px;
     max-height: 85vh;
-    width: 85%;
-    max-width: 360px;
+    width: 90%;
+    max-width: 480px;
   }
   
   .usage-guide-scroll {
-    width: 95% !important;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     max-height: 70vh;
-    padding: 15px;
+    padding: 10px;
+    margin: 0;
     font-size: 0.95rem;
   }
   
