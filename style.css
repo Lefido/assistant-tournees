@@ -673,14 +673,15 @@ html.night-theme .voice-confirm-msg {
 .confirm-action-btn,
 .retry-action-btn,
 .cancel-action-btn {
-  padding: 12px 20px;
+  padding: 10px 10px;
   border-radius: 8px;
   border: none;
   font-weight: bold;
   cursor: pointer;
   color: var(--text-white);
   flex: 1;
-  max-width: 140px;
+  /* max-width: 140px; */
+  width: auto;
 }
 
 .confirm-action-btn {
@@ -1564,7 +1565,7 @@ html.night-theme .form-input {
 
 .form-buttons .confirm-action-btn,
 .form-buttons .cancel-action-btn {
-  padding: 14px 28px;
+  padding: 10px 10px;
   font-size: 1rem;
 }
 
@@ -2059,7 +2060,7 @@ html.night-theme .no-data-msg {
 .pdf-popup-buttons .confirm-action-btn,
 .pdf-popup-buttons .cancel-action-btn {
 
-  padding: 12px 24px;
+  padding: 10px 10px;
   font-size: 0.95rem;
 }
 
