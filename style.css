@@ -1072,9 +1072,9 @@ html.night-theme td:last-child {
 }
 
 #informations {
-  width: 30px;
-  height: 30px;
-  font-size: 1rem;
+  width: 28px;
+  height: 28px;
+  font-size: 0.9rem;
   color: var(--bg-btn);
   border : 2px solid var(--bg-btn);
   border-radius: 50%;
