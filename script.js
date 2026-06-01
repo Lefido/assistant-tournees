@@ -480,6 +480,7 @@ class GestionnaireReconnaissanceVocale {
           numero.startsWith("PICKUP") ||
           numero.startsWith("PPDC") ||
           numero.startsWith("REEX") ||
+          numero.startsWith("T3032") ||
           numero.startsWith("CI");
         const itemClass = estSpecial
           ? "result-item result-item-danger"
@@ -677,7 +678,9 @@ class GestionnaireCamera {
         rectangle: rectangle,
       });
 
+      const texteReconnu = resultat.data.text;
       const adresseAnalysée = this._analyserAdresseDepuisTexte(texteReconnu);
+      this._rechercherDepuisOCR(adresseAnalysée);
     } catch (erreur) {
       console.error("Erreur OCR:", erreur);
       this._mettreAJourStatut("Erreur lors de l'analyse.");
@@ -806,6 +809,7 @@ class GestionnaireCamera {
             numero.startsWith("PICKUP") ||
             numero.startsWith("PPDC") ||
             numero.startsWith("REEX") ||
+            numero.startsWith("T3032") ||
             numero.startsWith("CI");
           const itemClass = estSpecial
             ? "result-item result-item-danger"
@@ -1094,6 +1098,7 @@ class GestionnaireInterface {
             numero.startsWith("PICKUP") ||
             numero.startsWith("PPDC") ||
             numero.startsWith("REEX") ||
+            numero.startsWith("T3032") ||
             numero.startsWith("CI");
           const itemClass = estSpecial
             ? "result-item result-item-danger"
@@ -1621,7 +1626,7 @@ class GestionnaireInterface {
               numero.startsWith("PICKUP") ||
               numero.startsWith("PPDC") ||
               numero.startsWith("REEX") ||
-              numero.startsWith("REEX") ||
+              numero.startsWith("T3032") ||
               numero.startsWith("CI");
             const cardClass = estSpecial
               ? "address-card address-card-danger"
@@ -2338,6 +2343,7 @@ class GestionnaireInterface {
           numero.startsWith("PICKUP") ||
           numero.startsWith("PPDC") ||
           numero.startsWith("REEX") ||
+          numero.startsWith("T3032") ||
           numero.startsWith("CI");
         const couleurLigne = estSpecial
           ? `background-color:${couleurVille}60;`
@@ -2477,6 +2483,7 @@ class GestionnaireInterface {
           numero.startsWith("PICKUP") ||
           numero.startsWith("PPDC") ||
           numero.startsWith("REEX") ||
+          numero.startsWith("T3032") ||
           numero.startsWith("CI");
         const couleurLigne = estSpecial
           ? `background-color:${couleurLigneSpeciale};`
