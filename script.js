@@ -278,7 +278,7 @@ class GestionnaireDonnees {
     }
   }
 
-  exporterVersExcel(nomFichier = "tournees_export.xlsx") {
+  exporterVersExcel(nomFichier = "") {
     if (this.donneesExcel.length === 0) {
       alert("Aucune donnée à exporter.");
       return;
@@ -303,17 +303,27 @@ class GestionnaireDonnees {
     });
 
     const donneesExport = donneesTriees.map((ligne) => ({
-      BRAS: ligne.BRAS,
-      Ville: ligne.Ville,
-      Adresse: ligne.Adresse,
-      "Numéro de tournée": ligne.Numero,
-      "Type Recherche": ligne.TypeRecherche,
+      BRAS: String(ligne.BRAS || "").toUpperCase(),
+      Ville: String(ligne.Ville || "").toUpperCase(),
+      Adresse: String(ligne.Adresse || "").toUpperCase(),
+      "Numéro de tournée": String(ligne.Numero || "").toUpperCase(),
+      "Type Recherche": String(ligne.TypeRecherche || "").toUpperCase(),
     }));
 
     const feuille = XLSX.utils.json_to_sheet(donneesExport);
     const classeur = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(classeur, feuille, "Tournées");
-    XLSX.writeFile(classeur, nomFichier);
+
+    const maintenant = new Date();
+    const pad2 = (n) => String(n).padStart(2, "0");
+    const y = maintenant.getFullYear();
+    const m = pad2(maintenant.getMonth() + 1);
+    const d = pad2(maintenant.getDate());
+    const hh = pad2(maintenant.getHours());
+    const mm = pad2(maintenant.getMinutes());
+
+    const nom = nomFichier && nomFichier.trim().length > 0 ? nomFichier : `TG_${y}${m}${d}_${hh}${mm}.xlsx`;
+    XLSX.writeFile(classeur, nom);
   }
 
   obtenirAdresseParIndex(index) {
@@ -2628,8 +2638,23 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Bouton vocal
   if (gestionnaireReconnaissance.estDisponible()) {
-    document.getElementById("voiceBtn").onclick = () =>
+    document.getElementById("voiceBtn").onclick = () => {
+      const liveSearchInput = document.getElementById("liveSearchInput");
+      const liveSearchResults = document.getElementById("liveSearchResults");
+      const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+      if (liveSearchInput) {
+        liveSearchInput.value = "";
+      }
+      if (liveSearchResults) {
+        liveSearchResults.innerHTML = "";
+        liveSearchResults.style.display = "none";
+      }
+      if (clearSearchBtn) {
+        clearSearchBtn.style.display = "none";
+      }
       gestionnaireReconnaissance.demarrerReconnaissance();
+    };
   }
 
   // Journal events
