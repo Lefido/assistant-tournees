@@ -1347,7 +1347,8 @@ html.night-theme .app-footer {
   color: var(--text-light);
 }
 
-.form-input {
+.form-input,
+.address-search-input {
   padding: 14px 20px 14px 16px;
   border-radius: 10px;
   background: var(--bg-panel);
@@ -2287,6 +2288,15 @@ html.night-theme .pdf-city-item label {
 .usage-footer .file-btn {
   background: var(--danger);
   border-radius: 8px;
+}
+
+/* Admin : hint pour la liste des préfixes numéros spéciaux */
+.specialPrefixesHint {
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 /* Responsive */

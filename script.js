@@ -133,6 +133,29 @@ class GestionnaireDonnees {
       .toLowerCase();
   }
 
+  // ================================
+  // PARAMÈTRES : numéros spéciaux
+  // ================================
+  getNumeroPrefixesSpeciaux() {
+    const defaut = ["CS", "PICKUP", "PPDC", "REEX", "T3032", "CI"];
+    const brut = localStorage.getItem("tourneeNumeroPrefixesSpeciaux");
+    if (!brut) return defaut;
+
+    const liste = String(brut)
+      .split(",")
+      .map((s) => s.trim().toUpperCase())
+      .filter(Boolean);
+
+    // Fallback si liste vide / invalide
+    return liste.length > 0 ? liste : defaut;
+  }
+
+  estNumeroSpecial(numero) {
+    const texte = String(numero || "").toUpperCase();
+    const prefixes = this.getNumeroPrefixesSpeciaux();
+    return prefixes.some((p) => texte.startsWith(p));
+  }
+
   aDesDonnees() {
     return this.donneesExcel.length > 0;
   }
@@ -484,17 +507,12 @@ class GestionnaireReconnaissanceVocale {
       adressesTriees.forEach((r) => {
         const adresseDisplay =
           r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
-        const numero = String(r.Numero || "").toUpperCase();
-        const estSpecial =
-          numero.startsWith("CS") ||
-          numero.startsWith("PICKUP") ||
-          numero.startsWith("PPDC") ||
-          numero.startsWith("REEX") ||
-          numero.startsWith("T3032") ||
-          numero.startsWith("CI");
-        const itemClass = estSpecial
-          ? "result-item result-item-danger"
-          : "result-item";
+          const numero = String(r.Numero || "").toUpperCase();
+          const estSpecial =
+            this.gestionnaireDonnees.estNumeroSpecial(numero);
+          const itemClass = estSpecial
+            ? "result-item result-item-danger"
+            : "result-item";
         html += `<div class="${itemClass}">`;
         html += `<span class="result-address">${adresseDisplay}</span>`;
         html += `<span class="result-number">${r.Numero}</span>`;
@@ -815,12 +833,7 @@ class GestionnaireCamera {
             r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
           const estSpecial =
-            numero.startsWith("CS") ||
-            numero.startsWith("PICKUP") ||
-            numero.startsWith("PPDC") ||
-            numero.startsWith("REEX") ||
-            numero.startsWith("T3032") ||
-            numero.startsWith("CI");
+            this.gestionnaireDonnees.estNumeroSpecial(numero);
           const itemClass = estSpecial
             ? "result-item result-item-danger"
             : "result-item";
@@ -1104,12 +1117,7 @@ class GestionnaireInterface {
             r.Adresse.charAt(0).toUpperCase() + r.Adresse.slice(1);
           const numero = String(r.Numero || "").toUpperCase();
           const estSpecial =
-            numero.startsWith("CS") ||
-            numero.startsWith("PICKUP") ||
-            numero.startsWith("PPDC") ||
-            numero.startsWith("REEX") ||
-            numero.startsWith("T3032") ||
-            numero.startsWith("CI");
+            this.gestionnaireDonnees.estNumeroSpecial(numero);
           const itemClass = estSpecial
             ? "result-item result-item-danger"
             : "result-item";
@@ -1632,12 +1640,7 @@ class GestionnaireInterface {
           villesGroupes[ville].forEach((item) => {
             const numero = String(item.Numero || "").toUpperCase();
             const estSpecial =
-              numero.startsWith("CS") ||
-              numero.startsWith("PICKUP") ||
-              numero.startsWith("PPDC") ||
-              numero.startsWith("REEX") ||
-              numero.startsWith("T3032") ||
-              numero.startsWith("CI");
+              this.gestionnaireDonnees.estNumeroSpecial(numero);
             const cardClass = estSpecial
               ? "address-card address-card-danger"
               : "address-card";
@@ -2349,12 +2352,7 @@ class GestionnaireInterface {
         const adresseDisplay = adresse.Adresse.toUpperCase();
         const numero = String(adresse.Numero || "").toUpperCase();
         const estSpecial =
-          numero.startsWith("CS") ||
-          numero.startsWith("PICKUP") ||
-          numero.startsWith("PPDC") ||
-          numero.startsWith("REEX") ||
-          numero.startsWith("T3032") ||
-          numero.startsWith("CI");
+          this.gestionnaireDonnees.estNumeroSpecial(numero);
         const couleurLigne = estSpecial
           ? `background-color:${couleurVille}60;`
           : alterner
@@ -2489,12 +2487,7 @@ class GestionnaireInterface {
         const adresseDisplay = adresse.Adresse.toUpperCase();
         const numero = String(adresse.Numero || "").toUpperCase();
         const estSpecial =
-          numero.startsWith("CS") ||
-          numero.startsWith("PICKUP") ||
-          numero.startsWith("PPDC") ||
-          numero.startsWith("REEX") ||
-          numero.startsWith("T3032") ||
-          numero.startsWith("CI");
+          this.gestionnaireDonnees.estNumeroSpecial(numero);
         const couleurLigne = estSpecial
           ? `background-color:${couleurLigneSpeciale};`
           : alterner
@@ -2565,6 +2558,35 @@ let gestionnaireCamera;
 // =====================================
 window.addEventListener("DOMContentLoaded", () => {
   gestionnaireDonnees = new GestionnaireDonnees();
+
+  // ================================
+  // Paramètres : Préfixes numéros spéciaux
+  // ================================
+  const specialPrefixesInput = document.getElementById("specialPrefixesInput");
+  const saveSpecialPrefixesBtn = document.getElementById("saveSpecialPrefixesBtn");
+  if (specialPrefixesInput) {
+    const brut = localStorage.getItem("tourneeNumeroPrefixesSpeciaux");
+    if (brut) specialPrefixesInput.value = brut;
+
+    if (saveSpecialPrefixesBtn) {
+      saveSpecialPrefixesBtn.addEventListener("click", () => {
+        const valeur = String(specialPrefixesInput.value || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .join(",");
+        localStorage.setItem("tourneeNumeroPrefixesSpeciaux", valeur);
+
+        // Rafraîchit l'UI (cartes, popup, etc.) pour refléter immédiatement
+        gestionnaireInterface?.rafraichirInterface?.();
+        gestionnaireInterface?.verifierAvertissementDonnees?.();
+
+        // Message utilisateur
+        alert("Filtres numéros spéciaux appliqués : " + valeur);
+      });
+    }
+  }
+
   gestionnaireReconnaissance = new GestionnaireReconnaissanceVocale(
     gestionnaireDonnees,
   );
