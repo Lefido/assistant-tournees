@@ -78,6 +78,20 @@
 }
 
 /* Masque le reste de la page tant que le loader est visible */
+body:has(#pageLoader:not(.hidden)) {
+  /* Masque complètement le fond d’écran pendant le loader */
+  background: var(--bg-dark) !important;
+}
+
+html.night-theme body:has(#pageLoader:not(.hidden)) {
+  background: var(--bg-dark) !important;
+}
+
+html:not(.night-theme) body:has(#pageLoader:not(.hidden)) {
+  /* En mode clair, on garde une couleur proche du thème clair */
+  background: var(--bg-dark) !important;
+}
+
 body:has(#pageLoader:not(.hidden)) .app-container,
 body:has(#pageLoader:not(.hidden)) .app-header,
 body:has(#pageLoader:not(.hidden)) main,
