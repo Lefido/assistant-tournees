@@ -2557,6 +2557,10 @@ let gestionnaireCamera;
 // INITIALISATION
 // =====================================
 window.addEventListener("DOMContentLoaded", () => {
+  const pageLoader = document.getElementById("pageLoader");
+  // sécurité: s'assurer qu'on est bien en mode visible au démarrage
+  if (pageLoader) pageLoader.classList.remove("hidden");
+
   gestionnaireDonnees = new GestionnaireDonnees();
 
   // ================================
@@ -2598,6 +2602,19 @@ window.addEventListener("DOMContentLoaded", () => {
   );
 
   gestionnaireInterface.initialiserApplication();
+
+  // Cacher le loader quand l'UI a eu le temps de se rendre
+  // (évite un loader qui clignote si DOMContentLoaded est trop tôt)
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (pageLoader) pageLoader.classList.add("hidden");
+    });
+  });
+
+  // Sécurité : si une erreur/slow network empêche la disparition
+  setTimeout(() => {
+    if (pageLoader) pageLoader.classList.add("hidden");
+  }, 5000);
 
   // Import Excel
   document
