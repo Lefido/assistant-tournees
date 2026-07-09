@@ -2390,7 +2390,7 @@ html.night-theme .pdf-city-item label {
   opacity: 0.9;
   margin-top: 6px;
   margin-bottom: 6px;
-  color : var(--text-white);
+  color : var(--text-light);
   background-color: var(--bg-panel);
 }
 
