@@ -2582,8 +2582,31 @@ window.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("tourneeNumeroPrefixesSpeciaux", valeur);
 
         // Rafraîchit l'UI (cartes, popup, etc.) pour refléter immédiatement
+        // IMPORTANT : ne pas perdre le BRAS / la ville sélectionnés
+        const brasCourant = gestionnaireDonnees?.brasSelectionne || "";
+        const villeCourante = gestionnaireDonnees?.villeSelectionnee || "";
+
         gestionnaireInterface?.rafraichirInterface?.();
         gestionnaireInterface?.verifierAvertissementDonnees?.();
+
+        if (brasCourant) {
+          // Repose le BRAS sélectionné (selectionnerBras recharge aussi les boutons villes)
+          gestionnaireInterface?.restaurerBrasSelectionne?.();
+          // Restaurer ville sélectionnée si elle existait déjà
+          // (la sélection de ville est gérée via les boutons, donc on ré-applique l'active)
+          if (villeCourante) {
+            gestionnaireDonnees.villeSelectionnee = villeCourante;
+            document
+              .querySelectorAll("#cityBtnContainer .city-btn")
+              .forEach((b) => {
+                b.classList.toggle(
+                  "active",
+                  (b.textContent || "").trim().toLowerCase() ===
+                    String(villeCourante).trim().toLowerCase(),
+                );
+              });
+          }
+        }
 
         // Message utilisateur
         alert("Filtres numéros spéciaux appliqués : " + valeur);
