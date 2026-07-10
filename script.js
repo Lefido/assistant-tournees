@@ -137,7 +137,7 @@ class GestionnaireDonnees {
   // PARAMÈTRES : numéros spéciaux
   // ================================
   getNumeroPrefixesSpeciaux() {
-    const defaut = ["CS", "PICKUP", "PPDC", "REEX", "T3032", "CI"];
+    const defaut = ["CS", "PICKUP", "PPDC", "REEX", "CI", "T32"];
     const brut = localStorage.getItem("tourneeNumeroPrefixesSpeciaux");
     if (!brut) return defaut;
 
