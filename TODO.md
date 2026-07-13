@@ -1,0 +1,4 @@
+- [ ] Mettre à jour index.html : ajouter un élément img dédié pour Sniper_3d (200x200)
+- [ ] Mettre à jour style.css : positionner l’image à bottom:40px, centrée horizontalement, derrière les boutons, pointer-events:none
+- [ ] Ajouter une animation zoom en boucle discrète
+- [ ] Tester rapidement : chargement page, placement au-dessus du footer, centrage, absence d’interférence clic boutons
