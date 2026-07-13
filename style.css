@@ -426,6 +426,9 @@ html.night-theme .city-btn.active {
    RECHERCHE - Styles groupés par ville (tous écrans)
    ===================================== */
 .live-search-results {
+  position: relative;
+  z-index: 10;
+
   /* ✅ Même largeur que liveSearchInput via classe commune */
   /* max-height: 60vh; */
   width: 100%;
@@ -1374,7 +1377,7 @@ html.night-theme .app-footer {
 #sniperWrapper {
   position: fixed;
   left: 50%;
-  bottom: 85px; /* 40px au-dessus du footer */
+  bottom: 55px; /* 40px au-dessus du footer */
   transform: translateX(-50%);
   width: 200px;
   height: 200px;
