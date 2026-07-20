@@ -1221,6 +1221,12 @@ class GestionnaireInterface {
           cityBadge.textContent = cardsInCity.length;
         }
       });
+
+      // ✅ Restaurer tous les boutons de navigation
+      document.querySelectorAll(".bras-city-btns .city-quick-jump-btn").forEach((btn) => {
+        btn.style.display = "";
+      });
+
       return;
     }
 
@@ -1287,7 +1293,7 @@ class GestionnaireInterface {
       }
     });
 
-    // Masquer les labels des villes sans résultats
+      // Masquer les labels des villes sans résultats
     document.querySelectorAll(".bras-city-label").forEach((label) => {
       const villeNormalisee = this.gestionnaireDonnees.normaliserTexte(
         label.textContent,
@@ -1297,6 +1303,23 @@ class GestionnaireInterface {
       } else {
         label.style.display = "none";
       }
+    });
+
+    // ✅ SYNC : masquer/afficher les boutons de navigation dans bras-city-btns
+    document.querySelectorAll(".bras-city-btns").forEach((btnsContainer) => {
+      const details = btnsContainer.closest(".bras-details");
+      if (!details) return;
+      btnsContainer.querySelectorAll(".city-quick-jump-btn").forEach((btn) => {
+        const ville = btn.dataset.ville;
+        // Vérifier si un label correspondant est visible dans ce details
+        const labelVisible = Array.from(details.querySelectorAll(".bras-city-label")).some(
+          (label) => {
+            const labelVille = label.querySelector("span")?.textContent?.trim().toLowerCase();
+            return labelVille === ville && label.style.display !== "none";
+          }
+        );
+        btn.style.display = labelVisible ? "" : "none";
+      });
     });
 
     // Ouvrir les bras-summary qui contiennent des résultats
@@ -1609,16 +1632,91 @@ class GestionnaireInterface {
 
         brasDetails.appendChild(brasSummary);
 
+        // --- City quick-jump buttons inside bras-summary ---
+        const cityBtnsContainer = document.createElement("div");
+        cityBtnsContainer.className = "bras-city-btns";
+
+        const villesTrieesForJump = Object.keys(villesGroupes).sort((a, b) =>
+          a.localeCompare(b, "fr", { sensitivity: "base" }),
+        );
+
+        const cityButtons = [];
+        let labelObserver = null;
+
+        villesTrieesForJump.forEach((ville) => {
+          const btn = document.createElement("button");
+          btn.className = "city-quick-jump-btn";
+          btn.textContent = ville.charAt(0).toUpperCase() + ville.slice(1);
+          btn.dataset.ville = ville;
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // Find matching label inside this details
+            const labels = brasDetails.querySelectorAll(".bras-city-label");
+            let target = null;
+            for (const label of labels) {
+              const span = label.querySelector("span");
+              if (span?.textContent?.trim().toLowerCase() === ville) {
+                target = label;
+                break;
+              }
+            }
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+            cityButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+          });
+          cityButtons.push(btn);
+          cityBtnsContainer.appendChild(btn);
+        });
+
+        // IntersectionObserver for active highlight
+        const setupCityObserver = () => {
+          if (labelObserver) labelObserver.disconnect();
+          const labels = brasDetails.querySelectorAll(".bras-city-label");
+          if (labels.length === 0) return;
+          labelObserver = new IntersectionObserver((entries) => {
+            let best = null;
+            let bestDist = Infinity;
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const dist = Math.abs(entry.boundingClientRect.top - 60);
+                if (dist < bestDist) {
+                  bestDist = dist;
+                  best = entry;
+                }
+              }
+            });
+            if (best) {
+              const v = best.target.querySelector("span")?.textContent?.trim().toLowerCase();
+              cityButtons.forEach(b => b.classList.toggle("active", b.dataset.ville === v));
+            }
+          }, {
+            root: brasDetails.closest(".addresses-cards-container") || null,
+            rootMargin: "-55px 0px -50% 0px",
+            threshold: 0
+          });
+          labels.forEach(l => labelObserver.observe(l));
+        };
+
+        setTimeout(setupCityObserver, 100);
+        brasDetails.addEventListener("toggle", () => {
+          if (brasDetails.open) setTimeout(setupCityObserver, 150);
+        });
+
+        brasDetails.appendChild(cityBtnsContainer);
+
         const cardsGrid = document.createElement("div");
         cardsGrid.className = "address-cards-grid";
 
         // Trier les villes par ordre alphabétique croissant
-        const villesTriees = Object.keys(villesGroupes).sort((a, b) =>
+        const villesTrieesForCards = Object.keys(villesGroupes).sort((a, b) =>
           a.localeCompare(b, "fr", { sensitivity: "base" }),
         );
 
         // Pour chaque ville (en ordre croissant), ajouter l'étiquette et les cartes
-        villesTriees.forEach((ville) => {
+        villesTrieesForCards.forEach((ville) => {
           // Ajouter l'étiquette de ville avec pastille
           const cityLabel = document.createElement("div");
           cityLabel.className = "bras-city-label";
@@ -1680,6 +1778,7 @@ class GestionnaireInterface {
 
         brasDetails.appendChild(cardsGrid);
         cardsContent.appendChild(brasDetails);
+
       });
 
       if (brasTries.length === 0) {
@@ -1710,6 +1809,7 @@ class GestionnaireInterface {
         conteneur.appendChild(bouton);
       });
     }
+
   }
 
   selectionnerBras(bras, bouton) {
