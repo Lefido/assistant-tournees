@@ -1798,8 +1798,9 @@ tr.highlight {
   gap: 4px;
   padding: 4px 4px;
   margin: 0 0 2px 0;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
+  background: var(--bg-btn);
+  background: transparent;
+  /* border: 1px solid var(--border); */
   border-radius: 8px;
   position: sticky;
   top: 99px;
@@ -1816,11 +1817,13 @@ tr.highlight {
 
 .bras-city-btns::-webkit-scrollbar-thumb {
   background: var(--bg-btn);
+  background: transparent;
   border-radius: 3px;
 }
 
 html.night-theme .bras-city-btns {
   background: var(--bg-panel);
+  background: transparent;
   border-color: var(--border);
 }
 
@@ -1914,8 +1917,8 @@ html.night-theme .bras-city-label {
   flex-shrink: 0;
   padding: 2px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.2);
+  border: 1px solid var(--bg-btn);
+  background: var(--bg-btn);
   color: var(--text-white);
   font-size: 0.65rem;
   font-weight: bold;
@@ -1927,26 +1930,26 @@ html.night-theme .bras-city-label {
   line-height: 1.4;
 }
 
-.city-quick-jump-btn:hover {
+/* .city-quick-jump-btn:hover {
   background: rgba(255,255,255,0.35);
   border-color: rgba(255,255,255,0.8);
-}
+} */
 
 .city-quick-jump-btn.active {
   background: rgba(255,255,255,0.9);
   color: var(--bg-btn);
-  border-color: var(--text-white);
+  border-color: var(--bg-btn);
   box-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
 
 html.night-theme .city-quick-jump-btn {
-  background: rgba(255,255,255,0.15);
+  background: var(--bg-btn);
   color: var(--text-white);
 }
 
-html.night-theme .city-quick-jump-btn:hover {
+/* html.night-theme .city-quick-jump-btn:hover {
   background: rgba(255,255,255,0.3);
-}
+} */
 
 html.night-theme .city-quick-jump-btn.active {
   background: rgba(255,255,255,0.9);
