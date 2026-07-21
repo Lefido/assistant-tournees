@@ -1796,8 +1796,8 @@ tr.highlight {
   display: flex;
   flex-wrap: nowrap;
   gap: 4px;
-  padding: 4px 4px;
-  margin: 0 0 2px 0;
+  padding: 6px 0px;
+  margin: 0 0 0px 0;
   background: var(--bg-btn);
   background: transparent;
   /* border: 1px solid var(--border); */
@@ -1895,7 +1895,7 @@ html.night-theme .bras-summary {
 
   border: 1px solid var(--bg-btn);
   border-radius: 8px;
-  padding: 8px 8px;
+  padding: 2px 2px;
   margin: 2px 0 2px 0;
   text-align: center;
   font-weight: bold;
@@ -1915,12 +1915,12 @@ html.night-theme .bras-city-label {
 /* City quick-jump buttons inside bras-summary */
 .city-quick-jump-btn {
   flex-shrink: 0;
-  padding: 2px 8px;
+  padding: 6px 8px;
   border-radius: 4px;
   border: 1px solid var(--bg-btn);
   background: var(--bg-btn);
   color: var(--text-white);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: bold;
   cursor: pointer;
   text-transform: uppercase;
