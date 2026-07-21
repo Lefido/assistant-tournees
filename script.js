@@ -1671,7 +1671,7 @@ class GestionnaireInterface {
           cityBtnsContainer.appendChild(btn);
         });
 
-        // IntersectionObserver for active highlight
+        // IntersectionObserver for active highlight + auto-scroll bras-city-btns
         const setupCityObserver = () => {
           if (labelObserver) labelObserver.disconnect();
           const labels = brasDetails.querySelectorAll(".bras-city-label");
@@ -1691,6 +1691,15 @@ class GestionnaireInterface {
             if (best) {
               const v = best.target.querySelector("span")?.textContent?.trim().toLowerCase();
               cityButtons.forEach(b => b.classList.toggle("active", b.dataset.ville === v));
+              // Auto-scroll horizontal du bras-city-btns pour voir le bouton actif
+              const activeBtn = cityButtons.find(b => b.classList.contains("active"));
+              if (activeBtn && cityBtnsContainer) {
+                const containerRect = cityBtnsContainer.getBoundingClientRect();
+                const btnRect = activeBtn.getBoundingClientRect();
+                if (btnRect.left < containerRect.left || btnRect.right > containerRect.right) {
+                  activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                }
+              }
             }
           }, {
             root: brasDetails.closest(".addresses-cards-container") || null,
