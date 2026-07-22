@@ -346,7 +346,18 @@ class GestionnaireDonnees {
     const mm = pad2(maintenant.getMinutes());
 
     const nom = nomFichier && nomFichier.trim().length > 0 ? nomFichier : `TG_${y}${m}${d}_${hh}${mm}.xlsx`;
-    XLSX.writeFile(classeur, nom);
+
+    // Use Blob + createObjectURL for consistent "Save As" behavior on desktop and mobile
+    const wbdata = XLSX.write(classeur, { type: 'array', bookType: 'xlsx' });
+    const blob = new Blob([wbdata], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = nom;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   obtenirAdresseParIndex(index) {

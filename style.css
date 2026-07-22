@@ -1155,6 +1155,7 @@ html.night-theme td:last-child {
   align-items: center;
   justify-content: center;
   line-height: 1;
+  z-index: 1;
 }
 
 .mode-toggle {
@@ -1255,6 +1256,8 @@ html.night-theme td:last-child {
 }
 
 .file-name-display {
+  position: relative;
+  z-index: 1;
   text-align: center;
   padding: 8px 12px;
   margin-bottom: 8px;
@@ -1264,6 +1267,7 @@ html.night-theme td:last-child {
   color: var(--text-light);
   font-size: 0.85rem;
   font-weight: bold;
+  
 }
 
 .file-name-display:empty {
@@ -1272,6 +1276,7 @@ html.night-theme td:last-child {
 
 /* TOGGLE ROW */
 .toggle-row {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
